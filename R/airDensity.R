@@ -15,7 +15,11 @@
 #' @export
 
 # https://www.nist.gov/system/files/documents/2019/05/13/sop-2-applying-air-buoyancy-20190506.pdf
-airDensity <- function(Temp, p, h, units = c('deg.C', 'hPa', '%'), opt = 'B') { # [g/cm^3]
+airDensity <- function(Temp,
+                       p,
+                       h,
+                       units = c('deg.C', 'hPa', '%'),
+                       opt = 'B') { # [g/cm^3]
   if (!(opt %in% c('A', 'B'))) stop("Option parameter must be 'A' or 'B'. See details.")
   if (!(units[1] %in% c('deg.C', 'K'))) stop("Temperature units must be 'deg.C' or 'K'.")
   if (!(units[2] %in% c('Pa', 'hPa', 'kPa', 'mmHg'))) stop("Pressure units must be 'Pa', 'hPa', 'kPa' or 'mmHg'.")
