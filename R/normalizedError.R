@@ -5,7 +5,13 @@
 #'   mass standard (see createMassStandard), or numeric value with the
 #'   conventional mass of the standard being used.
 #' @param calibCert optional object of class "calibCert" with the calibration information
-#' @param
+#'
+#' @return
+#'
+#' @examples
+#'
+#' @export
+#'
 normalizedError <- function(reading,
                             standard,
                             #conventional = FALSE,

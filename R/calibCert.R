@@ -1,6 +1,11 @@
 #' creates a calibCert class object with the balance calibration information
 #'
-#' ## MettlerToledo XPE204 2021-03-18. Certificate number 5143
+#' @param
+#'
+#' @return
+#'
+#' @examples
+#' # MettlerToledo XPE204 2021-03-18. Certificate number 5143
 #' massSTD <- c(0.01, 0.5, 1, 10, 20, 50, 100, 120, 150, 200, 220)  ## [g]
 #' indError <- c(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.2, -0.2) ## [mg]
 #' uncert <- c(0.1, 0.1, 0.1, 0.1, 0.1, 0.2, 0.2, 0.3, 0.3, 0.4, 0.5) / 2 ## [mg]
@@ -14,17 +19,21 @@
 #' date <- '2021/03/18'
 #' institution <- 'Instituto Nacional de Metrología de Colombia'
 #'
-#' calibCert(balanceID = 'MT XPE 204', massSTD = massSTD,
-#'           indError = indError, uncert = uncert, d = d,
-#'           units = c('g', 'mg', 'mg', 'mg'), classSTD = classSTD,
-#'           certSTD = certSTD, barPress = barPress, ambTemp = ambTemp,
-#'           relHumid = relHumid, unitsENV = unitsENV, institution = institution)
+#' MT.XPE.204 <- calibCert(balanceID = 'MT XPE 204', massSTD = massSTD,
+#'                         indError = indError, uncert = uncert, d = d,
+#'                         units = c('g', 'mg', 'mg', 'mg'), classSTD = classSTD,
+#'                         certSTD = certSTD, barPress = barPress, ambTemp = ambTemp,
+#'                         relHumid = relHumid, unitsENV = unitsENV,
+#'                         institution = institution)
+#' @export
 #'
 
 calibCert <- function(balanceID = 'Balance',
                       massSTD,
                       indError,
                       uncert,
+                      expanded = TRUE,
+                      k = 2,
                       d,
                       units = c('g', 'mg', 'mg', 'mg'),
                       classSTD = NULL,
@@ -45,7 +54,14 @@ calibCert <- function(balanceID = 'Balance',
                     massSTD = massSTD,
                     indError = convertMassUnitsSI(from = units[2], to = units[1], value = indError),
                     uncert = convertMassUnitsSI(from = units[3], to = units[1], value = uncert),
+                    expandUncert = convertMassUnitsSI(from = units[3], to = units[1], value = uncert),
                     d = convertMassUnitsSI(from = units[4], to = units[1], value = d))
+
+  if (expanded) {
+    calibCert$uncert <- calibCert$uncert / k
+  } else {
+    calibCert$expandUncert <- calibCert$expandUncert * k
+  }
 
   if (!missing(classSTD)) calibCert$classSTD <- classSTD
   if (!missing(certSTD)) calibCert$certSTD <- certSTD
@@ -61,24 +77,3 @@ calibCert <- function(balanceID = 'Balance',
   class(calibCert) <- 'calibCert'
   return(calibCert)
 }
-
-massSTD <- c(0.01, 0.5, 1, 10, 20, 50, 100, 120, 150, 200, 220)  ## [g]
-indError <- c(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.2, -0.2) ## [mg]
-uncert <- c(0.1, 0.1, 0.1, 0.1, 0.1, 0.2, 0.2, 0.3, 0.3, 0.4, 0.5) / 2 ## [mg]
-d <- 0.1 ## [mg]
-
-MT.XPE.204 <- calibCert(balanceID = 'MT XPE 204', massSTD = massSTD,
-                        indError = indError, uncert = uncert, d = d,
-                        units = c('g', 'mg', 'mg', 'mg'),
-                        classSTD = 'E2',
-                        certSTD = '1473 D-K 17296',
-                        barPress = c(750.4, 751.0), ## [hPa]
-                        ambTemp = c(17.4, 17.9), ## [deg.C]
-                        relHumid = c(70.5, 71.4), ## [%]
-                        unitsENV = c('hPa', 'deg.C', '%'),
-                        institution = 'Instituto Nacional de Metrología de Colombia',
-                        date = '2021/03/18')
-
-MT.XPE.204
-
-

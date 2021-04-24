@@ -1,4 +1,4 @@
-#' Converts balance reading to conventional mass
+#' Converts balance reading to real mass
 #'
 #' Conventional Mass: “The conventional value of the result of weighing a body in air is equal to the mass of a
 #' standard, of conventionally chosen density, at a conventionally chosen temperature, which balances this body at this
