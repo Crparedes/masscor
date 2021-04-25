@@ -2,34 +2,72 @@
 % Please edit documentation in R/airDensity.R
 \name{airDensity}
 \alias{airDensity}
-\title{Air density in \link{g cm^-3}}
+\title{Models for calculating air density based on environmental conditions}
 \usage{
 airDensity(
   Temp = 20,
   p = 1013.25,
   h = 50,
-  units = c("deg.C", "hPa", "\%"),
+  unitsENV = c("deg.C", "hPa", "\%"),
   x_CO2 = 4e-04,
-  opt = "CIMP2007"
+  model = "CIMP2007"
 )
 }
 \arguments{
-\item{Temp}{temperature}
+\item{Temp}{Ambient temperature in weighing room}
+
+\item{p}{Barometric pressure in weighing room}
+
+\item{h}{Relative humidity in weighing room}
+
+\item{unitsENV}{Character vector of length 3 with the units of \code{p}, \code{Temp} and \code{h}.
+Default is \code{c('deg.C', 'hPa', '\%')}. See Details for more options.}
+
+\item{x_CO2}{Molar fraction of carbon dioxide in the air inside weighing room}
+
+\item{model}{Model to use for air density calculation. Most be one of \code{'CIMP2007'} (default),
+\code{'CIMP.approx'} or \code{'Jones1978'}. See See Details for reference.}
 }
 \value{
-air density value
+Calculated air density value in \eqn{g~cm^{-3}} according to chosen model.
 }
 \description{
-Calculates the density of the air in the laboratory according to two models that use
-temperature, barometric pressure and relative humidity.
+The function uses environmental conditions information (barometric pressure, temperature and
+relative humidity.) to calculate a local air density value.
+This value can later be used to calculate the Magnitude of Air Buoyancy Correction
+(\code{\link[=MABC]{MABC()}}). The uncertainty of the air density value can be calculated using \code{\link[=uncertAirDensity]{uncertAirDensity()}}.
 }
 \details{
-Jones1978 is the method A in the NIST doccument
-CIMP2007
+Air density can be estimated using one of several methods. The most complete approach is the
+CIMP complete formula (the default, \code{method = 'CIMP2007'}) as described in Picard et al (2008),
+but the CIMP approximated exponential formula (\code{method = 'CIMP.approx'}) and the method
+reported by Jones, (\code{method = 'Jones1978'}) (Harris, 2019).
 }
-\examples{
-airDensity(Temp = 22.3, p = 748.1, h = 37, units = c('deg.C', 'mmHg', '\%')) # [g/cm^3]
-airDensity(Temp = 23.4, p = 612.3, h = 23, units = c('deg.C', 'mmHg', '\%')) # [g/cm^3]
-airDensity(Temp = 23.4, p = 612.3, h = 23, units = c('deg.C', 'mmHg', '\%'), opt = 'A') # [g/cm^3]
+\section{unitsENV}{
 
+Pressure units (\code{p}) can be any of \code{'mmHg'}, \code{'Pa'}, \code{'hPa'} or \code{'kPa'}.
+Temperature units (\code{Temp}) can be either \code{'deg.C'} (for Celsius degrees) or \code{'K'}.
+Relative humidity (\code{h}) can be expressed as fraction (\code{'frac'}) or as percentage (\code{'\%'}).
+A typical arrangement for the parameter \code{unitsENV} could be \code{c('hPa', 'deg.C', '\%')}.
+}
+
+\examples{
+airDensity(Temp = 23.4, p = 612.3, h = 23, unitsENV = c('deg.C', 'mmHg', '\%')) #
+airDensity(Temp = 23.4, p = 612.3, h = 23, unitsENV = c('deg.C', 'mmHg', '\%')) # [g/cm^3]
+airDensity(Temp = 23.4, p = 612.3, h = 23, unitsENV = c('deg.C', 'mmHg', '\%'), model = 'CIMP.approx') # [g/cm^3]
+airDensity(Temp = 23.4, p = 612.3, h = 23, unitsENV = c('deg.C', 'mmHg', '\%'), model = 'Jones1978') # [g/cm^3]
+}
+\references{
+Picard, A; Davis, R S; Gläser, M; Fujii, K  (2008). Revised formula for the density of moist air (CIPM-2007).
+Metrologia, 45(2), 149–155. doi:10.1088/0026-1394/45/2/004
+
+Harris, G. (2019). Selected Laboratory and Measurement Practices and Procedures to Support Basic
+Mass Calibrations. SOP 2 - Recommended Standard Operating Procedure for Applying Air Buoyancy
+Corrections. National Institute of Standards and Technology (NIST). doi:10.6028/NIST.IR.6969-2019
+
+Preguntar a andres referencia de la f'ormula simplificada exponencial
+}
+\seealso{
+\code{\link[=MABC]{MABC()}} to calculate the Magnitude of Air Buoyancy Correction and
+\code{\link[=uncertAirDensity]{uncertAirDensity()}} to calculate air density uncertainty
 }

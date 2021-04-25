@@ -1,58 +1,82 @@
-#' Air density in [g cm^-3]
+#' Models for calculating air density based on environmental conditions
 #'
-#' Calculates the density of the air in the laboratory according to two models that use
-#' temperature, barometric pressure and relative humidity.
+#' The function uses environmental conditions information (barometric pressure, temperature and
+#' relative humidity.) to calculate a local air density value.
+#' This value can later be used to calculate the Magnitude of Air Buoyancy Correction
+#' ([MABC()]). The uncertainty of the air density value can be calculated using [uncertAirDensity()].
 #'
-#' Jones1978 is the method A in the NIST doccument
-#' CIMP2007
-#' @param Temp temperature
+#' Air density can be estimated using one of several methods. The most complete approach is the
+#' CIMP complete formula (the default, \code{method = 'CIMP2007'}) as described in Picard et al (2008),
+#' but the CIMP approximated exponential formula (\code{method = 'CIMP.approx'}) and the method
+#' reported by Jones, (\code{method = 'Jones1978'}) (Harris, 2019).
 #'
-#' @return air density value
+#' @inheritSection calibCert unitsENV
+#'
+#' @references
+#' Picard, A; Davis, R S; Gläser, M; Fujii, K  (2008). Revised formula for the density of moist air (CIPM-2007).
+#' Metrologia, 45(2), 149–155. doi:10.1088/0026-1394/45/2/004
+#'
+#' Harris, G. (2019). Selected Laboratory and Measurement Practices and Procedures to Support Basic
+#' Mass Calibrations. SOP 2 - Recommended Standard Operating Procedure for Applying Air Buoyancy
+#' Corrections. National Institute of Standards and Technology (NIST). doi:10.6028/NIST.IR.6969-2019
+#'
+#' Preguntar a andres referencia de la f'ormula simplificada exponencial
+#'
+#' @param Temp Ambient temperature in weighing room
+#' @param p Barometric pressure in weighing room
+#' @param h Relative humidity in weighing room
+#' @param x_CO2 Molar fraction of carbon dioxide in the air inside weighing room
+#' @param model Model to use for air density calculation. Most be one of \code{'CIMP2007'} (default),
+#'  \code{'CIMP.approx'} or \code{'Jones1978'}. See See Details for reference.
+#' @inheritParams calibCert
+#' @return Calculated air density value in \eqn{g~cm^{-3}} according to chosen model.
+#' @seealso [MABC()] to calculate the Magnitude of Air Buoyancy Correction and
+#'   [uncertAirDensity()] to calculate air density uncertainty
+#' @export
 #'
 #' @examples
-#' airDensity(Temp = 22.3, p = 748.1, h = 37, units = c('deg.C', 'mmHg', '%')) # [g/cm^3]
-#' airDensity(Temp = 23.4, p = 612.3, h = 23, units = c('deg.C', 'mmHg', '%')) # [g/cm^3]
-#' airDensity(Temp = 23.4, p = 612.3, h = 23, units = c('deg.C', 'mmHg', '%'), opt = 'A') # [g/cm^3]
-#'
-#' @export
+#' airDensity(Temp = 23.4, p = 612.3, h = 23, unitsENV = c('deg.C', 'mmHg', '%')) #
+#' airDensity(Temp = 23.4, p = 612.3, h = 23, unitsENV = c('deg.C', 'mmHg', '%')) # [g/cm^3]
+#' airDensity(Temp = 23.4, p = 612.3, h = 23, unitsENV = c('deg.C', 'mmHg', '%'), model = 'CIMP.approx') # [g/cm^3]
+#' airDensity(Temp = 23.4, p = 612.3, h = 23, unitsENV = c('deg.C', 'mmHg', '%'), model = 'Jones1978') # [g/cm^3]
 
-# https://www.nist.gov/system/files/documents/2019/05/13/sop-2-applying-air-buoyancy-20190506.pdf
+
 airDensity <- function(Temp = 20,
                        p = 1013.25,
                        h = 50,
-                       units = c('deg.C', 'hPa', '%'),
+                       unitsENV = c('deg.C', 'hPa', '%'),
                        x_CO2 = 0.0004,
-                       opt = 'CIMP2007') { # [g/cm^3]
+                       model = 'CIMP2007') { # [g/cm^3]
 
-  if (!(opt %in% c('Jones1978', 'CIMP.approx', 'CIMP2007'))) stop("Option parameter must be 'CIMP2007', 'CIMP.approx' or 'Jones1978'. See details.")
-  if (!(units[1] %in% c('deg.C', 'K'))) stop("Temperature units must be 'deg.C' or 'K'.")
-  if (!(units[2] %in% c('Pa', 'hPa', 'kPa', 'mmHg'))) stop("Pressure units must be 'Pa', 'hPa', 'kPa' or 'mmHg'.")
-  if (!(units[3] %in% c('%', 'ND'))) stop("Relative humidity must be '%' or 'frac' (the latter for values between 0 and 1).")
+  if (!(model %in% c('Jones1978', 'CIMP.approx', 'CIMP2007'))) stop("modelion parameter must be 'CIMP2007', 'CIMP.approx' or 'Jones1978'. See details.")
+  if (!(unitsENV[1] %in% c('deg.C', 'K'))) stop("Temperature unitsENV must be 'deg.C' or 'K'.")
+  if (!(unitsENV[2] %in% c('Pa', 'hPa', 'kPa', 'mmHg'))) stop("Pressure unitsENV must be 'Pa', 'hPa', 'kPa' or 'mmHg'.")
+  if (!(unitsENV[3] %in% c('%', 'ND'))) stop("Relative humidity must be '%' or 'frac' (the latter for values between 0 and 1).")
 
-  #if (units[1] == 'deg.C') Temp <- Temp + 273.15
-  Temp <- convertTemperature(from = units[1], to = 'K', value = Temp)
+  #if (unitsENV[1] == 'deg.C') Temp <- Temp + 273.15
+  Temp <- convertTemperature(from = unitsENV[1], to = 'K', value = Temp)
 
-  if (opt == 'Jones1978') {
-    p <- convertPressure(from = units[2], to = 'mmHg', value = p)
-    h <- convertRelHum(from = units[3], to = '%', value = h)
+  if (model == 'Jones1978') {
+    p <- convertPressure(from = unitsENV[2], to = 'mmHg', value = p)
+    h <- convertRelHum(from = unitsENV[3], to = '%', value = h)
     if (h < 0 || h > 100) stop("Relative humidity must be between 0 and 1 (or 0%-100%).")
     e_s <- 1.3146e9 * exp(-5315.56/Temp)
     rho_air_exp <- expression(((0.46460 * (p - 0.0037960 * h * e_s))/Temp)*10^-3)
     rho_air <- eval(rho_air_exp)
   }
 
-  if (opt == 'CIMP.approx') {
-    p <- convertPressure(from = units[2], to = 'kPa', value = p)
-    h <- convertRelHum(from = units[3], to = 'frac', value = h)
+  if (model == 'CIMP.approx') {
+    p <- convertPressure(from = unitsENV[2], to = 'kPa', value = p)
+    h <- convertRelHum(from = unitsENV[3], to = 'frac', value = h)
     if (h < 0.20 || h > 0.80) stop("For CIMP.approx the relative humidity must be between 0.2 and 0.8 (or 20%-80%).")
     if (Temp < (273.15 + 15) || Temp > (273.15 + 27)) stop("For CIMP.approx the temperatures must be between 15 and 27 deg.C.")
     if (p < 60 || p > 110) stop("For CIMP.approx the barometric pressure must be between 60 and 110 hPa.")
     rho_air <- (3.4848 * p - (0.9024 * h * exp(0.0612 * (Temp - 273.15))))/ (Temp) / 1000
   }
 
-  if (opt == 'CIMP2007') {
-    p <- convertPressure(from = units[2], to = 'Pa', value = p)
-    h <- convertRelHum(from = units[3], to = 'frac', value = h)
+  if (model == 'CIMP2007') {
+    p <- convertPressure(from = unitsENV[2], to = 'Pa', value = p)
+    h <- convertRelHum(from = unitsENV[3], to = 'frac', value = h)
     if (h < 0 || h > 1) stop("Relative humidity must be between 0 and 1 (or 0%-100%).")
 
     rho_air_exp <- expression(((p*M_a)/(Z*R*Temp)) * (1 - x_v * (1 - M_v/M_a)))

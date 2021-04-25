@@ -6,6 +6,9 @@
 \usage{
 MABC(rho_s = 0.998, rho_w = 8, rho_air = airDensity())
 }
+\arguments{
+\item{rho_s}{asragsd}
+}
 \description{
-Magnitude of the Air Buoyancy Correction
+Calculates the magnitude
 }

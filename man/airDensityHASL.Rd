@@ -2,7 +2,7 @@
 % Please edit documentation in R/airDensityHASL.R
 \name{airDensityHASL}
 \alias{airDensityHASL}
-\title{Air density in \link{g cm^-3} by using height above sea level information}
+\title{Air density in  by using height above sea level information}
 \usage{
 airDensityHASL(HASL)
 }

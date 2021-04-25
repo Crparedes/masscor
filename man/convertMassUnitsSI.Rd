@@ -2,16 +2,31 @@
 % Please edit documentation in R/1_convertMassUnitsSI.R
 \name{convertMassUnitsSI}
 \alias{convertMassUnitsSI}
-\title{according to https://www.bipm.org/en/measurement-units/si-prefixes}
+\title{Conversion between mass units of The International System of Units}
 \usage{
-convertMassUnitsSI(from, to, value)
+convertMassUnitsSI(value, from, to)
+}
+\arguments{
+\item{value}{Numeric vector with the values to be converted.}
+
+\item{from}{Character with the source unit.}
+
+\item{to}{Character with the desired unit.}
 }
 \value{
-
+Converted values to desired mass unit.
 }
 \description{
-according to https://www.bipm.org/en/measurement-units/si-prefixes
+Mass values are converted from a SI unit to another SI unit according to the SI prefixes as
+shown in BIMP (2019). The greek letter \eqn{\mu} is replaced by the vocal \code{u}.
+}
+\details{
+This function is mostly to be used internally by \code{masscor} package functions.
 }
 \examples{
+convertMassUnitsSI(value = c(0.2, 0.4), from = 'mg', to = 'g')
 
+}
+\references{
+BIMP, 2019. Bureau International des Poids et Mesures. Brochure of The International System of Units. 9th Edition.
 }

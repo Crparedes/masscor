@@ -7,7 +7,8 @@
 #' The functions use the information of this object to convert balance reading indications to conventional mass and calculate mass
 #' uncertainties. Several models for calculating air density are included and this information can be used to calculate the
 #' Magnitude of Air Buoyancy Correction (MABC). Uncertainties calculations are made using Gauss Approximation according to the
-#' Guide to the expression of Uncertainty in Measurement (GUM) implemented in R by the package [\link[propagate]{propagate}] (Spiess, 2018).
+#' Guide to the expression of Uncertainty in Measurement (GUM) implemented in R by the package
+#' \link[propagate]{propagate} (Spiess, 2018).
 #'
 #' @section Disclaimer:
 #' The Instituto Nacional de Metrologia de Colombia (INM) has published this package to ease several calculations
@@ -21,7 +22,6 @@
 #' NIST report
 #' BIMP JCGM (2008) Evaluation of measurement data — Guide to the expression of uncertainty in measurement
 #' Andrej-Nikolai Spiess (2018). propagate: Propagation of Uncertainty. R package version 1.0-6. https://CRAN.R-project.org/package=propagate
-#' @keywords internal
 #' @docType package
 #' @name masscor-package
 NULL

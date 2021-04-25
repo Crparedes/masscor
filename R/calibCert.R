@@ -5,15 +5,17 @@
 #' Minimal information must include measurement error with uncertainty for several mass standards and the balance division scale.
 #'
 #' The units of \code{massSTD}, \code{indError}, \code{uncert} and \code{d} that are provided to the parameter \code{units} can be
-#' any multiple or subdivision of the SI unit for mass the kilogram. The greek letter $\mu$ is replaced by the vocal \code{u}.
-#' The SI prefixes are case sensitive.
+#' any multiple or subdivision of the SI unit for mass the kilogram. The greek letter \eqn{\mu} is replaced by the vocal \code{u}.
+#' Remember that both R and the SI prefixes are case sensitive.
 #'
+#' @section unitsENV:
 #' Pressure units (\code{p}) can be any of \code{'mmHg'}, \code{'Pa'}, \code{'hPa'} or \code{'kPa'}.
 #' Temperature units (\code{Temp}) can be either \code{'deg.C'} (for Celsius degrees) or \code{'K'}.
-#' Relative humidity (\code{h}) can be expressed as fraction (\code{'frac'}) or as percentage (\code{%}).
-#' A typical arrangement for the parameter \code{unitsENV} could be \code{c('hPa', 'deg.C', '%')}.
+#' Relative humidity (\code{h}) can be expressed as fraction (\code{'frac'}) or as percentage (\code{'\%'}).
+#' A typical arrangement for the parameter \code{unitsENV} could be \code{c('hPa', 'deg.C', '\%')}.
 #'
-#' @param balanceID Character vector with balance identification.
+#'
+#' @param balanceID Character with balance identification.
 #' @param massSTD Numeric vector with the masses of the mass standards used for calibration
 #' @param indError Numeric vector of length \code{length(massSTD)} with the indication error for each mass standard
 #' @param uncert Numeric vector of length \code{length(massSTD)} with the uncertainty of the indication error for each mass standard
@@ -21,16 +23,17 @@
 #' @param k Coverage factor for \code{uncert} when \code{expanded = TRUE}.
 #' @param d Division scale of the balance
 #' @param units Character vector of length 4 with the units of \code{massSTD}, \code{indError}, \code{uncert} and \code{d}.
-#'   Default is \code{ c('g', 'mg', 'mg', 'mg')} which is typical for an analytic balance. See Details for more options.
-#' @param classSTD Character vector with the class of the mass standards used.
-#' @param certSTD Character vector with the certificate identification of the mass standards used.
+#'   Default is \code{c('g', 'mg', 'mg', 'mg')} which is typical for an analytic balance. See Details for more options.
+#' @param classSTD Character with the class of the mass standards used.
+#' @param certSTD Character with the certificate identification of the mass standards used.
 #' @param p Barometric pressure at the moment of the calibration.
 #' @param Temp Ambient temperature at the moment of the calibration.
 #' @param h Relative humidity at the moment of the calibration.
 #' @param unitsENV Character vector of length 3 with the units of \code{p}, \code{Temp} and \code{h}.
-#' @param institution Character vector with the institution that performed the calibration.
-#' @param date Character vector with the date of the calibration.
-#' @param additionalDetails Character vectors with any additional details included in the certificate.
+#'   Default is \code{c('deg.C', 'hPa', '\%')}. See Details for more options.
+#' @param institution Character with the institution that performed the calibration.
+#' @param date Character with the date of the calibration.
+#' @param additionalDetails Named list or vector with any additional details included in calibration certificate.
 #'
 #' @return Object of class \code{calibCert} with information of a calibration certificate for a balance.
 #'
@@ -46,30 +49,21 @@
 #'                         indError = indError, uncert = uncert, d = d,
 #'                         units = c('g', 'mg', 'mg', 'mg'))
 #' print(Balance.D1)
+#'
 #' @export
 #'
 
-calibCert <- function(balanceID = 'BalanceID',
-                      massSTD,
-                      indError,
-                      uncert,
-                      expanded = TRUE,
-                      k = 2,
-                      d,
-                      units = c('g', 'mg', 'mg', 'mg'),
-                      classSTD = NULL,
-                      certSTD = NULL,
-                      p = NULL,
-                      Temp = NULL,
-                      h = NULL,
-                      unitsENV = NULL,
-                      institution = NULL,
-                      date = NULL,
-                      additionalDetails = NULL
-                      ) {
+calibCert <- function (balanceID = 'BalanceID', massSTD, indError,
+                       uncert, expanded = TRUE, k = 2, d,
+                       units = c('g', 'mg', 'mg', 'mg'),
+                       classSTD = NULL, certSTD = NULL,
+                       p = NULL, Temp = NULL, h = NULL,
+                       unitsENV = c('deg.C', 'hPa', '%'),
+                       institution = NULL, date = NULL, additionalDetails = NULL) {
   if (length(massSTD) != length(indError) || length(massSTD) != length(uncert)) {
     stop('Vectors in arguments "massSTD", "indError" and "uncert" must be all numeric of same size.')
   }
+
   calibCert <- list(balanceID = balanceID,
                     standardUnits = units[1],
                     massSTD = massSTD,

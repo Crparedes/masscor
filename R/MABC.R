@@ -1,5 +1,8 @@
 #' Magnitude of the Air Buoyancy Correction
 #'
+#' Calculates the magnitude
+#'
+#' @param rho_s asragsd
 #' @export
 
 MABC <- function(rho_s = 0.998, rho_w = 8, rho_air = airDensity()) {

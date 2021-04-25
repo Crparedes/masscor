@@ -13,7 +13,8 @@ This package uses list objects of class \code{'calibCert'} to store information 
 The functions use the information of this object to convert balance reading indications to conventional mass and calculate mass
 uncertainties. Several models for calculating air density are included and this information can be used to calculate the
 Magnitude of Air Buoyancy Correction (MABC). Uncertainties calculations are made using Gauss Approximation according to the
-Guide to the expression of Uncertainty in Measurement (GUM) implemented in R by the package [\link[propagate]{propagate}] (Spiess, 2018).
+Guide to the expression of Uncertainty in Measurement (GUM) implemented in R by the package
+\link[propagate]{propagate} (Spiess, 2018).
 }
 
 \section{Disclaimer}{
@@ -33,4 +34,3 @@ Andrej-Nikolai Spiess (2018). propagate: Propagation of Uncertainty. R package v
 \author{
 Cristhian Paredes, \email{craparedesca@unal.edu.co}
 }
-\keyword{internal}
