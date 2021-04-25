@@ -1,3 +1,4 @@
+#' Uncertainty associated to error correction
 #' @param reading asdf
 #'
 #' @return
@@ -35,6 +36,7 @@ uncertErrorCorr <- function(reading,
   return(u_E)
 }
 
+#' Uncertainty in balance reading value
 #' @param reading asdf
 #'
 #' @return
@@ -67,6 +69,7 @@ uncertReading <- function(calibCert,
   return(u_r)
 }
 
+#' Uncertainty in conventional mass results
 #' @param reading asdf
 #'
 #' @return

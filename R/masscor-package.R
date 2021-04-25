@@ -1,0 +1,27 @@
+#' \code{masscor}: Mass Measurement Corrections and Uncertainties Using Balance Calibration Data.
+#'
+#' The \code{masscor} package implements
+#'
+#' @section \code{masscor} functions:
+#' This package uses list objects of class \code{'calibCert'} to store information of balance calibration certificates.
+#' The functions use the information of this object to convert balance reading indications to conventional mass and calculate mass
+#' uncertainties. Several models for calculating air density are included and this information can be used to calculate the
+#' Magnitude of Air Buoyancy Correction (MABC). Uncertainties calculations are made using Gauss Approximation according to the
+#' Guide to the expression of Uncertainty in Measurement (GUM) implemented in R by the package [\link[propagate]{propagate}] (Spiess, 2018).
+#'
+#' @section Disclaimer:
+#' The Instituto Nacional de Metrologia de Colombia (INM) has published this package to ease several calculations
+#' involved in corrections for mass measurements. We endeavor to update on a regular basis, but cannot guarantee
+#' the accuracy of all implemented methods. Any reference to commercial measurement instruments does not imply any approval,
+#' endorsement or recommendation by the INM.
+#'
+#' @author Cristhian Paredes, \email{craparedesca@@unal.edu.co}
+#' @references
+#' MassMetrology
+#' NIST report
+#' BIMP JCGM (2008) Evaluation of measurement data — Guide to the expression of uncertainty in measurement
+#' Andrej-Nikolai Spiess (2018). propagate: Propagation of Uncertainty. R package version 1.0-6. https://CRAN.R-project.org/package=propagate
+#' @keywords internal
+#' @docType package
+#' @name masscor-package
+NULL

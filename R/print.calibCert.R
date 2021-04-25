@@ -1,7 +1,4 @@
-#' @param
-#'
-#' @return
-#'
+#' S3 method for printing objects of class calibCert
 #' @examples
 #'
 #' @export

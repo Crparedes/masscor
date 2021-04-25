@@ -4,7 +4,7 @@
 #' standard, of conventionally chosen density, at a conventionally chosen temperature, which balances this body at this
 #' reference temperature in air of conventionally chosen density.” The conventions are: reference density 8.0 g/cm3;
 #' reference temperature 20 °C; normal air density 0.0012 g/cm3. See OIML D28 (2004)
-#' @param
+#' @param reading balance reading
 #'
 #' @return
 #'
@@ -15,8 +15,7 @@
 
 convMass <- function(reading,
                      units = NULL,
-                     calibCert,
-                     print = TRUE) {
+                     calibCert) {
   if(missing(units)) {
     fc <- 1
     units <- calibCert$standardUnits
@@ -45,12 +44,6 @@ convMass <- function(reading,
     predict(lm(Cp_i ~ mp_i), newdata = data.frame(mp_i = reading)))
   corrected <- reading + correction
   corrected <- corrected / fc
-  if (print) cat(paste0('Masa corregida: ', corrected, ' [', units, ']\n'))
-  return(corrected)
+  #if (print) cat(paste0('Masa corregida: ', corrected, ' [', units, ']\n'))
+  return(as.numeric(corrected))
 }
-
-#MT.XPE.204$massSTD
-
-#convMass(reading = 200, calibCert = MT.XPE.204)
-
-

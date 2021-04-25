@@ -2,10 +2,10 @@
 % Please edit documentation in R/calibCert.R
 \name{calibCert}
 \alias{calibCert}
-\title{creates a calibCert class object with the balance calibration information}
+\title{Information of balance calibration certificate}
 \usage{
 calibCert(
-  balanceID = "Balance",
+  balanceID = "BalanceID",
   massSTD,
   indError,
   uncert,
@@ -15,40 +15,80 @@ calibCert(
   units = c("g", "mg", "mg", "mg"),
   classSTD = NULL,
   certSTD = NULL,
-  barPress = NULL,
-  ambTempe = NULL,
-  relHumid = NULL,
+  p = NULL,
+  Temp = NULL,
+  h = NULL,
   unitsENV = NULL,
   institution = NULL,
   date = NULL,
-  details = NULL
+  additionalDetails = NULL
 )
 }
-\value{
+\arguments{
+\item{balanceID}{Character vector with balance identification.}
 
+\item{massSTD}{Numeric vector with the masses of the mass standards used for calibration}
+
+\item{indError}{Numeric vector of length \code{length(massSTD)} with the indication error for each mass standard}
+
+\item{uncert}{Numeric vector of length \code{length(massSTD)} with the uncertainty of the indication error for each mass standard}
+
+\item{expanded}{If \code{TRUE} (the default), \code{uncert} is assumed to be expanded uncertainties instead of standard uncertainties}
+
+\item{k}{Coverage factor for \code{uncert} when \code{expanded = TRUE}.}
+
+\item{d}{Division scale of the balance}
+
+\item{units}{Character vector of length 4 with the units of \code{massSTD}, \code{indError}, \code{uncert} and \code{d}.
+Default is \code{ c('g', 'mg', 'mg', 'mg')} which is typical for an analytic balance. See Details for more options.}
+
+\item{classSTD}{Character vector with the class of the mass standards used.}
+
+\item{certSTD}{Character vector with the certificate identification of the mass standards used.}
+
+\item{p}{Barometric pressure at the moment of the calibration.}
+
+\item{Temp}{Ambient temperature at the moment of the calibration.}
+
+\item{h}{Relative humidity at the moment of the calibration.}
+
+\item{unitsENV}{Character vector of length 3 with the units of \code{p}, \code{Temp} and \code{h}.}
+
+\item{institution}{Character vector with the institution that performed the calibration.}
+
+\item{date}{Character vector with the date of the calibration.}
+
+\item{additionalDetails}{Character vectors with any additional details included in the certificate.}
+}
+\value{
+Object of class \code{calibCert} with information of a calibration certificate for a balance.
 }
 \description{
-creates a calibCert class object with the balance calibration information
+Creates an object of class \code{calibCert} containing the information provided in a calibration certificate.
+The object can later be used to correct mass readings and calculate mass uncertainties.
+Minimal information must include measurement error with uncertainty for several mass standards and the balance division scale.
+}
+\details{
+The units of \code{massSTD}, \code{indError}, \code{uncert} and \code{d} that are provided to the parameter \code{units} can be
+any multiple or subdivision of the SI unit for mass the kilogram. The greek letter $\mu$ is replaced by the vocal \code{u}.
+The SI prefixes are case sensitive.
+
+Pressure units (\code{p}) can be any of \code{'mmHg'}, \code{'Pa'}, \code{'hPa'} or \code{'kPa'}.
+Temperature units (\code{Temp}) can be either \code{'deg.C'} (for Celsius degrees) or \code{'K'}.
+Relative humidity (\code{h}) can be expressed as fraction (\code{'frac'}) or as percentage (\code{\%}).
+A typical arrangement for the parameter \code{unitsENV} could be \code{c('hPa', 'deg.C', '\%')}.
 }
 \examples{
-# MettlerToledo XPE204 2021-03-18. Certificate number 5143
 massSTD <- c(0.01, 0.5, 1, 10, 20, 50, 100, 120, 150, 200, 220)  ## [g]
 indError <- c(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.2, -0.2) ## [mg]
 uncert <- c(0.1, 0.1, 0.1, 0.1, 0.1, 0.2, 0.2, 0.3, 0.3, 0.4, 0.5) / 2 ## [mg]
 d <- 0.1 ## [mg]
-classSTD <- 'E2'
-certSTD <- '1473 D-K 17296'
-barPress <- c(750.4, 751.0) ## [hPa]
-ambTemp <- c(17.4, 17.9) ## [deg.C]
-relHumid <- c(70.5, 71.4) ## [\%]
-unitsENV <- c('hPa', 'deg.C', '\%')
-date <- '2021/03/18'
-institution <- 'Instituto Nacional de Metrología de Colombia'
 
-MT.XPE.204 <- calibCert(balanceID = 'MT XPE 204', massSTD = massSTD,
+Balance.D1 <- calibCert(balanceID = 'Balance.D1', massSTD = massSTD,
                         indError = indError, uncert = uncert, d = d,
-                        units = c('g', 'mg', 'mg', 'mg'), classSTD = classSTD,
-                        certSTD = certSTD, barPress = barPress, ambTemp = ambTemp,
-                        relHumid = relHumid, unitsENV = unitsENV,
-                        institution = institution)
+                        units = c('g', 'mg', 'mg', 'mg'))
+print(Balance.D1)
+}
+\seealso{
+\code{\link[=convertMassUnitsSI]{convertMassUnitsSI()}}
 }
