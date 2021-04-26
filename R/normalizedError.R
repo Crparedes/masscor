@@ -1,23 +1,20 @@
-#' Calculates normalized error in the conventional mass of a mass standard
+#' Calculates normalized in balance verification using a mass standard
 #'
-#' @param reading balance reading for the standard mass.
-#' @param standard object of class "massstandard" with the information of the
-#'   mass standard (see createMassStandard), or numeric value with the
-#'   conventional mass of the standard being used.
-#' @param calibCert optional object of class "calibCert" with the calibration information
+#' @param reading Balance reading for the standard mass.
+#' @param standard It can be one of two options. An object of class \code{"massStandard"}
+#'   (see [createMassStandard()]) or the numeric value of the conventional mass of the standard used.
+#' @inheritParams convMass
+#' @param u_massStandard Uncertainty of the conventional mass of the standard used. Neccesary only if
+#'   \code{standard} is not an object of class \code{"massStandard"}
+#'   (see [createMassStandard()]).
+#' @return Numeric value of normalized error for balance verification using a mass standard.
 #'
-#' @return
-#'
-#' @examples
+# @examples
 #'
 #' @export
+#' @seealso [createMassStandard()].
 #'
-normalizedError <- function(reading,
-                            standard,
-                            #conventional = FALSE,
-                            calibCert = NULL,
-                            u_meas = NULL,
-                            u_massStandard = NULL) {
+normalizedError <- function(reading, standard, calibCert, u_massStandard = NULL) {
   #if (conventional) {
   #  convmass <- measurement
   #} else {
@@ -31,40 +28,26 @@ normalizedError <- function(reading,
   #  }
   #}
 
-  if (missing(calibCert)) {
-    if (missing(u_meas)) {
-      stop('The argument u_meas must be provided if no balance
-           calibration information is provided in the argument calibCert')
-    }
-    u_massMSR <- u_meas
-  } else {
-    u_massMSR <- uncertMeasurement(reading = reading, calibCert = calibCert)
+  if (class(standard) != 'massStandard' && missing(u_massStandard)) {
+    stop('Argument "standard" is numeric. A value for "u_massStandard" is neccesary.')
   }
-
-  if (class(standard) == "massstandard") {
-    massSTD <- standard$ConvMass
+  if (class(standard) == 'massStandard') {
+    massSTD <- standard$convMass
     if(!missing(u_massStandard)) {
-      warning('The uncertainty of the mass standar will be taken from the object of class
-              "massstandard" provided for the argument standard: ', standard$u_massStandard,
-              ' insthead of the numeric value provided at u_massStandard argument: ',
-              u_massStandard)}
-    u_massSTD <- standard$u_massStandard
-  } else {
-    if (is.numeric(standard)) {
-      massSTD <- standard
-    } else {
-      stop('Argument standard must be an object of class  "massstandard"  or numeric
-           conventional mass of the standard. See XXXXXX')
-    }
-    if (is.numeric(u_massStandard)) {
-      u_massSTD <- u_massStandard
-    } else {
-      stop('Argument u_massStandard must be numeric when standard is not an
-           object of class  "massstandard". See XXXXXX')
-    }
+      if(standard$uncert != u_massStandard) {
+        warning('The uncertainty of the mass standard will be taken from the object of class
+                "massstandard" provided for the argument standard: ', standard$u_massStandard,
+                ' instead of the value provided at u_massStandard argument: ',
+                u_massStandard)
+      }}
+    u_massStandard <- standard$uncert
+  }
+  if (class(standard) == 'numeric') {
+    u_massMSR <- standard
+    massSTD <- standard
   }
 
-  normErr <- abs(reading - massSTD)/sqrt(u_massMSR^2 + u_massSTDR^2)
-  if (normErr > 1) warning('Balance measurement is not in tolerance')
+  normErr <- abs(reading - massSTD)/sqrt(u_massMSR^2 + u_massStandard^2)
+  if (normErr > 1) warning('Balance measurement is not in tolerance.')
   return(normErr)
 }

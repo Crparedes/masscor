@@ -2,22 +2,26 @@
 % Please edit documentation in R/airDensityHASL.R
 \name{airDensityHASL}
 \alias{airDensityHASL}
-\title{Air density in  by using height above sea level information}
+\title{Air density estimation using height above sea level information}
 \usage{
 airDensityHASL(HASL)
 }
 \arguments{
-\item{HASL}{height altitude above sea level in meters}
+\item{HASL}{height altitude above sea level in meters.}
 }
 \value{
-air density value
+Approximated air density value in \eqn{g~cm^{-3}}.
 }
 \description{
-Calculates the approximated density of the air in the laboratory according to its height above sea level
+Calculates the approximated density of local air using a model that relies
+on height above sea level (HASL) information. More accurate alternatives are found
+in \code{\link[=airDensity]{airDensity()}} but those require data form environmental conditions (temperature, barometric
+pressure and relative humidity).
 }
 \examples{
-airDensity(Temp = 22.3, p = 748.1, h = 37, units = c('deg.C', 'mmHg', '\%')) # [g/cm^3]
-airDensity(Temp = 23.4, p = 612.3, h = 23, units = c('deg.C', 'mmHg', '\%')) # [g/cm^3]
-airDensity(Temp = 23.4, p = 612.3, h = 23, units = c('deg.C', 'mmHg', '\%'), opt = 'A') # [g/cm^3]
-
+airDensityHASL(HASL = 0)    # [g/cm^3]
+airDensityHASL(HASL = 1600) # [g/cm^3]
+}
+\seealso{
+\code{\link[=airDensity]{airDensity()}} for better models to predict air density.
 }

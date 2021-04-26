@@ -4,4 +4,4 @@ minimalCert <- calibCert(massSTD = c(5, 20), #[g]
                          d = 0.1, #[mg]
                          units = c('g', 'mg', 'mg', 'mg'))
 
-usethis::use_data(minimalCert)
+usethis::use_data(minimalCert, overwrite = TRUE)

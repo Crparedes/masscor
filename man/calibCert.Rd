@@ -4,43 +4,34 @@
 \alias{calibCert}
 \title{Information of balance calibration certificate}
 \usage{
-calibCert(
-  balanceID = "BalanceID",
-  massSTD,
-  indError,
-  uncert,
-  expanded = TRUE,
-  k = 2,
-  d,
-  units = c("g", "mg", "mg", "mg"),
-  classSTD = NULL,
-  certSTD = NULL,
-  p = NULL,
-  Temp = NULL,
-  h = NULL,
-  unitsENV = c("deg.C", "hPa", "\%"),
-  institution = NULL,
-  date = NULL,
-  additionalDetails = NULL
-)
+calibCert(balanceID = "BalanceID", massSTD, indError = NULL,
+  CMcorr = NULL, uncert, expanded = TRUE, k = 2, d, units = c("g",
+  "mg", "mg", "mg"), classSTD = NULL, certSTD = NULL, p = NULL,
+  Temp = NULL, h = NULL, unitsENV = c("deg.C", "hPa", "\%"),
+  institution = NULL, date = NULL, add.info = NULL)
 }
 \arguments{
 \item{balanceID}{Character with balance identification.}
 
-\item{massSTD}{Numeric vector with the masses of the mass standards used for calibration}
+\item{massSTD}{Numeric vector with the masses of the mass standards used for calibration.}
 
-\item{indError}{Numeric vector of length \code{length(massSTD)} with the indication error for each mass standard}
+\item{indError}{Numeric vector of length \code{length(massSTD)} with the indication error for each mass standard.
+Only one of \code{indError} or \code{CMcorr} must be provided.}
 
-\item{uncert}{Numeric vector of length \code{length(massSTD)} with the uncertainty of the indication error for each mass standard}
+\item{CMcorr}{Numeric vector of length \code{length(massSTD)} with the conventional mass correction for each mass standard.
+Only one of \code{indError} or \code{CMcorr} must be provided.}
 
-\item{expanded}{If \code{TRUE} (the default), \code{uncert} is assumed to be expanded uncertainties instead of standard uncertainties}
+\item{uncert}{Numeric vector of length \code{length(massSTD)} with the uncertainty of the indication error for each mass standard.}
+
+\item{expanded}{If \code{TRUE} (the default), \code{uncert} is assumed to be expanded uncertainties instead of standard uncertainties.}
 
 \item{k}{Coverage factor for \code{uncert} when \code{expanded = TRUE}.}
 
 \item{d}{Division scale of the balance}
 
-\item{units}{Character vector of length 4 with the units of \code{massSTD}, \code{indError}, \code{uncert} and \code{d}.
-Default is \code{c('g', 'mg', 'mg', 'mg')} which is typical for an analytic balance. See Details for more options.}
+\item{units}{Character vector of length 4 with the units of \code{massSTD}, \code{indError} (or \code{CMcorr}), \code{uncert} and \code{d}.
+Default is \code{c('g', 'mg', 'mg', 'mg')} which is typical for an analytic balance. See Details for more options.
+The units of \code{massSTD} are defined as the balance standard units.}
 
 \item{classSTD}{Character with the class of the mass standards used.}
 
@@ -53,13 +44,13 @@ Default is \code{c('g', 'mg', 'mg', 'mg')} which is typical for an analytic bala
 \item{h}{Relative humidity at the moment of the calibration.}
 
 \item{unitsENV}{Character vector of length 3 with the units of \code{p}, \code{Temp} and \code{h}.
-Default is \code{c('deg.C', 'hPa', '\%')}. See Details for more options.}
+Default is \code{c('deg.C', 'hPa', '\%')}. See \strong{unitsENV} below for more options.}
 
 \item{institution}{Character with the institution that performed the calibration.}
 
 \item{date}{Character with the date of the calibration.}
 
-\item{additionalDetails}{Named list or vector with any additional details included in calibration certificate.}
+\item{add.info}{Named list or vector with any additional details included in calibration certificate.}
 }
 \value{
 Object of class \code{calibCert} with information of a calibration certificate for a balance.
@@ -83,17 +74,19 @@ A typical arrangement for the parameter \code{unitsENV} could be \code{c('hPa', 
 }
 
 \examples{
-massSTD <- c(0.01, 0.5, 1, 10, 20, 50, 100, 120, 150, 200, 220)  ## [g]
+massSTD <- c(0.01, 0.5, 1, 10, 20, 50, 100, 120, 150, 200, 220)        ## [g]
 indError <- c(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.2, -0.2) ## [mg]
 uncert <- c(0.1, 0.1, 0.1, 0.1, 0.1, 0.2, 0.2, 0.3, 0.3, 0.4, 0.5) / 2 ## [mg]
-d <- 0.1 ## [mg]
+d <- 0.1                                                               ## [mg]
 
 Balance.D1 <- calibCert(balanceID = 'Balance.D1', massSTD = massSTD,
                         indError = indError, uncert = uncert, d = d,
                         units = c('g', 'mg', 'mg', 'mg'))
 print(Balance.D1)
+plot(Balance.D1)
 
 }
 \seealso{
-\code{\link[=convertMassUnitsSI]{convertMassUnitsSI()}}
+S3 methods \code{\link[=print.calibCert]{print.calibCert()}} and \code{\link[=plot.calibCert]{plot.calibCert()}} are available. See \code{\link[=convertMassUnitsSI]{convertMassUnitsSI()}} for
+information about mass units
 }

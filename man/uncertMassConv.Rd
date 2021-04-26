@@ -2,19 +2,40 @@
 % Please edit documentation in R/uncert_masses.R
 \name{uncertMassConv}
 \alias{uncertMassConv}
-\title{Uncertainty in conventional mass results}
+\title{Uncertainty in conventional mass value}
 \usage{
 uncertMassConv(reading, units = NULL, calibCert, repValues = NULL, tare = TRUE)
 }
 \arguments{
-\item{reading}{asdf}
+\item{reading}{Numeric with balance reading for the mass of the object}
+
+\item{units}{Character with the units of \code{reading}. Must be a SI unit. If not provided, the
+balance standard units are assumed. See \code{\link[=calibCert]{calibCert()}} for details.}
+
+\item{calibCert}{Object of class \code{"calibCert"} with the calibration data of the balance.
+See \code{\link[=calibCert]{calibCert()}} for details.}
+
+\item{repValues}{Balance readings for the same mass standard under repeatability conditions}
+
+\item{tare}{Logical. If \code{TRUE} (the default) the tare uncertainty is considered and
+conventional mass uncertainty is multiplied by \eqn{\sqrt{2}} to account for the
+mass difference involved in taring the balance.}
 }
 \value{
-
+Uncertainty of conventional mass values.
 }
 \description{
-Uncertainty in conventional mass results
+The function combines the uncertainty of the conventional mass correction
+(as obtained by \code{\link[=uncertErrorCorr]{uncertErrorCorr()}})
+and the uncertainty in the balance reading (as obtained by \code{\link[=uncertReading]{uncertReading()}}),
+to produce the uncertainty of a conventional mass value.
 }
 \examples{
-
+data(minumalCert)
+uncertMassConv(reading = 12.4835, calibCert = minimalCert,
+               repValues = c(100.0000, 100.0000, 99.9999, 99.9999, 99.9999,
+                             99.9999, 99.9999, 99.9999, 99.9999, 99.9999))
+}
+\seealso{
+\code{\link[=convMass]{convMass()}}, \code{\link[=uncertReading]{uncertReading()}}, \code{\link[=uncertErrorCorr]{uncertErrorCorr()}}
 }

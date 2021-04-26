@@ -2,19 +2,31 @@
 % Please edit documentation in R/uncert_masses.R
 \name{uncertReading}
 \alias{uncertReading}
-\title{Uncertainty in balance reading value}
+\title{Uncertainty of balance readings}
 \usage{
 uncertReading(calibCert, repValues = NULL, units = NULL)
 }
 \arguments{
-\item{reading}{asdf}
+\item{calibCert}{Object of class \code{"calibCert"} with the calibration data of the balance.
+See \code{\link[=calibCert]{calibCert()}} for details.}
+
+\item{repValues}{Balance readings for the same mass standard under repeatability conditions}
+
+\item{units}{Character with the units of \code{reading}. Must be a SI unit. If not provided, the
+balance standard units are assumed. See \code{\link[=calibCert]{calibCert()}} for details.}
 }
 \value{
-
+Uncertainty of balance readings
 }
 \description{
-Uncertainty in balance reading value
+Combination of readability uncertainty due to scale division and lack of repeatability
 }
 \examples{
-
+data(minimalCert)
+uncertReading(calibCert = minimalCert,
+              repValues = c(5.0000, 5.0000, 4.9999, 4.9999, 4.9999,
+                            4.9999, 4.9999, 4.9999, 4.9999, 4.9999))
+}
+\seealso{
+\code{\link[=uncertErrorCorr]{uncertErrorCorr()}}, \code{\link[=uncertMassConv]{uncertMassConv()}}
 }

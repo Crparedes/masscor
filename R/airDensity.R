@@ -1,8 +1,9 @@
 #' Models for calculating air density based on environmental conditions
 #'
 #' The function uses environmental conditions information (barometric pressure, temperature and
-#' relative humidity.) to calculate a local air density value.
-#' This value can later be used to calculate the Magnitude of Air Buoyancy Correction
+#' relative humidity.) to calculate a local air density value. If no parameter is defined the air
+#' density at 20\eqn{^o}C, 1013.25 hPa and 50\% relative humidity is returned.
+#' The air density value value can later be used to calculate the Magnitude of Air Buoyancy Correction
 #' ([MABC()]). The uncertainty of the air density value can be calculated using [uncertAirDensity()].
 #'
 #' Air density can be estimated using one of several methods. The most complete approach is the
@@ -29,24 +30,25 @@
 #' @param model Model to use for air density calculation. Most be one of \code{'CIMP2007'} (default),
 #'  \code{'CIMP.approx'} or \code{'Jones1978'}. See See Details for reference.
 #' @inheritParams calibCert
+#'
 #' @return Calculated air density value in \eqn{g~cm^{-3}} according to chosen model.
 #' @seealso [MABC()] to calculate the Magnitude of Air Buoyancy Correction and
-#'   [uncertAirDensity()] to calculate air density uncertainty
+#'   [uncertAirDensity()] to calculate air density uncertainty.
 #' @export
 #'
 #' @examples
-#' airDensity(Temp = 23.4, p = 612.3, h = 23, unitsENV = c('deg.C', 'mmHg', '%')) #
-#' airDensity(Temp = 23.4, p = 612.3, h = 23, unitsENV = c('deg.C', 'mmHg', '%')) # [g/cm^3]
-#' airDensity(Temp = 23.4, p = 612.3, h = 23, unitsENV = c('deg.C', 'mmHg', '%'), model = 'CIMP.approx') # [g/cm^3]
-#' airDensity(Temp = 23.4, p = 612.3, h = 23, unitsENV = c('deg.C', 'mmHg', '%'), model = 'Jones1978') # [g/cm^3]
+#' airDensity(Temp = 23.4, p = 612.3, h = 23,
+#'            unitsENV = c('deg.C', 'mmHg', '%')) # [g/cm^3]
+#' airDensity(Temp = 23.4, p = 612.3, h = 23,
+#'            unitsENV = c('deg.C', 'mmHg', '%')) # [g/cm^3]
+#' airDensity(Temp = 23.4, p = 612.3, h = 23,
+#'            unitsENV = c('deg.C', 'mmHg', '%'), model = 'CIMP.approx') # [g/cm^3]
+#' airDensity(Temp = 23.4, p = 612.3, h = 23,
+#'            unitsENV = c('deg.C', 'mmHg', '%'), model = 'Jones1978')   # [g/cm^3]
 
-
-airDensity <- function(Temp = 20,
-                       p = 1013.25,
-                       h = 50,
+airDensity <- function(Temp = 20, p = 1013.25, h = 50,
                        unitsENV = c('deg.C', 'hPa', '%'),
-                       x_CO2 = 0.0004,
-                       model = 'CIMP2007') { # [g/cm^3]
+                       x_CO2 = 0.0004, model = 'CIMP2007') { # [g/cm^3]
 
   if (!(model %in% c('Jones1978', 'CIMP.approx', 'CIMP2007'))) stop("modelion parameter must be 'CIMP2007', 'CIMP.approx' or 'Jones1978'. See details.")
   if (!(unitsENV[1] %in% c('deg.C', 'K'))) stop("Temperature unitsENV must be 'deg.C' or 'K'.")

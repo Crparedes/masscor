@@ -1,4 +1,25 @@
-#' Standard uncertainty for the Air Buoyancy Correction Magnitude
+#' Uncertainty of the Magnitude of Air Buoyancy Correction Magnitude
+#'
+#' Propagates density uncertainties to calculate the uncertainty of the Air Buoyancy Correction Magnitude
+#' (See [MABC()]).
+#'
+#' Calculations are made according to the
+#' Guide to the Guide to the expression of uncertainty in measurement (GUM, JCGM, 2008) as implemented
+#' by the package \link[propagate]{propagate} (Spiess, 2018). If air density and associated uncertainty
+#' are not provided the default output values of the functions [airDensity()] and [uncertAirDensity()],
+#' respectively, are used.
+#'
+#' @inheritParams MABC
+#' @inheritParams uncertAirDensity
+#' @param u_rho_s Standard uncertainty of the sample density.
+#' @param u_rho_w Standard uncertainty of the mass standard density.
+#' @param u_rho_air Standard uncertainty of air density. See [uncertAirDensity()].
+#'
+#' @references
+#' BIMP JCGM (2008) Evaluation of measurement data — Guide to the expression of uncertainty in measurement.
+#'
+#' Andrej-Nikolai Spiess (2018). propagate: Propagation of Uncertainty. R package version 1.0-6.
+#' https://CRAN.R-project.org/package=propagate
 #'
 #' @importFrom propagate propagate
 #' @export

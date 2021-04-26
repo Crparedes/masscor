@@ -16,50 +16,69 @@
 #'
 #'
 #' @param balanceID Character with balance identification.
-#' @param massSTD Numeric vector with the masses of the mass standards used for calibration
-#' @param indError Numeric vector of length \code{length(massSTD)} with the indication error for each mass standard
-#' @param uncert Numeric vector of length \code{length(massSTD)} with the uncertainty of the indication error for each mass standard
-#' @param expanded If \code{TRUE} (the default), \code{uncert} is assumed to be expanded uncertainties instead of standard uncertainties
+#' @param massSTD Numeric vector with the masses of the mass standards used for calibration.
+#' @param indError Numeric vector of length \code{length(massSTD)} with the indication error for each mass standard.
+#'   Only one of \code{indError} or \code{CMcorr} must be provided.
+#' @param CMcorr Numeric vector of length \code{length(massSTD)} with the conventional mass correction for each mass standard.
+#'   Only one of \code{indError} or \code{CMcorr} must be provided.
+#' @param uncert Numeric vector of length \code{length(massSTD)} with the uncertainty of the indication error for each mass standard.
+#' @param expanded If \code{TRUE} (the default), \code{uncert} is assumed to be expanded uncertainties instead of standard uncertainties.
 #' @param k Coverage factor for \code{uncert} when \code{expanded = TRUE}.
 #' @param d Division scale of the balance
-#' @param units Character vector of length 4 with the units of \code{massSTD}, \code{indError}, \code{uncert} and \code{d}.
+#' @param units Character vector of length 4 with the units of \code{massSTD}, \code{indError} (or \code{CMcorr}), \code{uncert} and \code{d}.
 #'   Default is \code{c('g', 'mg', 'mg', 'mg')} which is typical for an analytic balance. See Details for more options.
+#'   The units of \code{massSTD} are defined as the balance standard units.
 #' @param classSTD Character with the class of the mass standards used.
 #' @param certSTD Character with the certificate identification of the mass standards used.
 #' @param p Barometric pressure at the moment of the calibration.
 #' @param Temp Ambient temperature at the moment of the calibration.
 #' @param h Relative humidity at the moment of the calibration.
 #' @param unitsENV Character vector of length 3 with the units of \code{p}, \code{Temp} and \code{h}.
-#'   Default is \code{c('deg.C', 'hPa', '\%')}. See Details for more options.
+#'   Default is \code{c('deg.C', 'hPa', '\%')}. See **unitsENV** below for more options.
 #' @param institution Character with the institution that performed the calibration.
 #' @param date Character with the date of the calibration.
-#' @param additionalDetails Named list or vector with any additional details included in calibration certificate.
+#' @param add.info Named list or vector with any additional details included in calibration certificate.
 #'
 #' @return Object of class \code{calibCert} with information of a calibration certificate for a balance.
 #'
-#' @seealso [convertMassUnitsSI()]
+#' @seealso S3 methods [print.calibCert()] and [plot.calibCert()] are available. See [convertMassUnitsSI()] for
+#'   information about mass units
 #'
 #' @examples
-#' massSTD <- c(0.01, 0.5, 1, 10, 20, 50, 100, 120, 150, 200, 220)  ## [g]
+#' massSTD <- c(0.01, 0.5, 1, 10, 20, 50, 100, 120, 150, 200, 220)        ## [g]
 #' indError <- c(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.2, -0.2) ## [mg]
 #' uncert <- c(0.1, 0.1, 0.1, 0.1, 0.1, 0.2, 0.2, 0.3, 0.3, 0.4, 0.5) / 2 ## [mg]
-#' d <- 0.1 ## [mg]
+#' d <- 0.1                                                               ## [mg]
 #'
 #' Balance.D1 <- calibCert(balanceID = 'Balance.D1', massSTD = massSTD,
 #'                         indError = indError, uncert = uncert, d = d,
 #'                         units = c('g', 'mg', 'mg', 'mg'))
 #' print(Balance.D1)
+#' plot(Balance.D1)
 #'
 #' @export
 #'
 
-calibCert <- function (balanceID = 'BalanceID', massSTD, indError,
+calibCert <- function (balanceID = 'BalanceID', massSTD, indError = NULL, CMcorr = NULL,
                        uncert, expanded = TRUE, k = 2, d,
                        units = c('g', 'mg', 'mg', 'mg'),
                        classSTD = NULL, certSTD = NULL,
                        p = NULL, Temp = NULL, h = NULL,
                        unitsENV = c('deg.C', 'hPa', '%'),
-                       institution = NULL, date = NULL, additionalDetails = NULL) {
+                       institution = NULL, date = NULL, add.info = NULL) {
+  if (missing(indError) && missing(CMcorr)) {
+    stop('One of "indError" or "CMcorr" must be supplied')
+  }
+  if (!missing(indError) && !missing(CMcorr)) {
+    if (any((indError + CMcorr) != 0)) {
+      warning('Both "indError" and "CMCorr" has been supplied. Those parameters are supposed to be
+              additive inverses but this seems not to be the case. "indError" will be replaced by
+              "-1 * CMcorr"')}
+  }
+
+  if (missing(indError)) indError <- - CMcorr
+  if (missing(CMcorr)) CMcorr <- - indError
+
   if (length(massSTD) != length(indError) || length(massSTD) != length(uncert)) {
     stop('Vectors in arguments "massSTD", "indError" and "uncert" must be all numeric of same size.')
   }
@@ -70,7 +89,8 @@ calibCert <- function (balanceID = 'BalanceID', massSTD, indError,
                     indError = convertMassUnitsSI(from = units[2], to = units[1], value = indError),
                     uncert = convertMassUnitsSI(from = units[3], to = units[1], value = uncert),
                     expandUncert = convertMassUnitsSI(from = units[3], to = units[1], value = uncert),
-                    d = convertMassUnitsSI(from = units[4], to = units[1], value = d))
+                    d = convertMassUnitsSI(from = units[4], to = units[1], value = d),
+                    originalUnits = units)
 
   if (expanded) {
     calibCert$uncert <- calibCert$uncert / k
@@ -80,13 +100,13 @@ calibCert <- function (balanceID = 'BalanceID', massSTD, indError,
 
   if (!missing(classSTD)) calibCert$classSTD <- classSTD
   if (!missing(certSTD)) calibCert$certSTD <- certSTD
-  if (!missing(barPress)) calibCert$barPress <- barPress
-  if (!missing(ambTempe)) calibCert$ambTempe <- ambTempe
-  if (!missing(relHumid)) calibCert$relHumid <- relHumid
+  if (!missing(p)) calibCert$p <- p
+  if (!missing(Temp)) calibCert$Temp <- Temp
+  if (!missing(h)) calibCert$h <- h
   if (!missing(unitsENV)) calibCert$unitsENV <- unitsENV
   if (!missing(institution)) calibCert$institution <- institution
   if (!missing(date)) calibCert$date <- date
-  if (!missing(details)) calibCert$details <- details
+  if (!missing(add.info)) calibCert$add.info <- add.info
   #if (!missing()) calibCert$ <-
 
   class(calibCert) <- 'calibCert'

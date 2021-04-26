@@ -2,31 +2,29 @@
 % Please edit documentation in R/normalizedError.R
 \name{normalizedError}
 \alias{normalizedError}
-\title{Calculates normalized error in the conventional mass of a mass standard}
+\title{Calculates normalized in balance verification using a mass standard}
 \usage{
-normalizedError(
-  reading,
-  standard,
-  calibCert = NULL,
-  u_meas = NULL,
-  u_massStandard = NULL
-)
+normalizedError(reading, standard, calibCert, u_massStandard = NULL)
 }
 \arguments{
-\item{reading}{balance reading for the standard mass.}
+\item{reading}{Balance reading for the standard mass.}
 
-\item{standard}{object of class "massstandard" with the information of the
-mass standard (see createMassStandard), or numeric value with the
-conventional mass of the standard being used.}
+\item{standard}{It can be one of two options. An object of class \code{"massStandard"}
+(see \code{\link[=createMassStandard]{createMassStandard()}}) or the numeric value of the conventional mass of the standard used.}
 
-\item{calibCert}{optional object of class "calibCert" with the calibration information}
+\item{calibCert}{Object of class \code{"calibCert"} with the calibration data of the balance.
+See \code{\link[=calibCert]{calibCert()}} for details.}
+
+\item{u_massStandard}{Uncertainty of the conventional mass of the standard used. Neccesary only if
+\code{standard} is not an object of class \code{"massStandard"}
+(see \code{\link[=createMassStandard]{createMassStandard()}}).}
 }
 \value{
-
+Numeric value of normalized error for balance verification using a mass standard.
 }
 \description{
-Calculates normalized error in the conventional mass of a mass standard
+Calculates normalized in balance verification using a mass standard
 }
-\examples{
-
+\seealso{
+\code{\link[=createMassStandard]{createMassStandard()}}.
 }

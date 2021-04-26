@@ -2,21 +2,41 @@
 % Please edit documentation in R/createMassStandard.R
 \name{createMassStandard}
 \alias{createMassStandard}
-\title{Creates a massStandard class object to be used in balance verification}
+\title{Creates an object of class \code{"massStandard"}.}
 \usage{
-createMassStandard(standardID, nominal)
+createMassStandard(standardID, nominal, convMass, uncert, units = c("g",
+  "mg"), certificate = NULL)
 }
 \arguments{
-\item{standardID}{the standard ID}
+\item{standardID}{The standard ID.}
 
-\item{nominal}{nominal mass of the mass standard}
+\item{nominal}{Nominal mass of the mass standard.}
+
+\item{convMass}{Conventional mass of mass standard.}
+
+\item{uncert}{Standard uncertainty of the conventional mass.}
+
+\item{units}{Character vector of length 2 with the units of \code{convMass} and \code{uncert}.
+Default is \code{c('g', 'mg')} which is typical for a mass standard used for analytic balance.}
+
+\item{certificate}{Character with the certificate information of the mass standard.}
 }
 \value{
-
+Object of class \code{"massStandard"}
 }
 \description{
-Creates a massStandard class object to be used in balance verification
+The can object of class \code{"massStandard"} be used in routine balance verification to calculate
+normalized error. See \code{\link[=normalizedError]{normalizedError()}}.
+}
+\details{
+Several objects of class \code{"massStandard"} can be concatenated in a single list if the mass
+standards belongs to the same
 }
 \examples{
-
+Box1.E2.10g <- createMassStandard('E2.10g', nominal = 10, convMass = 10.001,
+                                  uncert = 0.1, units = c('g', 'mg'))
+print(Box1.E2.10g)
+}
+\seealso{
+\code{\link[=normalizedError]{normalizedError()}}
 }

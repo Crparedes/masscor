@@ -2,34 +2,72 @@
 % Please edit documentation in R/uncertAirDensity.R
 \name{uncertAirDensity}
 \alias{uncertAirDensity}
-\title{Uncertainties in air density calculation}
+\title{Uncertainties in air density calculations for models \code{'CIMP2007'} y \code{'CIMP.approx'}}
 \usage{
-uncertAirDensity(
-  value = NULL,
-  opt = "CIMP2007",
-  Temp = 20,
-  p = 1013.25,
-  h = 50,
-  u_Temp = 2.9,
-  u_p = 10.1,
-  u_h = 11.3,
-  plot = FALSE,
-  units = c("deg.C", "hPa", "\%"),
-  printRelSD = TRUE
-)
+uncertAirDensity(model = "CIMP2007", Temp = 20, p = 1013.25, h = 50,
+  u_Temp = 2.9, u_p = 10.1, u_h = 11.3, plot = FALSE,
+  unitsENV = c("deg.C", "hPa", "\%"), printRelSD = TRUE)
 }
 \arguments{
-\item{HASL}{height altitude above sea level in meters}
+\item{model}{Model to use for air density calculation. Most be one of \code{'CIMP2007'} (default),
+\code{'CIMP.approx'} or \code{'Jones1978'}. See See Details for reference.}
+
+\item{Temp}{Ambient temperature in weighing room}
+
+\item{p}{Barometric pressure in weighing room}
+
+\item{h}{Relative humidity in weighing room}
+
+\item{u_Temp}{Standard uncertainty of temperature measurement}
+
+\item{u_p}{Standard uncertainty of barometric pressure measurement}
+
+\item{u_h}{Standard uncertainty of relative humidity}
+
+\item{plot}{Logical. If \code{TRUE} the relative uncertainty contributions are shown in a
+\link[graphics]{barplot}.}
+
+\item{unitsENV}{Character vector of length 3 with the units of \code{p}, \code{Temp} and \code{h}.
+Default is \code{c('deg.C', 'hPa', '\%')}. See \strong{unitsENV} below for more options.}
+
+\item{printRelSD}{Logical. If \code{TRUE} (the default), a short statement indicating
+the resulting relative standard uncertainty of the air density estimation.}
 }
 \value{
-air density value
+Standard uncertainty of calculated air density in \eqn{g~cm^{-3}}.
 }
 \description{
-Calculates the approximated density of the air in the laboratory according to its height above sea level
+Propagates the uncertainty of environmental conditions measurements to the calculated
+value of air density when using \code{\link[=airDensity]{airDensity()}} function. The uncertainty calculation includes
+the uncertainty due to the chosen model uncertainty. Calculations are made according to the
+Guide to the Guide to the expression of uncertainty in measurement (GUM, JCGM, 2008) as implemented
+by the package \link[propagate]{propagate} (Spiess, 2018).
 }
-\examples{
-airDensity(Temp = 22.3, p = 748.1, h = 37, units = c('deg.C', 'mmHg', '\%')) # [g/cm^3]
-airDensity(Temp = 23.4, p = 612.3, h = 23, units = c('deg.C', 'mmHg', '\%')) # [g/cm^3]
-airDensity(Temp = 23.4, p = 612.3, h = 23, units = c('deg.C', 'mmHg', '\%'), opt = 'A') # [g/cm^3]
+\section{unitsENV}{
 
+Pressure units (\code{p}) can be any of \code{'mmHg'}, \code{'Pa'}, \code{'hPa'} or \code{'kPa'}.
+Temperature units (\code{Temp}) can be either \code{'deg.C'} (for Celsius degrees) or \code{'K'}.
+Relative humidity (\code{h}) can be expressed as fraction (\code{'frac'}) or as percentage (\code{'\%'}).
+A typical arrangement for the parameter \code{unitsENV} could be \code{c('hPa', 'deg.C', '\%')}.
+}
+
+\examples{
+ uncertAirDensity(model = 'CIMP2007', u_Temp = 0.29, u_p = 1.01, u_h = 11.3)
+
+}
+\references{
+Picard, A; Davis, R S; Gläser, M; Fujii, K  (2008). Revised formula for the density of moist air (CIPM-2007).
+Metrologia, 45(2), 149–155. doi:10.1088/0026-1394/45/2/004
+
+Harris, G. (2019). Selected Laboratory and Measurement Practices and Procedures to Support Basic
+Mass Calibrations. SOP 2 - Recommended Standard Operating Procedure for Applying Air Buoyancy
+Corrections. National Institute of Standards and Technology (NIST). doi:10.6028/NIST.IR.6969-2019
+
+BIMP JCGM (2008) Evaluation of measurement data — Guide to the expression of uncertainty in measurement.
+
+Andrej-Nikolai Spiess (2018). propagate: Propagation of Uncertainty. R package version 1.0-6.
+https://CRAN.R-project.org/package=propagate
+}
+\seealso{
+\code{\link[=airDensity]{airDensity()}}
 }

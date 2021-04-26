@@ -15,17 +15,6 @@ mf <- function(x) {
 }
 
 
-
-addList <- function(element, arg) {
-  if (!missingArg(symbol = arg)) {
-    element[[deparse(substitute(arg))]] <- arg
-    return(element)
-  } else {
-    return(element)
-  }
-}
-
-
 convertTemperature <- function(from, to, value) {
  if (from == to) return(value)
  if (from == 'deg.C' && to == 'K') return(value + 273.15)

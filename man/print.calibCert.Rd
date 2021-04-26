@@ -2,13 +2,25 @@
 % Please edit documentation in R/print.calibCert.R
 \name{print.calibCert}
 \alias{print.calibCert}
-\title{S3 method for printing objects of class calibCert}
+\title{S3 method for printing objects of class \code{"calibCert"}}
 \usage{
-\method{print}{calibCert}(x)
+\method{print}{calibCert}(x, plot = FALSE, ...)
+}
+\arguments{
+\item{x}{Object of class \code{"calibCert"}.}
+
+\item{plot}{Logical. If \code{TRUE} the calibration info is plotted by internal
+call to \code{\link[=plot.calibCert]{plot.calibCert()}}.}
+
+\item{...}{Further arguments passed to or from other methods.}
 }
 \description{
-S3 method for printing objects of class calibCert
+The function prints objects of class \code{"calibCert"} in a certificate-like fashion.
 }
 \examples{
-
+data(MT.XPE.204)
+print(MT.XPE.204)
+}
+\seealso{
+\code{\link[=calibCert]{calibCert()}}, \code{\link[=plot.calibCert]{plot.calibCert()}}
 }

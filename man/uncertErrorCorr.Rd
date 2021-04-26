@@ -2,19 +2,37 @@
 % Please edit documentation in R/uncert_masses.R
 \name{uncertErrorCorr}
 \alias{uncertErrorCorr}
-\title{Uncertainty associated to error correction}
+\title{Uncertainty of conventional mass correction}
 \usage{
 uncertErrorCorr(reading, units = NULL, calibCert)
 }
 \arguments{
-\item{reading}{asdf}
+\item{reading}{Numeric with balance reading for the mass of the object}
+
+\item{units}{Character with the units of \code{reading}. Must be a SI unit. If not provided, the
+balance standard units are assumed. See \code{\link[=calibCert]{calibCert()}} for details.}
+
+\item{calibCert}{Object of class \code{"calibCert"} with the calibration data of the balance.
+See \code{\link[=calibCert]{calibCert()}} for details.}
 }
 \value{
-
+Uncertainty of conventional mass correction
 }
 \description{
-Uncertainty associated to error correction
+Given a balance reading indication and the calibration information of the balance, the function
+uses the conventional mass correction uncertainties of the two closest calibration
+points to the balance reading to estimate the uncertainty due to the conventional mass
+correction.
+}
+\details{
+Calculations involve the quadratic sum of the uncertainties corresponding to
+the conventional mass corrections for the two mass standards closest to the
+balance reading.
 }
 \examples{
-
+  data(minimalCert)
+  uncertErrorCorr(reading = 12.4835, calibCert = minimalCert)
+}
+\seealso{
+\code{\link[=convMass]{convMass()}}, \code{\link[=uncertReading]{uncertReading()}}, \code{\link[=uncertMassConv]{uncertMassConv()}}
 }

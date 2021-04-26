@@ -4,11 +4,45 @@
 \alias{MABC}
 \title{Magnitude of the Air Buoyancy Correction}
 \usage{
-MABC(rho_s = 0.998, rho_w = 8, rho_air = airDensity())
+MABC(rho_s = 0.997, rho_w = 8, rho_air = airDensity())
 }
 \arguments{
-\item{rho_s}{asragsd}
+\item{rho_s}{Density of the sample in \eqn{g~cm^{-3}}}
+
+\item{rho_w}{Density of the weigths in \eqn{g~cm^{-3}}}
+
+\item{rho_air}{Density of the air in \eqn{g~cm^{-3}}. If not provided the default return value
+of the function \code{\link[=airDensity]{airDensity()}} is used. See \code{\link[=airDensity]{airDensity()}} for details.}
+}
+\value{
+Adimensional value of the magnitude of the air buoyancy correction
 }
 \description{
-Calculates the magnitude
+Calculates the Magnitude of the Air Buoyancy Correction (MABC). If no parameters are provided the
+function returns MABC for weighing water at standard conditions.
+}
+\details{
+Comparing masses (weighing) in air produces results that are influenced by the objects densities
+due to their buoyancy in air. This air buoyancy effects can be corrected considering the objects
+densities and that of the air in the room where the measurement process takes place (Harris, 2019).
+
+The uncertainty associated to MABC can be calculated by the function \code{\link[=uncertMABC]{uncertMABC()}}.
+}
+\examples{
+## Magnitude of the air buoyancy correction for some materials:
+# Water
+MABC()
+# Zinc metal
+MABC(rho_s = 7.133)
+
+# Copper metal
+MABC(rho_s = 8.96)
+}
+\references{
+Harris, G. (2019). Selected Laboratory and Measurement Practices and Procedures to Support Basic
+Mass Calibrations. SOP 2 - Recommended Standard Operating Procedure for Applying Air Buoyancy
+Corrections. National Institute of Standards and Technology (NIST). doi:10.6028/NIST.IR.6969-2019
+}
+\seealso{
+\code{\link[=uncertMABC]{uncertMABC()}}, \code{\link[=airDensity]{airDensity()}}, \code{\link[=uncertMABC]{uncertMABC()}}
 }
