@@ -2,17 +2,17 @@
 #'
 #' @param reading Balance reading for the standard mass.
 #' @param standard It can be one of two options. An object of class \code{"massStandard"}
-#'   (see [createMassStandard()]) or the numeric value of the conventional mass of the standard used.
+#'   (see [massStandard()]) or the numeric value of the conventional mass of the standard used.
 #' @inheritParams convMass
 #' @param u_massStandard Uncertainty of the conventional mass of the standard used. Neccesary only if
 #'   \code{standard} is not an object of class \code{"massStandard"}
-#'   (see [createMassStandard()]).
+#'   (see [massStandard()]).
 #' @return Numeric value of normalized error for balance verification using a mass standard.
 #'
 # @examples
 #'
 #' @export
-#' @seealso [createMassStandard()].
+#' @seealso [massStandard()].
 #'
 normalizedError <- function(reading, standard, calibCert, u_massStandard = NULL) {
   #if (conventional) {

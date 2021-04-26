@@ -33,6 +33,7 @@ uncertErrorCorr <- function(reading,
     }
   }
 
+
   if (reading > max(calibCert$massSTD) || reading < min(calibCert$massSTD)) {
     warning('Reading is outside calibration interval: ', min(calibCert$massSTD),
             ' - ', max(calibCert$massSTD), ' [', calibCert$standardUnits, ']')
@@ -53,7 +54,11 @@ uncertErrorCorr <- function(reading,
 #' Combination of readability uncertainty due to scale division and lack of repeatability
 #'
 #' @inheritParams convMass
-#' @param repValues Balance readings for the same mass standard under repeatability conditions
+#' @param repValues Numeric vector with balance readings for the same mass standard under repeatability conditions.
+#' @param d Scale division used in balance reading. Useful when operating the balance at a
+#'   division scale different from that specified in the calibration certificate (e.g. when operating a
+#'   semimicro balance with only four digital places). If not provided
+#'   the one in the calibration certificate is used.
 #'
 #' @return Uncertainty of balance readings
 #' @examples
@@ -67,6 +72,7 @@ uncertErrorCorr <- function(reading,
 #' @seealso [uncertErrorCorr()], [uncertMassConv()]
 uncertReading <- function(calibCert,
                           repValues = NULL,
+                          d = NULL,
                           units = NULL) {
   if(missing(units)) {
     fc <- 1
@@ -111,7 +117,7 @@ uncertReading <- function(calibCert,
 #' @export
 #' @seealso [convMass()], [uncertReading()], [uncertErrorCorr()]
 
-uncertMassConv <- function(reading, units = NULL, calibCert,
+uncertMassConv <- function(reading, units = NULL, d = NULL, calibCert,
                            repValues = NULL, tare = TRUE) {
   if(missing(units)) {
     u_E <- uncertErrorCorr(reading = reading, calibCert = calibCert)

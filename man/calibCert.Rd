@@ -4,22 +4,22 @@
 \alias{calibCert}
 \title{Information of balance calibration certificate}
 \usage{
-calibCert(balanceID = "BalanceID", massSTD, indError = NULL,
-  CMcorr = NULL, uncert, expanded = TRUE, k = 2, d, units = c("g",
-  "mg", "mg", "mg"), classSTD = NULL, certSTD = NULL, p = NULL,
-  Temp = NULL, h = NULL, unitsENV = c("deg.C", "hPa", "\%"),
+calibCert(balanceID = "BalanceID", serial = NULL, certificate = NULL,
+  massSTD, indError, uncert, expanded = TRUE, k = 2, d, units = c("g",
+  "mg", "mg", "mg"), classSTD = NULL, traceability = NULL, Temp = NULL,
+  p = NULL, h = NULL, unitsENV = c("deg.C", "hPa", "\%"),
   institution = NULL, date = NULL, add.info = NULL)
 }
 \arguments{
-\item{balanceID}{Character with balance identification.}
+\item{balanceID}{Character with balance identification. May be the balance model.}
+
+\item{serial}{Serial number of the balance.}
+
+\item{certificate}{Character with the calibration certificate.}
 
 \item{massSTD}{Numeric vector with the masses of the mass standards used for calibration.}
 
-\item{indError}{Numeric vector of length \code{length(massSTD)} with the indication error for each mass standard.
-Only one of \code{indError} or \code{CMcorr} must be provided.}
-
-\item{CMcorr}{Numeric vector of length \code{length(massSTD)} with the conventional mass correction for each mass standard.
-Only one of \code{indError} or \code{CMcorr} must be provided.}
+\item{indError}{Numeric vector of length \code{length(massSTD)} with the indication error for each mass standard.}
 
 \item{uncert}{Numeric vector of length \code{length(massSTD)} with the uncertainty of the indication error for each mass standard.}
 
@@ -35,11 +35,11 @@ The units of \code{massSTD} are defined as the balance standard units.}
 
 \item{classSTD}{Character with the class of the mass standards used.}
 
-\item{certSTD}{Character with the certificate identification of the mass standards used.}
-
-\item{p}{Barometric pressure at the moment of the calibration.}
+\item{traceability}{Character with information regarding the traceability of the calibration.}
 
 \item{Temp}{Ambient temperature at the moment of the calibration.}
+
+\item{p}{Barometric pressure at the moment of the calibration.}
 
 \item{h}{Relative humidity at the moment of the calibration.}
 

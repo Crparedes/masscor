@@ -15,12 +15,11 @@
 #' A typical arrangement for the parameter \code{unitsENV} could be \code{c('hPa', 'deg.C', '\%')}.
 #'
 #'
-#' @param balanceID Character with balance identification.
+#' @param balanceID Character with balance identification. May be the balance model.
+#' @param serial Serial number of the balance.
+#' @param certificate Character with the calibration certificate.
 #' @param massSTD Numeric vector with the masses of the mass standards used for calibration.
 #' @param indError Numeric vector of length \code{length(massSTD)} with the indication error for each mass standard.
-#'   Only one of \code{indError} or \code{CMcorr} must be provided.
-#' @param CMcorr Numeric vector of length \code{length(massSTD)} with the conventional mass correction for each mass standard.
-#'   Only one of \code{indError} or \code{CMcorr} must be provided.
 #' @param uncert Numeric vector of length \code{length(massSTD)} with the uncertainty of the indication error for each mass standard.
 #' @param expanded If \code{TRUE} (the default), \code{uncert} is assumed to be expanded uncertainties instead of standard uncertainties.
 #' @param k Coverage factor for \code{uncert} when \code{expanded = TRUE}.
@@ -29,7 +28,7 @@
 #'   Default is \code{c('g', 'mg', 'mg', 'mg')} which is typical for an analytic balance. See Details for more options.
 #'   The units of \code{massSTD} are defined as the balance standard units.
 #' @param classSTD Character with the class of the mass standards used.
-#' @param certSTD Character with the certificate identification of the mass standards used.
+#' @param traceability Character with information regarding the traceability of the calibration.
 #' @param p Barometric pressure at the moment of the calibration.
 #' @param Temp Ambient temperature at the moment of the calibration.
 #' @param h Relative humidity at the moment of the calibration.
@@ -59,25 +58,14 @@
 #' @export
 #'
 
-calibCert <- function (balanceID = 'BalanceID', massSTD, indError = NULL, CMcorr = NULL,
+calibCert <- function (balanceID = 'BalanceID', serial = NULL, certificate = NULL,
+                       massSTD, indError,
                        uncert, expanded = TRUE, k = 2, d,
                        units = c('g', 'mg', 'mg', 'mg'),
-                       classSTD = NULL, certSTD = NULL,
-                       p = NULL, Temp = NULL, h = NULL,
+                       classSTD = NULL, traceability = NULL,
+                       Temp = NULL, p = NULL, h = NULL,
                        unitsENV = c('deg.C', 'hPa', '%'),
                        institution = NULL, date = NULL, add.info = NULL) {
-  if (missing(indError) && missing(CMcorr)) {
-    stop('One of "indError" or "CMcorr" must be supplied')
-  }
-  if (!missing(indError) && !missing(CMcorr)) {
-    if (any((indError + CMcorr) != 0)) {
-      warning('Both "indError" and "CMCorr" has been supplied. Those parameters are supposed to be
-              additive inverses but this seems not to be the case. "indError" will be replaced by
-              "-1 * CMcorr"')}
-  }
-
-  if (missing(indError)) indError <- - CMcorr
-  if (missing(CMcorr)) CMcorr <- - indError
 
   if (length(massSTD) != length(indError) || length(massSTD) != length(uncert)) {
     stop('Vectors in arguments "massSTD", "indError" and "uncert" must be all numeric of same size.')
@@ -98,8 +86,9 @@ calibCert <- function (balanceID = 'BalanceID', massSTD, indError = NULL, CMcorr
     calibCert$expandUncert <- calibCert$expandUncert * k
   }
 
+  if (!missing(serial)) calibCert$serial <- serial
   if (!missing(classSTD)) calibCert$classSTD <- classSTD
-  if (!missing(certSTD)) calibCert$certSTD <- certSTD
+  if (!missing(traceability)) calibCert$traceability <- traceability
   if (!missing(p)) calibCert$p <- p
   if (!missing(Temp)) calibCert$Temp <- Temp
   if (!missing(h)) calibCert$h <- h

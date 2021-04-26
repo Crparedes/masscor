@@ -23,8 +23,9 @@ function returns MABC for weighing water at standard conditions.
 }
 \details{
 Comparing masses (weighing) in air produces results that are influenced by the objects densities
-due to their buoyancy in air. This air buoyancy effects can be corrected considering the objects
-densities and that of the air in the room where the measurement process takes place (Harris, 2019).
+due to their buoyancy in air. This air buoyancy effects are usually small but must be considered
+in high accuracy mass determinations. The effect can be corrected by using the densities of the object,
+the mass standard and the air filling the room where the measurement process takes place (Harris, 2019).
 
 The uncertainty associated to MABC can be calculated by the function \code{\link[=uncertMABC]{uncertMABC()}}.
 }

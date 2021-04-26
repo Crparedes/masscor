@@ -10,14 +10,14 @@ normalizedError(reading, standard, calibCert, u_massStandard = NULL)
 \item{reading}{Balance reading for the standard mass.}
 
 \item{standard}{It can be one of two options. An object of class \code{"massStandard"}
-(see \code{\link[=createMassStandard]{createMassStandard()}}) or the numeric value of the conventional mass of the standard used.}
+(see \code{\link[=massStandard]{massStandard()}}) or the numeric value of the conventional mass of the standard used.}
 
 \item{calibCert}{Object of class \code{"calibCert"} with the calibration data of the balance.
 See \code{\link[=calibCert]{calibCert()}} for details.}
 
 \item{u_massStandard}{Uncertainty of the conventional mass of the standard used. Neccesary only if
 \code{standard} is not an object of class \code{"massStandard"}
-(see \code{\link[=createMassStandard]{createMassStandard()}}).}
+(see \code{\link[=massStandard]{massStandard()}}).}
 }
 \value{
 Numeric value of normalized error for balance verification using a mass standard.
@@ -26,5 +26,5 @@ Numeric value of normalized error for balance verification using a mass standard
 Calculates normalized in balance verification using a mass standard
 }
 \seealso{
-\code{\link[=createMassStandard]{createMassStandard()}}.
+\code{\link[=massStandard]{massStandard()}}.
 }
