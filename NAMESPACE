@@ -3,6 +3,7 @@
 S3method(plot,calibCert)
 S3method(print,calibCert)
 S3method(print,massStandard)
+S3method(print,massStandardKit)
 export(MABC)
 export(airDensity)
 export(airDensityHASL)

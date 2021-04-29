@@ -75,10 +75,24 @@ massStandardKit <- function(nominal, convMassCor, uncert, units = c('g', 'mg', '
      stop('Vectors "nominal", "convMassCor" and "uncert" must all have equal lenght.' )
   }
 
+  # all vectors in same units
+  convMassCor <- convertMassUnitsSI(value = convMassCor, from = units[2], to = units[1])
+  uncert <- convertMassUnitsSI(value = uncert, from = units[3], to = units[1])
+
   if (!missing(rho)) rho <- rep(8000, length(nominal))
   if (!missing(u_rho)) u_rho <- rep(60, length(nominal))
 
   massStandardKit <- list()
+  XX <- data.frame(nominal = rep(NA, length(nominal)),
+                   convMassCor = convMassCor,
+                   uncert = uncert, expandUncert = uncert,
+                   rho = rho, u_rho = u_rho)
+  if (expanded) {
+    XX$uncert <- XX$uncert / k
+  } else {
+    XX$expandUncert <- XX$expandUncert * k
+  }
+
 
   for (i in 1:length(nominal)) {
     if ('*' %in% strsplit(nominal[i], split = '*')[[1]]) {
@@ -94,8 +108,10 @@ massStandardKit <- function(nominal, convMassCor, uncert, units = c('g', 'mg', '
 
     massStandardKit[[nominal[i]]] <- massStandard(nominal = nom, convMassCor = convMassCor[i],
                                                   uncert = uncert[i],
-                                                  units = units,
-                                                  expanded = expanded, k = k, unitsrho = unitsrho)
+                                                  units = rep(units[1], 3),
+                                                  expanded = expanded, k = k, unitsrho = unitsrho,
+                                                  partofakit = TRUE)
+    massStandardKit$tmpl$nominal[i] <- nom
     massStandardKit[[nominal[i]]]$unitENV <- NULL
     massStandardKit[[nominal[i]]]$rho <- rho[i]
     massStandardKit[[nominal[i]]]$u_rho <- u_rho[i]
@@ -114,6 +130,8 @@ massStandardKit <- function(nominal, convMassCor, uncert, units = c('g', 'mg', '
   if (!missing(date)) massStandardKit$date <- date
   if (!missing(add.info)) massStandardKit$add.info <- add.info
   #if (!missing()) massStandardKit$ <-
+
+  massStandardKit$merged <- XX
 
   class(massStandardKit) <- 'massStandardKit'
   return(massStandardKit)

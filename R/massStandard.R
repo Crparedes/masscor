@@ -45,8 +45,10 @@ massStandard <- function(nominal, convMassCor, uncert, units = c('g', 'mg', 'mg'
   massStandard <- list(#standardID = standardID,
                        nominal = nominal,
                        convMassCor = convertMassUnitsSI(from = units[2], to = units[1], value = convMassCor),
+                       convMass = nominal + convertMassUnitsSI(from = units[2], to = units[1], value = convMassCor),
                        uncert = convertMassUnitsSI(from = units[2], to = units[1], value = uncert),
                        expandUncert = convertMassUnitsSI(from = units[2], to = units[1], value = uncert),
+                       k = k,
                        standardUnits = units[1], originalUnits = units,
                        rho = rho, u_rho = u_rho, unitsrho = unitsrho, partofakit = partofakit)
 

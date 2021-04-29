@@ -1,34 +1,23 @@
-#' S3 method for printing objects of class \code{"massStandard"}
+#' S3 method for printing objects of class \code{"massStandardKit"}
 #'
-#' The function prints objects of class \code{"massStandard"} in a certificate-like fashion.
-#' @param x Object of class \code{"massStandard"}.
-#' @param minimal Logical default to \code{FALSE}. If \code{TRUE}, only minimal information
-#'   regarding the calibration certificate is provided.
-#' @param institution Logical. If \code{TRUE} (the default) the calibrating institution information
-#'   (including calibration traceability information) is printed. Ignored if \code{minimal = TRUE}..
-#' @param description Logical. If \code{TRUE} (the default) details of class, serial and manufacturer
-#'   are printed. Ignored if \code{minimal = TRUE}.
-#' @param density Logical. If \code{TRUE} (the default) the density information is
-#'   printed. If not specified a typical value of \eqn{8000\pm60~[}kg m\eqn{^{-3}]} is used.
-#'   Ignored when \code{minimal = TRUE}.
-#' @param envConditions Logical. If \code{TRUE} (the default) the environmental conditions at the place
-#' and the moment of calibration are printed. Ignored if \code{minimal = TRUE}.
-#' @param envConditions Logical. If \code{TRUE} (the default) the environmental conditions at the place
-#' and the moment of calibration are printed. Ignored if \code{minimal = TRUE}.
-#' @param ... Further arguments passed to or from other methods.
-#' @seealso [massStandard()], [print.massStandardKit()]
+#' The function prints objects of class \code{"massStandardKit"} in a certificate-like fashion.
+#' @inheritParams print.massStandard
+#' @param x Object of class \code{"massStandardKit"}.
+#' @seealso [massStandardKit()], [print.massStandard()]
 #' @examples
-#' data(E2.MS.20g)
-#' print(E2.MS.20g, minimal = TRUE)
-#' print(E2.MS.20g)
+#' data(Box.E2.MS.Kit)
+#' print(Box.E2.MS.Kit, minimal = TRUE)
+#' print(Box.E2.MS.Kit)
 #' @export
-print.massStandard <- function(x, minimal = FALSE, description = TRUE, institution = TRUE,
+print.massStandardKit <- function(x, minimal = FALSE, description = TRUE, institution = TRUE,
                                density = TRUE, envConditions = TRUE, addInfo = TRUE, ...) {
+  units <- paste0('[', x[[1]]$standardUnits, ']', collapse = '')
 
-  coreInfo <- data.frame('Nominal mass' = paste0(x$nominal, ' ', x$standardUnits),
-                         'Conv mass correction' = paste0(x$convMassCor, ' ', x$standardUnits),
-                         'Conv mass' = paste0(x$convMass, ' ', x$standardUnits),
-                         'Uncertainty' = paste0(x$expandUncert, ' ', x$standardUnits), row.names = '')
+  coreInfo <- data.frame('Nominal mass' = x$merged$nominal, '.' = rep(units, length(x$merged$nominal)),
+                         'Conv mass correction' = x$merged$convMassCor,
+                         'Conv mass' = x$merged$nominal + x$merged$convMassCor,
+                         'Uncertainty' = x$merged$expandUncert)
+
   if (minimal) {
     cat('CALIBRATED MASS STANDARD:', x$nominal, x$standardUnits,'\n\n')
     print(coreInfo)
@@ -36,8 +25,8 @@ print.massStandard <- function(x, minimal = FALSE, description = TRUE, instituti
   } else {
     if (x$partofakit) {
       warning('The mass standard is part of a mass standards kit. To see complete calibration data
-      please print the object of class "massStandardKit" to which the object
-      "massStandard" belongs to.')
+      please print the object of class "massStandardKitKit" to which the object
+      "massStandardKit" belongs to.')
       cat('\n')
     }
     cat('CALIBRATED MASS STANDARD:', x$nominal, x$standardUnits,'\n\n')
