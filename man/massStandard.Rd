@@ -9,23 +9,25 @@ massStandard(nominal, convMassCor, uncert, units = c("g", "mg", "mg"),
   traceability = NULL, Temp = NULL, p = NULL, h = NULL,
   unitsENV = c("deg.C", "hPa", "\%"), expanded = TRUE, k = 2,
   rho = 8000, u_rho = 60, unitsrho = "kg/m^3", institution = NULL,
-  date = NULL, add.info = NULL)
+  date = NULL, add.info = NULL, partofakit = FALSE)
 }
 \arguments{
 \item{nominal}{Nominal mass of the mass standard.}
 
 \item{convMassCor}{Conventional mass correction for the mass standard.}
 
-\item{uncert}{Standard uncertainty of the conventional mass.}
+\item{uncert}{Standard uncertainty of the conventional mass correction.}
 
-\item{units}{Character vector of length 3 with the units of \code{nominal}, \code{convMass} and \code{uncert}, respectively.
+\item{units}{Character vector of length 3 with the units of \code{nominal}, \code{convMass} and
+\code{uncert}, respectively.
 Default is \code{c('g', 'mg', 'mg')}.}
 
-\item{serial}{Serial number of the mass standard.}
+\item{serial}{Serial number of the mass standard or mass standards kit.}
 
-\item{manufacturer}{Character with the manufacturer of the weights.}
+\item{manufacturer}{Character with the manufacturer of the mass standard or mass standards kit.}
 
-\item{class}{Character with the claimed class of the mass standard according to REF REF (XXXX).}
+\item{class}{Character with the claimed class of the mass standard or mass standards kit,
+according to REF REF (XXXX).}
 
 \item{certificate}{Character with the calibration certificate.}
 
@@ -44,34 +46,42 @@ Default is \code{c('deg.C', 'hPa', '\%')}. See \strong{unitsENV} below for more 
 
 \item{k}{Coverage factor for \code{uncert} when \code{expanded = TRUE}.}
 
-\item{rho}{Density...}
+\item{rho}{Density of the mass standard.}
 
-\item{u_rho}{Uncertainty in ...}
+\item{u_rho}{Uncertainty in the density of the mass standard.}
 
-\item{unitsrho}{Units}
+\item{unitsrho}{Units of the density of the mass standard. Default is \code{'kg/m^3'}.}
 
 \item{institution}{Character with the institution that performed the calibration.}
 
 \item{date}{Character with the date of the calibration.}
 
 \item{add.info}{Named list or vector with any additional details included in calibration certificate.}
+
+\item{partofakit}{Logical. Is the mass standard part of kit?}
 }
 \value{
-Object of class \code{"massStandard"}
+Object of class \code{"massStandard"} with the information of a calibrated mass standard.
 }
 \description{
-The can object of class \code{"massStandard"} be used in routine balance verification to calculate
-normalized error. See \code{\link[=normalizedError]{normalizedError()}}.
+The object of class \code{"massStandard"} contains the calibration information of a mass standard
+that is used in routine balance verification (e g. to calculate
+normalized error. See \code{\link[=normalizedError]{normalizedError()}}). A version to store information about several mass
+standards that belong to the same kit is \code{\link[=massStandardKit]{massStandardKit()}}.
 }
-\details{
-Several objects of class \code{"massStandard"} can be concatenated in a single list if the mass
-standards belongs to the same
+\section{unitsENV}{
+
+Pressure units (\code{p}) can be any of \code{'mmHg'}, \code{'Pa'}, \code{'hPa'} or \code{'kPa'}.
+Temperature units (\code{Temp}) can be either \code{'deg.C'} (for Celsius degrees) or \code{'K'}.
+Relative humidity (\code{h}) can be expressed as fraction (\code{'frac'}) or as percentage (\code{'\%'}).
+A typical arrangement for the parameter \code{unitsENV} could be \code{c('hPa', 'deg.C', '\%')}.
 }
+
 \examples{
-Box1.E2.10g <- createMassStandard(nominal = 10, convMass = 10.001,
-                                  uncert = 0.1, units = c('g', 'mg', 'mg'))
-print(Box1.E2.10g)
+singleMS.E2.10g <- massStandard(nominal = 10, convMassCor = 0.001, uncert = 0.1,
+                                units = c('g', 'mg', 'mg'))
+print(singleMS.E2.10g)
 }
 \seealso{
-\code{\link[=normalizedError]{normalizedError()}}
+\code{\link[=massStandardKit]{massStandardKit()}}, \code{\link[=normalizedError]{normalizedError()}}
 }
