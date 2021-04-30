@@ -8,13 +8,13 @@
 #'   (including calibration traceability information) is printed. Ignored if \code{minimal = TRUE}..
 #' @param description Logical. If \code{TRUE} (the default) details of class, serial and manufacturer
 #'   are printed. Ignored if \code{minimal = TRUE}.
-#' @param density Logical. If \code{TRUE} (the default) the density information is
+#' @param density Logical. If \code{TRUE} the density information is
 #'   printed. If not specified a typical value of \eqn{8000\pm60~[}kg m\eqn{^{-3}]} is used.
 #'   Ignored when \code{minimal = TRUE}.
 #' @param envConditions Logical. If \code{TRUE} (the default) the environmental conditions at the place
 #' and the moment of calibration are printed. Ignored if \code{minimal = TRUE}.
-#' @param envConditions Logical. If \code{TRUE} (the default) the environmental conditions at the place
-#' and the moment of calibration are printed. Ignored if \code{minimal = TRUE}.
+#' @param addInfo Logical. If \code{TRUE} (the default) additional information of
+#' the calibration is printed. Ignored if \code{minimal = TRUE}.
 #' @param ... Further arguments passed to or from other methods.
 #' @seealso [massStandard()], [print.massStandardKit()]
 #' @examples
@@ -23,24 +23,26 @@
 #' print(E2.MS.20g)
 #' @export
 print.massStandard <- function(x, minimal = FALSE, description = TRUE, institution = TRUE,
-                               density = TRUE, envConditions = TRUE, addInfo = TRUE, ...) {
+                               density = FALSE, envConditions = TRUE, addInfo = TRUE, ...) {
 
   coreInfo <- data.frame('Nominal mass' = paste0(x$nominal, ' ', x$standardUnits),
                          'Conv mass correction' = paste0(x$convMassCor, ' ', x$standardUnits),
                          'Conv mass' = paste0(x$convMass, ' ', x$standardUnits),
                          'Uncertainty' = paste0(x$expandUncert, ' ', x$standardUnits), row.names = '')
   if (minimal) {
-    cat('CALIBRATED MASS STANDARD:', x$nominal, x$standardUnits,'\n\n')
+    cat('CALIBRATED MASS STANDARD:', x$nominal, x$standardUnits, '\n\n')
     print(coreInfo)
     cat('\nUncertainty is expanded uncertainty with a coverage factor of', x$k, '\n')
   } else {
     if (x$partofakit) {
-      warning('The mass standard is part of a mass standards kit. To see complete calibration data
+      message('The mass standard is part of a mass standards kit. To see complete calibration data
       please print the object of class "massStandardKit" to which the object
       "massStandard" belongs to.')
       cat('\n')
+      print(x, minimal = TRUE)
+      return(cat(''))
     }
-    cat('CALIBRATED MASS STANDARD:', x$nominal, x$standardUnits,'\n\n')
+    cat('CALIBRATED MASS STANDARD:', x$nominal, x$standardUnits, '\n\n')
 
     if (description) {
       cat('Description')
@@ -81,7 +83,7 @@ print.massStandard <- function(x, minimal = FALSE, description = TRUE, instituti
     }
 
     if (density) {
-      cat('Mass standard density: ', x$rho, '±', x$u_rho, paste0(' [',x$unitsrho, ']', collapse = ''))
+      cat('Mass standard density: ', x$rho, '+-', x$u_rho, paste0(' [', x$unitsrho, ']', collapse = ''))
       cat('\n\n')
     }
 

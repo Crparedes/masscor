@@ -8,29 +8,29 @@
 #' data(Box.E2.MS.Kit)
 #' print(Box.E2.MS.Kit, minimal = TRUE)
 #' print(Box.E2.MS.Kit)
+#' print(Box.E2.MS.Kit, density = TRUE)
+#' # We can print individual information of a single mass standard from the mass standard kit:
+#' print(Box.E2.MS.Kit[['20']])
 #' @export
 print.massStandardKit <- function(x, minimal = FALSE, description = TRUE, institution = TRUE,
-                               density = TRUE, envConditions = TRUE, addInfo = TRUE, ...) {
+                               density = FALSE, envConditions = TRUE, addInfo = TRUE, ...) {
   units <- paste0('[', x[[1]]$standardUnits, ']', collapse = '')
 
-  coreInfo <- data.frame('Nominal mass' = x$merged$nominal, '.' = rep(units, length(x$merged$nominal)),
+  coreInfo <- data.frame('Nominal mass' = paste0(x$merged$nominal, x$merged$diff),
+                         '.' = rep(units, length(x$merged$nominal)),
                          'Conv mass correction' = x$merged$convMassCor,
+                         '..' = rep(units, length(x$merged$nominal)),
                          'Conv mass' = x$merged$nominal + x$merged$convMassCor,
-                         'Uncertainty' = x$merged$expandUncert)
+                         '...' = rep(units, length(x$merged$nominal)),
+                         'Uncertainty' = x$merged$expandUncert,
+                         '....' = rep(units, length(x$merged$nominal)))
+  cat('CALIBRATED MASS STANDARDS KIT:', max(x$merged$nominal), '-', min(x$merged$nominal), '',
+      x[[1]]$standardUnits,' \n\n')
 
   if (minimal) {
-    cat('CALIBRATED MASS STANDARD:', x$nominal, x$standardUnits,'\n\n')
     print(coreInfo)
-    cat('\nUncertainty is expanded uncertainty with a coverage factor of', x$k, '\n')
+    cat('\nUncertainty is expanded uncertainty with a coverage factor of', x[[1]]$k, '\n')
   } else {
-    if (x$partofakit) {
-      warning('The mass standard is part of a mass standards kit. To see complete calibration data
-      please print the object of class "massStandardKitKit" to which the object
-      "massStandardKit" belongs to.')
-      cat('\n')
-    }
-    cat('CALIBRATED MASS STANDARD:', x$nominal, x$standardUnits,'\n\n')
-
     if (description) {
       cat('Description')
       cat('\n         Class:', ifelse(is.null(x$class), 'Not provided', x$class))
@@ -40,7 +40,7 @@ print.massStandardKit <- function(x, minimal = FALSE, description = TRUE, instit
     }
     cat('Mass information:\n')
     print(coreInfo)
-    cat('\nUncertainty is expanded uncertainty with a coverage factor of', x$k, '\n')
+    cat('\nUncertainty is expanded uncertainty with a coverage factor of', x[[1]]$k, '\n')
     cat('\n\n')
 
     if (institution) {
@@ -70,7 +70,10 @@ print.massStandardKit <- function(x, minimal = FALSE, description = TRUE, instit
     }
 
     if (density) {
-      cat('Mass standard density: ', x$rho, '±', x$u_rho, paste0(' [',x$unitsrho, ']', collapse = ''))
+      cat('Mass standards densities ', paste0(' [', x[[1]]$unitsrho, ']:', collapse = ''), '\n')
+      print(data.frame('Nominal mass' = paste0(x$merged$nominal, x$merged$diff),
+                       '.' = rep(units, length(x$merged$nominal)),
+                       Value = x$merged$rho, Uncert = x$merged$u_rho))
       cat('\n\n')
     }
 

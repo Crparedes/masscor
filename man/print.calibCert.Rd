@@ -4,13 +4,30 @@
 \alias{print.calibCert}
 \title{S3 method for printing objects of class \code{"calibCert"}}
 \usage{
-\method{print}{calibCert}(x, plot = FALSE, ...)
+\method{print}{calibCert}(x, plot = FALSE, minimal = FALSE,
+  description = TRUE, institution = TRUE, envConditions = TRUE,
+  addInfo = TRUE, ...)
 }
 \arguments{
-\item{x}{Object of class \code{"calibCert"}.}
+\item{x}{Object of class \code{"massStandard"}.}
 
 \item{plot}{Logical. If \code{TRUE} the calibration info is plotted by internal
 call to \code{\link[=plot.calibCert]{plot.calibCert()}}.}
+
+\item{minimal}{Logical default to \code{FALSE}. If \code{TRUE}, only minimal information
+regarding the calibration certificate is provided.}
+
+\item{description}{Logical. If \code{TRUE} (the default) details of balance serial and manufacturer
+are printed. Ignored if \code{minimal = TRUE}.}
+
+\item{institution}{Logical. If \code{TRUE} (the default) the calibrating institution information
+(including calibration traceability information) is printed. Ignored if \code{minimal = TRUE}..}
+
+\item{envConditions}{Logical. If \code{TRUE} (the default) the environmental conditions at the place
+and the moment of calibration are printed. Ignored if \code{minimal = TRUE}.}
+
+\item{addInfo}{Logical. If \code{TRUE} (the default) additional information of
+the calibration is printed. Ignored if \code{minimal = TRUE}.}
 
 \item{...}{Further arguments passed to or from other methods.}
 }

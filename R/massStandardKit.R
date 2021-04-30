@@ -46,7 +46,7 @@
 #' units       <- c('g', 'mg', 'mg')
 #'
 #' rho         <- c(8012.217, 8008.640, 8011.126, 8010.722, 8010.935)# [kg/m^3]
-#' u_rho       <- c(0.096, 0.090, 0.160, 0.160)# [kg/m^3]
+#' u_rho       <- c(0.096, 0.090, 0.160, 0.160, 0.321)# [kg/m^3]
 #' unitsrho    <- 'kg/m^3'
 #'
 #' MS.Kit1 <- massStandardKit(nominal = nominal, convMassCor = convMassCor, uncert = uncert,
@@ -79,14 +79,15 @@ massStandardKit <- function(nominal, convMassCor, uncert, units = c('g', 'mg', '
   convMassCor <- convertMassUnitsSI(value = convMassCor, from = units[2], to = units[1])
   uncert <- convertMassUnitsSI(value = uncert, from = units[3], to = units[1])
 
-  if (!missing(rho)) rho <- rep(8000, length(nominal))
-  if (!missing(u_rho)) u_rho <- rep(60, length(nominal))
+  if (missing(rho)) rho <- rep(8000, length(nominal))
+  if (missing(u_rho)) u_rho <- rep(60, length(nominal))
 
   massStandardKit <- list()
   XX <- data.frame(nominal = rep(NA, length(nominal)),
                    convMassCor = convMassCor,
                    uncert = uncert, expandUncert = uncert,
-                   rho = rho, u_rho = u_rho)
+                   rho = rho, u_rho = u_rho,
+                   diff  = rep('', length(nominal)))
   if (expanded) {
     XX$uncert <- XX$uncert / k
   } else {
@@ -98,6 +99,7 @@ massStandardKit <- function(nominal, convMassCor, uncert, units = c('g', 'mg', '
     if ('*' %in% strsplit(nominal[i], split = '*')[[1]]) {
       nom <- as.numeric(paste0(strsplit(nominal[i], split = '')[[1]][-length(strsplit(nominal[i], split = '')[[1]])],
                                collapse = ''))
+      XX$diff[i] <- '*'
     } else {
       nom <- as.numeric(nominal[i])
     }
@@ -111,7 +113,7 @@ massStandardKit <- function(nominal, convMassCor, uncert, units = c('g', 'mg', '
                                                   units = rep(units[1], 3),
                                                   expanded = expanded, k = k, unitsrho = unitsrho,
                                                   partofakit = TRUE)
-    massStandardKit$tmpl$nominal[i] <- nom
+    XX$nominal[i] <- nom
     massStandardKit[[nominal[i]]]$unitENV <- NULL
     massStandardKit[[nominal[i]]]$rho <- rho[i]
     massStandardKit[[nominal[i]]]$u_rho <- u_rho[i]

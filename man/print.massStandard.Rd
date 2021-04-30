@@ -5,7 +5,7 @@
 \title{S3 method for printing objects of class \code{"massStandard"}}
 \usage{
 \method{print}{massStandard}(x, minimal = FALSE, description = TRUE,
-  institution = TRUE, density = TRUE, envConditions = TRUE,
+  institution = TRUE, density = FALSE, envConditions = TRUE,
   addInfo = TRUE, ...)
 }
 \arguments{
@@ -20,12 +20,15 @@ are printed. Ignored if \code{minimal = TRUE}.}
 \item{institution}{Logical. If \code{TRUE} (the default) the calibrating institution information
 (including calibration traceability information) is printed. Ignored if \code{minimal = TRUE}..}
 
-\item{density}{Logical. If \code{TRUE} (the default) the density information is
+\item{density}{Logical. If \code{TRUE} the density information is
 printed. If not specified a typical value of \eqn{8000\pm60~[}kg m\eqn{^{-3}]} is used.
 Ignored when \code{minimal = TRUE}.}
 
 \item{envConditions}{Logical. If \code{TRUE} (the default) the environmental conditions at the place
 and the moment of calibration are printed. Ignored if \code{minimal = TRUE}.}
+
+\item{addInfo}{Logical. If \code{TRUE} (the default) additional information of
+the calibration is printed. Ignored if \code{minimal = TRUE}.}
 
 \item{...}{Further arguments passed to or from other methods.}
 }

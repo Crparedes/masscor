@@ -2,14 +2,14 @@
 % Please edit documentation in R/plot.calibCert.R
 \name{plot.calibCert}
 \alias{plot.calibCert}
-\title{S3 method for ploting objects of class \code{"calibCert"}}
+\title{S3 method for plotting objects of class \code{"calibCert"}}
 \usage{
 \method{plot}{calibCert}(x, error = TRUE, ylim = c(-1, 1), y0line = TRUE, ...)
 }
 \arguments{
 \item{x}{Object of class \code{"calibCert"}.}
 
-\item{error}{Logical. If \code{TRUE} (the default), the indication error is ploted.
+\item{error}{Logical. If \code{TRUE} (the default), the indication error is plotted.
 If \code{FALSE} the conventional mass correction is plotted instead.}
 
 \item{ylim}{Numeric vector of length 2 with the limits for y axis. Default to \code{c(-1, 1)}.}

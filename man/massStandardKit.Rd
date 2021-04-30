@@ -103,7 +103,7 @@ uncert      <- c(0.50, 0.25, 0.10, 0.10, 0.05)  # [mg]
 units       <- c('g', 'mg', 'mg')
 
 rho         <- c(8012.217, 8008.640, 8011.126, 8010.722, 8010.935)# [kg/m^3]
-u_rho       <- c(0.096, 0.090, 0.160, 0.160)# [kg/m^3]
+u_rho       <- c(0.096, 0.090, 0.160, 0.160, 0.321)# [kg/m^3]
 unitsrho    <- 'kg/m^3'
 
 MS.Kit1 <- massStandardKit(nominal = nominal, convMassCor = convMassCor, uncert = uncert,

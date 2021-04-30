@@ -1,9 +1,9 @@
-#' S3 method for ploting objects of class \code{"calibCert"}
+#' S3 method for plotting objects of class \code{"calibCert"}
 #'
 #' The function plots the indication error or the conventional mass correction for a balance whose
 #' calibration data is in a object of class \code{"calibCert"}.
 #' @param x Object of class \code{"calibCert"}.
-#' @param error Logical. If \code{TRUE} (the default), the indication error is ploted.
+#' @param error Logical. If \code{TRUE} (the default), the indication error is plotted.
 #'    If \code{FALSE} the conventional mass correction is plotted instead.
 #' @param ylim Numeric vector of length 2 with the limits for y axis. Default to \code{c(-1, 1)}.
 #' @param y0line Logical. If \code{TRUE} (the default) a horizontal line is drawn at y = 0.
