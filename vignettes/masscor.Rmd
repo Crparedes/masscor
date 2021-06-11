@@ -1,0 +1,106 @@
+---
+title: "masscor package"
+author: "Cristhian Paredes"
+date: "`r Sys.Date()`"
+output: 
+  knitr:::html_vignette:
+    toc: true
+    fig_caption: yes
+  pdf_document:
+    highlight: null
+    number_sections: yes
+vignette: >
+  %\VignetteIndexEntry{masscor}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: bibliography.bib  
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The R package `masscor` provides functions, classes and methods to support mass measurements using digital balances. 
+The classes contain mainly 
+
+## Introduction
+
+Mass measurements involve...
+
+## Installation
+
+The last released version of the package `masscor` can be installed from CRAN by running:
+
+```{r,  eval = FALSE}
+install.packages("masscor")
+```
+
+The development version of masscor can be installed from [GitHub](https://github.com/Crparedes/masscor "masscor GitHub Repository") using `install_github()` function from `devtools` package [@devtools]:
+
+```{r,  eval = FALSE}
+devtools::install_github("Crparedes/masscor", build_vignettes = TRUE)
+```
+
+To load `masscor` package into R environment run
+
+```{r setup}
+library(masscor)
+```
+
+## `masscor` functions
+
+### Creating, exporting and importing the data of a balance calibration certificate
+
+The calibration certificate of a balance typically will provide a table with the indication error 
+and associated uncertainty
+
+```{r calibCert1}
+massSTD  <- c(0.01, 0.5, 1, 10, 20, 50, 100, 120, 150, 200, 220)  ## [g]
+indError <- c(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.2, -0.2) ## [mg]
+uncert   <- c(0.1, 0.1, 0.1, 0.1, 0.1, 0.2, 0.2, 0.3, 0.3, 0.4, 0.5) ## [mg]
+d <- 0.1 ## [mg]
+traceability <- 'Set of weights class E2. Certificate number 1473 D-K 17296, 2019-05-10.'
+
+
+MT.XPE.204 <- calibCert(balanceID = 'MT XPE 204', serial = 'B403223982',
+                        massSTD = massSTD,
+                        indError = indError, uncert = uncert, d = d,
+                        units = c('g', 'mg', 'mg', 'mg'),
+                        classSTD = 'E2', traceability = traceability,
+                        Temp = c(17.4, 17.9), ## [deg.C]
+                        p = c(750.4, 751.0), ## [hPa]
+                        h = c(70.5, 71.4), ## [%]
+                        unitsENV = c('deg.C', 'hPa', '%'),
+                        institution = 'Instituto Nacional de Metrologia de Colombia',
+                        date = '2021-03-18')
+```
+
+The information of the ...
+
+```{r calibCert2}
+print(MT.XPE.205)
+plot(MT.XPE.205)
+```
+
+The object of class `calibCert` created corresponds to the calibration certificate provided in the package...
+
+### Conventional mass correction
+
+The conventional mass of an object is the
+
+#### Conventional mass uncertainty
+
+### Air buoyancy correction
+
+#### Air density models and associated uncertainty
+
+#### Uncertainty of air bouyancy correction
+
+## Additional functions in the package
+
+### Data for mass standards and mass standards kits
+
+### Routine balance verification: normalized error
