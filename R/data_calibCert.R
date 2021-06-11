@@ -9,17 +9,6 @@
 #'   Mass Laboratory - Instituto Nacional de Metrologia de Colombia. CALIBRATION CERTIFICATE No. 5143.
 "MT.XPE.204"
 
-#' Calibration data for a balance Mettler Toledo XPE 205
-#'
-#' An object of class \code{calibCert()} with the calibration information of a balance
-#' Mettler Toledo XPE 205, performed by the Mass Laboratory at the Instituto Nacional de Metrologia de
-#' Colombia (2020-07-14).
-#'
-#' @format An object of class \code{calibCert()}
-#' @source
-#'   Mass Laboratory - Instituto Nacional de Metrologia de Colombia. CALIBRATION CERTIFICATE No. 4637.
-"MT.XPE.205"
-
 #' Calibration data for a balance Mettler Toledo XP 2002
 #'
 #' An object of class \code{calibCert()} with the calibration information of a balance

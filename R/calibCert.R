@@ -70,6 +70,9 @@ calibCert <- function (balanceID = 'BalanceID', serial = NULL, certificate = NUL
   if (length(massSTD) != length(indError) || length(massSTD) != length(uncert)) {
     stop('Vectors in arguments "massSTD", "indError" and "uncert" must be all numeric of same size.')
   }
+  if (length(massSTD) < 2) {
+    stop('At least two calibration points must be provided.')
+  }
 
   calibCert <- list(balanceID = balanceID,
                     standardUnits = units[1],
