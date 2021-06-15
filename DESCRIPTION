@@ -1,13 +1,16 @@
 Package: masscor
-Title: Support for Mass Metrology Applications
-Version: 0.0.0.9000
+Title: Mass Measurements Corrections
+Version: 0.0.3
 Authors@R: 
-    person(given = "Paredes",
-           family = "Cardona",
+    person(given = "Cristhian",
+           family = "Paredes",
            role = c("aut", "cre"),
            email = "craparedesca@unal.edu.co",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+           comment = c(ORCID = "https://orcid.org/0000-0001-7049-9597"))
+Description: Mass measurements corrections to get conventional mass and real 
+    mass with corresponding uncertainties, from balance readings and using 
+    data from the balance calibration certificate, environmental conditions
+    and substances densities.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true

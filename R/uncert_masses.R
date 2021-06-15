@@ -46,7 +46,7 @@ uncertErrorCorr <- function(reading,
   p2 <- which(abs(calibCert$massSTD - reading) == p2prim)
 
   u_E <- sqrt(calibCert$uncert[p1]^2 + calibCert$uncert[p2]^2)
-  return(u_E)
+  return(signif(u_E, 3))
 }
 
 #' Uncertainty of balance readings
@@ -54,18 +54,23 @@ uncertErrorCorr <- function(reading,
 #' Combination of readability uncertainty due to scale division and lack of repeatability
 #'
 #' @inheritParams convMass
-#' @param repValues Numeric vector with balance readings for the same mass standard under repeatability conditions.
+#' @param repValues Numeric vector with balance readings for the same mass standard under repeatability conditions
+#'   or (single numeric value) with the standard deviation
 #' @param d Scale division used in balance reading. Useful when operating the balance at a
 #'   division scale different from that specified in the calibration certificate (e.g. when operating a
-#'   semimicro balance with only four digital places). If not provided
-#'   the one in the calibration certificate is used.
+#'   semimicro balance with only four digital places). If not provided. the functions uses
+#'   the balance division scale stated in the calibration certificate.
+#' @param tare Logical. If \code{TRUE} (the default) the tare uncertainty is considered and
+#'   conventional mass uncertainty is multiplied by \eqn{\sqrt{2}} to account for the
+#'   mass difference involved in taring the balance.
 #'
 #' @return Uncertainty of balance readings
 #' @examples
 #' data(minimalCert)
 #' uncertReading(calibCert = minimalCert,
 #'               repValues = c(5.0000, 5.0000, 4.9999, 4.9999, 4.9999,
-#'                             4.9999, 4.9999, 4.9999, 4.9999, 4.9999))
+#'                             4.9999, 4.9999, 4.9999, 4.9999, 4.9999),
+#'               tare = TRUE)
 #' @export
 #' @importFrom graphics barplot
 #' @importFrom stats sd
@@ -73,7 +78,8 @@ uncertErrorCorr <- function(reading,
 uncertReading <- function(calibCert,
                           repValues = NULL,
                           d = NULL,
-                          units = NULL) {
+                          units = NULL,
+                          tare = TRUE) {
   if(missing(units)) {
     fc <- 1
     units <- calibCert$standardUnits
@@ -84,15 +90,23 @@ uncertReading <- function(calibCert,
       fc <- convertMassUnitsSI(from = units, to = calibCert$standardUnits, value = 1)
     }
   }
-  u_d <- sqrt(calibCert$d^2/6)
+
+  u_d <- ifelse(missing(d), sqrt(calibCert$d^2/6), sqrt(d^2/6))
 
   if (missing(repValues)) {
+    warning('Uncertainty contribution from repeatability is not being considered.')
     u_r <- u_d
   } else {
-    repValues <- repValues * fc
-    u_r <- sqrt(u_d^2 + sd(repValues)^2)
+    if (length(repValues) > 1) {
+      repValues <- repValues * fc
+      u_r <- sqrt(u_d^2 + sd(repValues)^2)
+    } else {
+      u_r <- sqrt(u_d^2 + repValues^2)
+    }
   }
-  return(u_r)
+
+  if (tare) u_r <- u_r * sqrt(2)
+  return(signif(u_r, 3))
 }
 
 #' Uncertainty in conventional mass value
@@ -104,38 +118,36 @@ uncertReading <- function(calibCert,
 #'
 #' @inheritParams uncertErrorCorr
 #' @inheritParams uncertReading
-#' @param tare Logical. If \code{TRUE} (the default) the tare uncertainty is considered and
-#'   conventional mass uncertainty is multiplied by \eqn{\sqrt{2}} to account for the
-#'   mass difference involved in taring the balance.
 #' @return Uncertainty of conventional mass values.
 #'
 #' @examples
-#' data(minumalCert)
+#' data(minimalCert)
 #' uncertMassConv(reading = 12.4835, calibCert = minimalCert,
 #'                repValues = c(100.0000, 100.0000, 99.9999, 99.9999, 99.9999,
 #'                              99.9999, 99.9999, 99.9999, 99.9999, 99.9999))
 #' @export
 #' @seealso [convMass()], [uncertReading()], [uncertErrorCorr()]
 
-uncertMassConv <- function(reading, units = NULL, d = NULL, calibCert,
+uncertConvMass <- function(reading, units = NULL, d = NULL, calibCert,
                            repValues = NULL, tare = TRUE) {
+  dd <- ifelse(missing(d), calibCert$d, d)
+
   if(missing(units)) {
     u_E <- uncertErrorCorr(reading = reading, calibCert = calibCert)
     if(missing(repValues)) {
-      u_R <- uncertReading(calibCert = calibCert)
+      u_R <- uncertReading(calibCert = calibCert, tare = tare, d = dd)
     } else {
-      u_R <- uncertReading(calibCert = calibCert, repValues = repValues)
+      u_R <- uncertReading(calibCert = calibCert, repValues = repValues, d = dd)
     }
   } else {
     u_E <- uncertErrorCorr(reading = reading, units = units, calibCert = calibCert)
     if(missing(repValues)) {
-      u_R <- uncertReading(calibCert = calibCert, units = units)
+      u_R <- uncertReading(calibCert = calibCert, units = units, tare = tare, d = dd)
     } else {
-      u_R <- uncertReading(calibCert = calibCert, repValues = repValues, units = units)
+      u_R <- uncertReading(calibCert = calibCert, repValues = repValues, units = units, d = dd)
     }
   }
 
   u_m <- sqrt(u_E^2 + u_R^2)
-  if (tare) u_m <- u_m * sqrt(2)
-  return(u_m)
+  return(signif(u_m, 3))
 }
