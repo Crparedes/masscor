@@ -1,5 +1,5 @@
 Package: masscor
-Title: Mass Measurements Corrections
+Title: Mass Measurement Corrections
 Version: 0.0.3
 Authors@R: 
     person(given = "Cristhian",
@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "craparedesca@unal.edu.co",
            comment = c(ORCID = "https://orcid.org/0000-0001-7049-9597"))
-Description: Mass measurements corrections to get conventional mass and real 
+Description: Mass measurement corrections to get conventional mass and real 
     mass with corresponding uncertainties, from balance readings and using 
     data from the balance calibration certificate, environmental conditions
     and substances densities.

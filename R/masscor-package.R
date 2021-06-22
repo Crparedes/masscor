@@ -1,6 +1,6 @@
 #' \code{masscor}: Mass Measurement Corrections and Uncertainties Using Balance Calibration Data.
 #'
-#' The \code{masscor} package implements
+#' The \code{masscor} package
 #'
 #' @section \code{masscor} functions:
 #' This package uses list objects of class \code{'calibCert'} to store information of balance calibration certificates.
