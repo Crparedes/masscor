@@ -4,18 +4,16 @@
 \alias{uncertMABC}
 \title{Uncertainty of the Magnitude of Air Buoyancy Correction Magnitude}
 \usage{
-uncertMABC(rho_s = 0.998, rho_w = 8, rho_air = NULL, u_rho_s = 1e-04,
-  u_rho_w = 1e-04, u_rho_air = NULL, plot = FALSE)
+uncertMABC(rho = 0.998, rho_w = 8, rho_air = NULL, u_rho = 1e-04,
+  u_rho_w = 0.006, u_rho_air = NULL, plot = FALSE, printRelSD = TRUE)
 }
 \arguments{
-\item{rho_s}{Density of the sample in \eqn{g~cm^{-3}}}
+\item{rho}{Density of the sample in \eqn{g~cm^{-3}}}
 
 \item{rho_w}{Density of the weigths in \eqn{g~cm^{-3}}}
 
 \item{rho_air}{Density of the air in \eqn{g~cm^{-3}}. If not provided the default return value
 of the function \code{\link[=airDensity]{airDensity()}} is used. See \code{\link[=airDensity]{airDensity()}} for details.}
-
-\item{u_rho_s}{Standard uncertainty of the sample density.}
 
 \item{u_rho_w}{Standard uncertainty of the mass standard density.}
 
@@ -23,6 +21,11 @@ of the function \code{\link[=airDensity]{airDensity()}} is used. See \code{\link
 
 \item{plot}{Logical. If \code{TRUE} the relative uncertainty contributions are shown in a
 \link[graphics]{barplot}.}
+
+\item{printRelSD}{Logical. If \code{TRUE} (the default), a short statement indicating
+the resulting relative standard uncertainty of the air density estimation.}
+
+\item{u_rho_s}{Standard uncertainty of the sample density.}
 }
 \description{
 Propagates density uncertainties to calculate the uncertainty of the Air Buoyancy Correction Magnitude

@@ -5,7 +5,7 @@
 \alias{masscor-package}
 \title{\code{masscor}: Mass Measurement Corrections and Uncertainties Using Balance Calibration Data.}
 \description{
-The \code{masscor} package implements
+The \code{masscor} package
 }
 \section{\code{masscor} functions}{
 

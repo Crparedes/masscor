@@ -4,22 +4,25 @@
 \alias{uncertReading}
 \title{Uncertainty of balance readings}
 \usage{
-uncertReading(calibCert, repValues = NULL, d = NULL, units = NULL, tare = TRUE)
+uncertReading(calibCert, reading, units = NULL, sd = NULL,
+  sd.units = NULL, d = NULL, d.units = NULL)
 }
 \arguments{
 \item{calibCert}{Object of class \code{"calibCert"} with the calibration data of the balance.
 See \code{\link[=calibCert]{calibCert()}} for details.}
 
-\item{repValues}{Numeric vector with balance readings for the same mass standard under repeatability conditions
-or (single numeric value) with the standard deviation}
+\item{reading}{Numeric with balance reading for the mass of the object}
+
+\item{units}{Character with the units of \code{reading}. Must be a SI unit. If not provided, the
+balance standard units are assumed. See \code{\link[=calibCert]{calibCert()}} for details.}
 
 \item{d}{Scale division used in balance reading. Useful when operating the balance at a
 division scale different from that specified in the calibration certificate (e.g. when operating a
 semimicro balance with only four digital places). If not provided. the functions uses
 the balance division scale stated in the calibration certificate.}
 
-\item{units}{Character with the units of \code{reading}. Must be a SI unit. If not provided, the
-balance standard units are assumed. See \code{\link[=calibCert]{calibCert()}} for details.}
+\item{repValues}{Numeric vector with balance readings for the same mass standard under repeatability conditions
+or (single numeric value) with the standard deviation}
 
 \item{tare}{Logical. If \code{TRUE} (the default) the tare uncertainty is considered and
 conventional mass uncertainty is multiplied by \eqn{\sqrt{2}} to account for the

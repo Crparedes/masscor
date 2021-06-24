@@ -34,7 +34,7 @@ Default is \code{c('g', 'mg', 'mg')}.}
 \item{class}{Character with the claimed class of the mass standard or mass standards kit,
 according to REF REF (XXXX).}
 
-\item{certificate}{Character with the calibration certificate.}
+\item{certificate}{Character with the calibration certificate number and date of issue.}
 
 \item{traceability}{Character with information regarding the traceability of the calibration.}
 
@@ -60,9 +60,9 @@ If not provided the default value of 60 \eqn{kg~m^{-3}} is used for all weights.
 
 \item{unitsrho}{Units of the density of the mass standards. Default is \code{'kg/m^3'}.}
 
-\item{institution}{Character with the institution that performed the calibration.}
+\item{institution}{Character with the identification of the calibration laboratory.}
 
-\item{date}{Character with the date of the calibration.}
+\item{date}{Character with the date of the measurements.}
 
 \item{add.info}{Named list or vector with any additional details included in calibration certificate.}
 }
@@ -90,10 +90,13 @@ differientiaton is indicated.
 }
 \section{unitsENV}{
 
-Pressure units (\code{p}) can be any of \code{'mmHg'}, \code{'Pa'}, \code{'hPa'} or \code{'kPa'}.
-Temperature units (\code{Temp}) can be either \code{'deg.C'} (for Celsius degrees) or \code{'K'}.
-Relative humidity (\code{h}) can be expressed as fraction (\code{'frac'}) or as percentage (\code{'\%'}).
-A typical arrangement for the parameter \code{unitsENV} could be \code{c('hPa', 'deg.C', '\%')}.
+Temperature units (\code{Temp}) can be either \code{'deg.C'}
+(for Celsius degrees) or \code{'K'}.
+Pressure units (\code{p}) can be any of \code{'mmHg'},
+\code{'Pa'}, \code{'hPa'} or \code{'kPa'}.
+Relative humidity (\code{h}) can be expressed as
+fraction (\code{'frac'}) or as percentage (\code{'\%'}).
+A typical arrangement for the parameter \code{unitsENV} would be \code{c('deg.C', 'hPa', '\%')}.
 }
 
 \examples{

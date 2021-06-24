@@ -5,8 +5,8 @@
 \title{Uncertainties in air density calculations for models \code{'CIMP2007'} y \code{'CIMP.approx'}}
 \usage{
 uncertAirDensity(model = "CIMP2007", Temp = 20, p = 1013.25, h = 50,
-  u_Temp = 2.9, u_p = 10.1, u_h = 11.3, plot = FALSE,
-  unitsENV = c("deg.C", "hPa", "\%"), printRelSD = TRUE)
+  u_Temp = 2.9, u_p = 10.1, u_h = 11.3, unitsENV = c("deg.C", "hPa",
+  "\%"), plot = FALSE, printRelSD = TRUE)
 }
 \arguments{
 \item{model}{Model to use for air density calculation. Most be one of \code{'CIMP2007'} (default),
@@ -24,11 +24,11 @@ uncertAirDensity(model = "CIMP2007", Temp = 20, p = 1013.25, h = 50,
 
 \item{u_h}{Standard uncertainty of relative humidity}
 
-\item{plot}{Logical. If \code{TRUE} the relative uncertainty contributions are shown in a
-\link[graphics]{barplot}.}
-
 \item{unitsENV}{Character vector of length 3 with the units of \code{p}, \code{Temp} and \code{h}.
 Default is \code{c('deg.C', 'hPa', '\%')}. See \strong{unitsENV} below for more options.}
+
+\item{plot}{Logical. If \code{TRUE} the relative uncertainty contributions are shown in a
+\link[graphics]{barplot}.}
 
 \item{printRelSD}{Logical. If \code{TRUE} (the default), a short statement indicating
 the resulting relative standard uncertainty of the air density estimation.}
@@ -45,10 +45,13 @@ by the package \link[propagate]{propagate} (Spiess, 2018).
 }
 \section{unitsENV}{
 
-Pressure units (\code{p}) can be any of \code{'mmHg'}, \code{'Pa'}, \code{'hPa'} or \code{'kPa'}.
-Temperature units (\code{Temp}) can be either \code{'deg.C'} (for Celsius degrees) or \code{'K'}.
-Relative humidity (\code{h}) can be expressed as fraction (\code{'frac'}) or as percentage (\code{'\%'}).
-A typical arrangement for the parameter \code{unitsENV} could be \code{c('hPa', 'deg.C', '\%')}.
+Temperature units (\code{Temp}) can be either \code{'deg.C'}
+(for Celsius degrees) or \code{'K'}.
+Pressure units (\code{p}) can be any of \code{'mmHg'},
+\code{'Pa'}, \code{'hPa'} or \code{'kPa'}.
+Relative humidity (\code{h}) can be expressed as
+fraction (\code{'frac'}) or as percentage (\code{'\%'}).
+A typical arrangement for the parameter \code{unitsENV} would be \code{c('deg.C', 'hPa', '\%')}.
 }
 
 \examples{

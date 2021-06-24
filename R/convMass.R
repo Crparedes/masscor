@@ -33,37 +33,41 @@
 #' @export
 #' @importFrom stats predict lm
 
-convMass <- function(reading,
-                     units = NULL,
-                     calibCert) {
+convMass <- function(calibCert, reading, units = NULL,
+                     rho = NULL, rho_air = NULL) {
   if(missing(units)) {
     fc <- 1
     units <- calibCert$standardUnits
   } else {
-    if (units == calibCert$standardUnits) {
-      fc <- 1
-    } else {
-      fc <- convertMassUnitsSI(from = units, to = calibCert$standardUnits, value = 1)
-    }
+    fc <- convertMassUnitsSI(from = units, to = calibCert$standardUnits, value = 1)
   }
 
   reading <- reading * fc
-  #corr <- vector('numeric', length = length(reading))
-  if (reading > max(calibCert$massSTD) || reading < min(calibCert$massSTD)) {
-    warning('Reading is outside calibration interval: ', min(calibCert$massSTD),
-            ' - ', max(calibCert$massSTD), ' [', calibCert$standardUnits, ']')
+
+  if (reading > max(calibCert$indError[, 1]) || reading < min(calibCert$indError[, 1])) {
+    warning('Reading is outside calibration interval: ', min(calibCert$indError[, 1]),
+            ' - ', max(calibCert$indError[, 1]), ' [', calibCert$standardUnits, ']')
   }
 
-  p1 <- which.min(abs(calibCert$massSTD - reading))
-  p2prim <- min(abs(calibCert$massSTD[-p1] - reading))
-  p2 <- which.min(abs(calibCert$massSTD - p2prim))
+  p1 <- which.min(abs(calibCert$indError[, 1] - reading))
+  p2prim <- min(abs(calibCert$indError[, 1][-p1] - reading))
+  p2 <- which.min(abs(calibCert$indError[, 1] - p2prim))
 
-  Cp_i <- -calibCert$indError[c(p1, p2)]
-  mp_i <- calibCert$massSTD[c(p1, p2)]
+  Cp_i <- - calibCert$indError[, 2][c(p1, p2)]
+  mp_i <- calibCert$indError[, 1][c(p1, p2)]
   correction <- suppressWarnings(
     predict(lm(Cp_i ~ mp_i), newdata = data.frame(mp_i = reading)))
   corrected <- reading + correction
-  corrected <- corrected / fc
+  corrected <- as.numeric(corrected) / fc
   #if (print) cat(paste0('Masa corregida: ', corrected, ' [', units, ']\n'))
-  return(as.numeric(corrected))
+
+  if (missing(rho) || missing(rho_air)) {
+    message('The result corresponds to the mass measurement result at the conditions of the calibration.')
+    return(corrected)
+  } else {
+    corrected <- corrected * (1 + ((rho_air - 0.0012)*(1/rho - 1/8)))
+    return(corrected)
+  }
+
+
 }

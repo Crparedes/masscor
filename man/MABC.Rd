@@ -4,10 +4,10 @@
 \alias{MABC}
 \title{Magnitude of the Air Buoyancy Correction}
 \usage{
-MABC(rho_s = 0.997, rho_w = 8, rho_air = airDensity())
+MABC(rho = 0.997, rho_w = 8, rho_air = airDensity())
 }
 \arguments{
-\item{rho_s}{Density of the sample in \eqn{g~cm^{-3}}}
+\item{rho}{Density of the sample in \eqn{g~cm^{-3}}}
 
 \item{rho_w}{Density of the weigths in \eqn{g~cm^{-3}}}
 

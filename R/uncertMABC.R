@@ -24,22 +24,26 @@
 #' @importFrom propagate propagate
 #' @export
 
-uncertMABC <- function(rho_s = 0.9980,
+uncertMABC <- function(rho = 0.9980,
                        rho_w = 8,
                        rho_air = NULL,
-                       u_rho_s = 0.0001,
-                       u_rho_w = 0.0001,
+                       u_rho = 0.0001,
+                       u_rho_w = 0.006,
                        u_rho_air = NULL,
-                       plot = FALSE) {
+                       plot = FALSE,
+                       printRelSD = TRUE) {
   if (missing(rho_air)) rho_air <- airDensity()
   if (missing(u_rho_air)) u_rho_air <- uncertAirDensity(printRelSD = FALSE)
 
 
-  MABC <- expression((1 - rho_air/rho_w) / (1 - rho_air/rho_s))
+  MABC <- expression((1 - rho_air/rho_w) / (1 - rho_air/rho))
   uncertMABC <- propagate::propagate(expr = MABC,
                                      data = cbind(rho_air = c(rho_air, u_rho_air),
-                                                  rho_s = c(rho_s, u_rho_s),
+                                                  rho = c(rho, u_rho),
                                                   rho_w = c(rho_w, u_rho_w)),
                                      do.sim = FALSE)
-  return(as.numeric(uncertMABC$prop[3]))
-}
+  if (plot) barplot(diag(uncertMABC$rel.contr)[which(diag(uncertMABC$rel.contr) > 0)])
+
+  if (printRelSD) cat(paste0('Relative uncertainty: ',
+                             round(uncertMABC$prop[3]/uncertMABC$prop[1]*100, 4), ' %\n\n'))
+  return(as.numeric(uncertMABC$prop[3]))}

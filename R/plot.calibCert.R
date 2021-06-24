@@ -17,24 +17,26 @@
 #' @seealso [calibCert()], [print.calibCert()]
 #' @export
 #' @importFrom graphics arrows abline
-plot.calibCert <- function(x, error = TRUE, ylim = c(-1, 1), y0line = TRUE, ...) {
-  mass <- x$massSTD
-  indError <- convertMassUnitsSI(value = x$indError, from = x$standardUnits, to = x$originalUnits[2])
-  MCcorr <- convertMassUnitsSI(value = x$MCcorr, from = x$standardUnits, to = x$originalUnits[2])
-  Uncert <- convertMassUnitsSI(value = x$expandUncert, from = x$standardUnits, to = x$originalUnits[3])
+plot.calibCert <- function(x, error = TRUE, y0line = TRUE, ...) {
+  mass <- x$oldIndError[, 1]
+  indError <- x$oldIndError[, 2]
+  MCcorr <- - 1 * x$oldIndError[, 2]
+  Uncert <- x$oldIndError[, 3]
+  ylim1 <- c(1.2 * min(indError - Uncert), 1.2 * max(indError + Uncert))
+  ylim2 <- c(1.2 * min(MCcorr - Uncert), 1.2 * max(MCcorr + Uncert))
 
   if(!error) {
     plot(x = mass, y = MCcorr,
-         xlab = paste0('Load /[', x$originalUnits[1], ']'),
-         ylab = paste0('Conventional mass correction /[', x$originalUnits[2], ']'),
-         pch = 18, ylim = ylim, ...)
+         xlab = paste0('Load /[', x$orgIndErrorUnits[1], ']'),
+         ylab = paste0('Mass correction /[', x$orgIndErrorUnits[2], ']'),
+         pch = 18, ylim = ylim2, ...)
     arrows(x0 = mass, y0 = MCcorr - Uncert, x1 = mass, y1 = MCcorr + Uncert, code = 3,
            angle = 90, length = 0.1, col = 'steelblue')
   } else  {
     plot(x = mass, y = indError,
-         xlab = paste0('Load /[', x$originalUnits[1], ']'),
-         ylab = paste0('Indication error /[', x$originalUnits[2], ']'),
-         pch = 18, ylim = ylim, ...)
+         xlab = paste0('Load /[', x$orgIndErrorUnits[1], ']'),
+         ylab = paste0('Indication error /[', x$orgIndErrorUnits[2], ']'),
+         pch = 18, ylim = ylim1, ...)
     arrows(x0 = mass, y0 = indError - Uncert, x1 = mass, y1 = indError + Uncert, code = 3,
            angle = 90, length = 0.1, col = 'steelblue')
   }

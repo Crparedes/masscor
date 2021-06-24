@@ -40,10 +40,13 @@ reported by Jones, (\code{method = 'Jones1978'}) (Harris, 2019).
 }
 \section{unitsENV}{
 
-Pressure units (\code{p}) can be any of \code{'mmHg'}, \code{'Pa'}, \code{'hPa'} or \code{'kPa'}.
-Temperature units (\code{Temp}) can be either \code{'deg.C'} (for Celsius degrees) or \code{'K'}.
-Relative humidity (\code{h}) can be expressed as fraction (\code{'frac'}) or as percentage (\code{'\%'}).
-A typical arrangement for the parameter \code{unitsENV} could be \code{c('hPa', 'deg.C', '\%')}.
+Temperature units (\code{Temp}) can be either \code{'deg.C'}
+(for Celsius degrees) or \code{'K'}.
+Pressure units (\code{p}) can be any of \code{'mmHg'},
+\code{'Pa'}, \code{'hPa'} or \code{'kPa'}.
+Relative humidity (\code{h}) can be expressed as
+fraction (\code{'frac'}) or as percentage (\code{'\%'}).
+A typical arrangement for the parameter \code{unitsENV} would be \code{c('deg.C', 'hPa', '\%')}.
 }
 
 \examples{

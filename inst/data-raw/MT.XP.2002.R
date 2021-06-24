@@ -5,10 +5,12 @@ d <- 10 ## [mg]
 traceability <- c('Set of weights class E2. Certificate number 1473 D-K 17296, 2019-05-10.',
                   'Set of weights class F2. Certificate number 5028 INM, 2020-12-09.')
 
-MT.XP.2002 <- calibCert(balanceID = 'MT XP 2002', serial = 'B248568374',
-                        massSTD = massSTD,
-                        indError = indError, uncert = uncert, d = d,
-                        units = c('g', 'g', 'g', 'mg'),
+MT.XP.2002 <- calibCert(balanceID = 'MT XP 2002', serial = 'B248568374', certificate = 5142,
+                        d = d, d.units = 'mg',
+                        indError = data.frame(massSTD, indError, uncert),
+                        indError.units = c('g', 'g', 'g'),
+                        rep = data.frame(load = c(2, 1000, 2000), sd = c(0, 5, 5)), rep.units = c('g', 'mg'),
+                        eccen = c(1000, 20), eccen.units = c('g', 'mg'),
                         classSTD = 'E2 / F2', traceability = traceability,
                         Temp = c(18.8, 29.1), ## [deg.C]
                         p = c(751.4, 751.8), ## [hPa]

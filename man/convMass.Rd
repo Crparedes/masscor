@@ -4,16 +4,16 @@
 \alias{convMass}
 \title{Converts balance reading to conventional mass using balance calibration information}
 \usage{
-convMass(reading, units = NULL, calibCert)
+convMass(calibCert, reading, units = NULL, rho = NULL, rho_air = NULL)
 }
 \arguments{
+\item{calibCert}{Object of class \code{"calibCert"} with the calibration data of the balance.
+See \code{\link[=calibCert]{calibCert()}} for details.}
+
 \item{reading}{Numeric with balance reading for the mass of the object}
 
 \item{units}{Character with the units of \code{reading}. Must be a SI unit. If not provided, the
 balance standard units are assumed. See \code{\link[=calibCert]{calibCert()}} for details.}
-
-\item{calibCert}{Object of class \code{"calibCert"} with the calibration data of the balance.
-See \code{\link[=calibCert]{calibCert()}} for details.}
 }
 \value{
 Conventional mass value as corrected by using balance calibration data.

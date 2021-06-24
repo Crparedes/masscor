@@ -42,8 +42,8 @@
 uncertAirDensity <- function(model = 'CIMP2007',
                              Temp = 20, p = 1013.25, h = 50,
                              u_Temp = 2.9, u_p = 10.10, u_h = 11.3,
-                             plot = FALSE,
                              unitsENV = c('deg.C', 'hPa', '%'),
+                             plot = FALSE,
                              printRelSD = TRUE) {
 
   if (any(model == c('Jones1978', 'HASL'))) {

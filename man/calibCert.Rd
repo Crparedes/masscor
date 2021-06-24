@@ -4,34 +4,28 @@
 \alias{calibCert}
 \title{Information of balance calibration certificate}
 \usage{
-calibCert(balanceID = "BalanceID", serial = NULL, certificate = NULL,
-  massSTD, indError, uncert, expanded = TRUE, k = 2, d, units = c("g",
-  "mg", "mg", "mg"), classSTD = NULL, traceability = NULL, Temp = NULL,
-  p = NULL, h = NULL, unitsENV = c("deg.C", "hPa", "\%"),
-  institution = NULL, date = NULL, add.info = NULL)
+calibCert(balanceID = "BalanceID", serial = NULL, certificate = NULL, d,
+  d.units = "mg", indError, indError.units = c("g", "mg", "mg"),
+  expanded = TRUE, k = 2, rep, rep.units = c("g", "mg"), eccen,
+  eccen.units = "mg", classSTD = NULL, traceability = NULL,
+  Temp = NULL, p = NULL, h = NULL, unitsENV = c("deg.C", "hPa", "\%"),
+  institution = NULL, accreditation = NULL, date = NULL,
+  add.info = NULL)
 }
 \arguments{
-\item{balanceID}{Character with balance identification. May be the balance model.}
+\item{balanceID}{Character with balance identification. May be the balance model, brand or internal location.}
 
 \item{serial}{Serial number of the balance.}
 
-\item{certificate}{Character with the calibration certificate.}
+\item{certificate}{Character with the calibration certificate number and date of issue.}
 
-\item{massSTD}{Numeric vector with the masses of the mass standards used for calibration.}
+\item{d}{Division scale of the balance}
 
 \item{indError}{Numeric vector of length \code{length(massSTD)} with the indication error for each mass standard.}
-
-\item{uncert}{Numeric vector of length \code{length(massSTD)} with the uncertainty of the indication error for each mass standard.}
 
 \item{expanded}{If \code{TRUE} (the default), \code{uncert} is assumed to be expanded uncertainties instead of standard uncertainties.}
 
 \item{k}{Coverage factor for \code{uncert} when \code{expanded = TRUE}.}
-
-\item{d}{Division scale of the balance}
-
-\item{units}{Character vector of length 4 with the units of \code{massSTD}, \code{indError} (or \code{CMcorr}), \code{uncert} and \code{d}.
-Default is \code{c('g', 'mg', 'mg', 'mg')} which is typical for an analytic balance. See Details for more options.
-The units of \code{massSTD} are defined as the balance standard units.}
 
 \item{classSTD}{Character with the class of the mass standards used.}
 
@@ -46,31 +40,57 @@ The units of \code{massSTD} are defined as the balance standard units.}
 \item{unitsENV}{Character vector of length 3 with the units of \code{p}, \code{Temp} and \code{h}.
 Default is \code{c('deg.C', 'hPa', '\%')}. See \strong{unitsENV} below for more options.}
 
-\item{institution}{Character with the institution that performed the calibration.}
+\item{institution}{Character with the identification of the calibration laboratory.}
 
-\item{date}{Character with the date of the calibration.}
+\item{accreditation}{Character with the accreditation information of the calibration laboratory.}
+
+\item{date}{Character with the date of the measurements.}
 
 \item{add.info}{Named list or vector with any additional details included in calibration certificate.}
+
+\item{massSTD}{Numeric vector with the masses of the mass standards used for calibration.}
+
+\item{uncert}{Numeric vector of length \code{length(massSTD)} with the uncertainty of the indication error for each mass standard.}
+
+\item{units}{Character vector of length 4 with the units of \code{massSTD}, \code{indError} (or \code{CMcorr}), \code{uncert} and \code{d}.
+Default is \code{c('g', 'mg', 'mg', 'mg')} which is typical for an analytic balance. See Details for more options.
+The units of \code{massSTD} are defined as the balance standard units.}
+
+\item{repet}{Numeric vector with balance readings for the same object under repeatability conditions.
+Can also be a list of numeric vectors}
 }
 \value{
 Object of class \code{calibCert} with information of a calibration certificate for a balance.
 }
 \description{
-Creates an object of class \code{calibCert} containing the information provided in a calibration certificate.
-The object can later be used to correct mass readings and calculate mass uncertainties.
-Minimal information must include measurement error with uncertainty for several mass standards and the balance division scale.
+Creates an object of class \code{calibCert} that contains
+the information of a balance calibration certificate.
+The object can later be used to correct mass readings
+and calculate mass uncertainties.
 }
 \details{
-The units of \code{massSTD}, \code{indError}, \code{uncert} and \code{d} that are provided to the parameter \code{units} can be
-any multiple or subdivision of the SI unit for mass the kilogram. The greek letter \eqn{\mu} is replaced by the vocal \code{u}.
-Remember that both R and the SI prefixes are case sensitive.
+Mandatory arguments for this function are the balance division scale (\code{d}),
+the results of the indication error test (\code{indError}),
+the results of repeatability test (\code{rep}),
+and the results of the eccentricity test (\code{eccen}).
+
+The units of \code{d}, \code{indError}, \code{rep} and \code{eccen}
+shall be provided to the arguments \code{d.units}, \code{indError.units},
+\code{rep.units} and \code{eccen.units}, respectively. The units can be
+any multiple or subdivision of the SI unit for mass, the kilogram.
+The greek letter \eqn{\mu} used to represent a millionth part,
+is replaced by the vocal \code{u}.
+Remember that both \code{R} and the SI prefixes are case sensitive.
 }
 \section{unitsENV}{
 
-Pressure units (\code{p}) can be any of \code{'mmHg'}, \code{'Pa'}, \code{'hPa'} or \code{'kPa'}.
-Temperature units (\code{Temp}) can be either \code{'deg.C'} (for Celsius degrees) or \code{'K'}.
-Relative humidity (\code{h}) can be expressed as fraction (\code{'frac'}) or as percentage (\code{'\%'}).
-A typical arrangement for the parameter \code{unitsENV} could be \code{c('hPa', 'deg.C', '\%')}.
+Temperature units (\code{Temp}) can be either \code{'deg.C'}
+(for Celsius degrees) or \code{'K'}.
+Pressure units (\code{p}) can be any of \code{'mmHg'},
+\code{'Pa'}, \code{'hPa'} or \code{'kPa'}.
+Relative humidity (\code{h}) can be expressed as
+fraction (\code{'frac'}) or as percentage (\code{'\%'}).
+A typical arrangement for the parameter \code{unitsENV} would be \code{c('deg.C', 'hPa', '\%')}.
 }
 
 \examples{

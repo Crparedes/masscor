@@ -5,7 +5,7 @@
 #' points to the balance reading to estimate the uncertainty due to the conventional mass
 #' correction.
 #'
-#' Calculations involve the quadratic sum of the uncertainties corresponding to
+#' Calculations involve interpolation...  the quadratic sum of the uncertainties corresponding to
 #' the conventional mass corrections for the two mass standards closest to the
 #' balance reading.
 #'
@@ -19,34 +19,35 @@
 #' @export
 #' @seealso [convMass()], [uncertReading()], [uncertMassConv()]
 
-uncertErrorCorr <- function(reading,
-                            units = NULL,
-                            calibCert) {
+uncertErrorCorr <- function(calibCert,
+                            reading,
+                            units = NULL) {
   if(missing(units)) {
     fc <- 1
     units <- calibCert$standardUnits
   } else {
-    if (units == calibCert$standardUnits) {
-      fc <- 1
-    } else {
-      fc <- convertMassUnitsSI(from = units, to = calibCert$standardUnits, value = 1)
-    }
+    fc <- convertMassUnitsSI(from = units, to = calibCert$standardUnits, value = 1)
   }
 
 
-  if (reading > max(calibCert$massSTD) || reading < min(calibCert$massSTD)) {
-    warning('Reading is outside calibration interval: ', min(calibCert$massSTD),
-            ' - ', max(calibCert$massSTD), ' [', calibCert$standardUnits, ']')
+  if (reading > max(calibCert$indError[, 1]) || reading < min(calibCert$indError[, 1])) {
+    warning('Reading is outside calibration interval: ', min(calibCert$indError[, 1]),
+            ' - ', max(calibCert$indError[, 1]), ' [', calibCert$standardUnits, ']')
   }
   reading <- reading * fc
 
 
-  p1 <- which.min(abs(calibCert$massSTD - reading))
-  p2prim <- min(abs(calibCert$massSTD[-p1] - reading))
-  p2 <- which(abs(calibCert$massSTD - reading) == p2prim)
+  p1 <- which.min(abs(calibCert$indError[, 1] - reading))
+  p2prim <- min(abs(calibCert$indError[, 1][-p1] - reading))
+  p2 <- which(abs(calibCert$indError[, 1] - reading) == p2prim)
 
-  u_E <- sqrt(calibCert$uncert[p1]^2 + calibCert$uncert[p2]^2)
-  return(signif(u_E, 3))
+  #u_E <- sqrt(calibCert$indError[, 3][p1]^2 + calibCert$indError[, 3][p2]^2)
+  u_E <- calibCert$indError[, 3][c(p1, p2)]
+  mp_i <- calibCert$indError[, 1][c(p1, p2)]
+  uncert <- suppressWarnings(
+    predict(lm(u_E ~ mp_i), newdata = data.frame(mp_i = reading)))
+
+  return(as.numeric(uncert / fc))
 }
 
 #' Uncertainty of balance readings
@@ -75,38 +76,62 @@ uncertErrorCorr <- function(reading,
 #' @importFrom graphics barplot
 #' @importFrom stats sd
 #' @seealso [uncertErrorCorr()], [uncertMassConv()]
-uncertReading <- function(calibCert,
-                          repValues = NULL,
-                          d = NULL,
-                          units = NULL,
-                          tare = TRUE) {
+uncertReading <- function(calibCert, reading, units = NULL,
+                          sd = NULL, sd.units = NULL,
+                          d = NULL, d.units = NULL) {
   if(missing(units)) {
     fc <- 1
     units <- calibCert$standardUnits
   } else {
-    if (units == calibCert$standardUnits) {
-      fc <- 1
-    } else {
-      fc <- convertMassUnitsSI(from = units, to = calibCert$standardUnits, value = 1)
-    }
+    fc <- convertMassUnitsSI(from = units, to = calibCert$standardUnits, value = 1)
   }
+  reading <- reading * fc
 
-  u_d <- ifelse(missing(d), sqrt(calibCert$d^2/6), sqrt(d^2/6))
-
-  if (missing(repValues)) {
-    warning('Uncertainty contribution from repeatability is not being considered.')
-    u_r <- u_d
+  if (missing(d)) {
+    if (!missing(d.units)) warning("Argument 'd.units' ignored because no value was provided to 'd'.")
+    d <- calibCert$d
   } else {
-    if (length(repValues) > 1) {
-      repValues <- repValues * fc
-      u_r <- sqrt(u_d^2 + sd(repValues)^2)
+    if (!missing(d.units)) {
+      d <- convertMassUnitsSI(from = d.units, to = calibCert$standardUnits, value = d)
     } else {
-      u_r <- sqrt(u_d^2 + repValues^2)
+      if (!missing(units)) {
+        d <- convertMassUnitsSI(from = units, to = calibCert$standardUnits, value = d)
+      } else {
+        message('Provided division scale is assumed to be in the balance standard units: [',
+                calibCert$standardUnits, ']')
+      }
     }
   }
+  u_d <- d/sqrt(12)
 
-  if (tare) u_r <- u_r * sqrt(2)
-  return(signif(u_r, 3))
+  if (missing(sd)) {
+    if (!missing(sd.units)) warning("Argument 'sd.units' ignored because no value was provided to 'sd'.")
+    if (calibCert$rep.natur == 'single') {
+      sd <- calibCert$rep[2]
+    } else {
+      p1 <- which.min(abs(calibCert$rep[, 1] - reading))
+      p2prim <- min(abs(calibCert$rep[, 1][-p1] - reading))
+      p2 <- which(abs(calibCert$rep[, 1] - reading) == p2prim)
+
+      sd <- max(calibCert$rep[c(p1, p2), 2])
+    }
+    } else {
+      if (!missing(sd.units)) {
+        sd <- convertMassUnitsSI(from = sd.units, to = calibCert$standardUnits, value = sd)
+      } else {
+        if (!missing(units)) {
+          sd <- convertMassUnitsSI(from = units, to = calibCert$standardUnits, value = sd)
+        } else {
+          message('Provided standard deviation is assumed to be in the balance standard units: [',
+                  calibCert$standardUnits, ']')
+        }
+      }
+    }
+
+  u_ecc <- reading * abs(calibCert$eccen[2]) /  (2 * calibCert$eccen[1] * sqrt(3))
+
+  u_r <- sqrt(2 * u_d ^ 2 + sd ^ 2 + u_ecc ^ 2)
+  return(u_r / fc)
 }
 
 #' Uncertainty in conventional mass value
@@ -128,26 +153,12 @@ uncertReading <- function(calibCert,
 #' @export
 #' @seealso [convMass()], [uncertReading()], [uncertErrorCorr()]
 
-uncertConvMass <- function(reading, units = NULL, d = NULL, calibCert,
-                           repValues = NULL, tare = TRUE) {
-  dd <- ifelse(missing(d), calibCert$d, d)
-
-  if(missing(units)) {
-    u_E <- uncertErrorCorr(reading = reading, calibCert = calibCert)
-    if(missing(repValues)) {
-      u_R <- uncertReading(calibCert = calibCert, tare = tare, d = dd)
-    } else {
-      u_R <- uncertReading(calibCert = calibCert, repValues = repValues, d = dd)
-    }
-  } else {
-    u_E <- uncertErrorCorr(reading = reading, units = units, calibCert = calibCert)
-    if(missing(repValues)) {
-      u_R <- uncertReading(calibCert = calibCert, units = units, tare = tare, d = dd)
-    } else {
-      u_R <- uncertReading(calibCert = calibCert, repValues = repValues, units = units, d = dd)
-    }
-  }
-
-  u_m <- sqrt(u_E^2 + u_R^2)
-  return(signif(u_m, 3))
+uncertConvMass <- function (calibCert, reading, units,
+                            sd, sd.units,
+                            d, d.units) {
+  u_err <- uncertErrorCorr(calibCert, reading, units)
+  u_read <- uncertReading(calibCert, reading, units,
+                          sd, sd.units,
+                          d, d.units)
+  return(sqrt(u_err ^ 2 + u_read ^ 2))
 }

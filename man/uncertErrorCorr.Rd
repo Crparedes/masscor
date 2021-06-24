@@ -4,16 +4,16 @@
 \alias{uncertErrorCorr}
 \title{Uncertainty of conventional mass correction}
 \usage{
-uncertErrorCorr(reading, units = NULL, calibCert)
+uncertErrorCorr(calibCert, reading, units = NULL)
 }
 \arguments{
+\item{calibCert}{Object of class \code{"calibCert"} with the calibration data of the balance.
+See \code{\link[=calibCert]{calibCert()}} for details.}
+
 \item{reading}{Numeric with balance reading for the mass of the object}
 
 \item{units}{Character with the units of \code{reading}. Must be a SI unit. If not provided, the
 balance standard units are assumed. See \code{\link[=calibCert]{calibCert()}} for details.}
-
-\item{calibCert}{Object of class \code{"calibCert"} with the calibration data of the balance.
-See \code{\link[=calibCert]{calibCert()}} for details.}
 }
 \value{
 Uncertainty of conventional mass correction
@@ -25,7 +25,7 @@ points to the balance reading to estimate the uncertainty due to the conventiona
 correction.
 }
 \details{
-Calculations involve the quadratic sum of the uncertainties corresponding to
+Calculations involve interpolation...  the quadratic sum of the uncertainties corresponding to
 the conventional mass corrections for the two mass standards closest to the
 balance reading.
 }

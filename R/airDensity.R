@@ -1,20 +1,28 @@
 #' Models for calculating air density based on environmental conditions
 #'
-#' The function uses environmental conditions information (barometric pressure, temperature and
-#' relative humidity.) to calculate a local air density value. If no parameter is defined the air
-#' density at 20\eqn{^o}C, 1013.25 hPa and 50\% relative humidity is returned.
-#' The air density value value can later be used to calculate the Magnitude of Air Buoyancy Correction
-#' ([MABC()]). The uncertainty of the air density value can be calculated using [uncertAirDensity()].
+#' The function uses environmental conditions information
+#' (barometric pressure, temperature and
+#' relative humidity.) to calculate a local air density value.
+#' If no parameter is defined, the air
+#' density at 20\eqn{^o}C, 1013.25 hPa and 50% relative humidity is returned.
+#' The air density value value can later be used to calculate the
+#' Magnitude of Air Buoyancy Correction ([MABC()]).
+#' The uncertainty of the air density value can be calculated using
+#' the function [uncertAirDensity()].
 #'
-#' Air density can be estimated using one of several methods. The most complete approach is the
-#' CIMP complete formula (the default, \code{method = 'CIMP2007'}) as described in Picard et al (2008),
-#' but the CIMP approximated exponential formula (\code{method = 'CIMP.approx'}) and the method
-#' reported by Jones, (\code{method = 'Jones1978'}) (Harris, 2019).
+#' Local air density can be estimated using one of several methods.
+#' The most complete approach is the
+#' CIMP complete formula (the default, \code{method = 'CIMP2007'})
+#' as described in Picard et al (2008).
+#' The CIMP approximated exponential formula (\code{method = 'CIMP.approx'})
+#' and the method reported by Jones, (\code{method = 'Jones1978'}) (Harris, 2019)
+#' are also included.
 #'
 #' @inheritSection calibCert unitsENV
 #'
 #' @references
-#' Picard, A; Davis, R S; Gläser, M; Fujii, K  (2008). Revised formula for the density of moist air (CIPM-2007).
+#' Picard, A; Davis, R S; Gläser, M; Fujii, K  (2008). Revised formula for
+#' the density of moist air (CIPM-2007).
 #' Metrologia, 45(2), 149–155. doi:10.1088/0026-1394/45/2/004
 #'
 #' Harris, G. (2019). Selected Laboratory and Measurement Practices and Procedures to Support Basic
@@ -23,22 +31,21 @@
 #'
 #' Preguntar a andres referencia de la f'ormula simplificada exponencial
 #'
-#' @param Temp Ambient temperature in weighing room
-#' @param p Barometric pressure in weighing room
-#' @param h Relative humidity in weighing room
-#' @param x_CO2 Molar fraction of carbon dioxide in the air inside weighing room
-#' @param model Model to use for air density calculation. Most be one of \code{'CIMP2007'} (default),
-#'  \code{'CIMP.approx'} or \code{'Jones1978'}. See See Details for reference.
+#' @param Temp ambient temperature in weighing room.
+#' @param p barometric pressure in weighing room.
+#' @param h relative humidity in weighing room.
+#' @param x_CO2 molar fraction of carbon dioxide in the air inside weighing room.
+#' @param model model to use for air density calculation.
+#'   Must be one of \code{'CIMP2007'} (default),
+#'   \code{'CIMP.approx'} or \code{'Jones1978'}. See See Details for references.
 #' @inheritParams calibCert
 #'
 #' @return Calculated air density value in \eqn{g~cm^{-3}} according to chosen model.
 #' @seealso [MABC()] to calculate the Magnitude of Air Buoyancy Correction and
-#'   [uncertAirDensity()] to calculate air density uncertainty.
+#'   [uncertAirDensity()] to estimate the uncertainty of the calculated air density.
 #' @export
 #'
 #' @examples
-#' airDensity(Temp = 23.4, p = 612.3, h = 23,
-#'            unitsENV = c('deg.C', 'mmHg', '%')) # [g/cm^3]
 #' airDensity(Temp = 23.4, p = 612.3, h = 23,
 #'            unitsENV = c('deg.C', 'mmHg', '%')) # [g/cm^3]
 #' airDensity(Temp = 23.4, p = 612.3, h = 23,
@@ -50,10 +57,18 @@ airDensity <- function(Temp = 20, p = 1013.25, h = 50,
                        unitsENV = c('deg.C', 'hPa', '%'),
                        x_CO2 = 0.0004, model = 'CIMP2007') { # [g/cm^3]
 
-  if (!(model %in% c('Jones1978', 'CIMP.approx', 'CIMP2007'))) stop("modelion parameter must be 'CIMP2007', 'CIMP.approx' or 'Jones1978'. See details.")
-  if (!(unitsENV[1] %in% c('deg.C', 'K'))) stop("Temperature unitsENV must be 'deg.C' or 'K'.")
-  if (!(unitsENV[2] %in% c('Pa', 'hPa', 'kPa', 'mmHg'))) stop("Pressure unitsENV must be 'Pa', 'hPa', 'kPa' or 'mmHg'.")
-  if (!(unitsENV[3] %in% c('%', 'ND'))) stop("Relative humidity must be '%' or 'frac' (the latter for values between 0 and 1).")
+  if (!(model %in% c('Jones1978', 'CIMP.approx', 'CIMP2007'))) {
+    stop("Parameter 'model' must be 'CIMP2007', 'CIMP.approx' or 'Jones1978'. See details.")
+  }
+  if (!(unitsENV[1] %in% c('deg.C', 'K'))) {
+    stop("Temperature unitsENV must be 'deg.C' or 'K'.")
+  }
+  if (!(unitsENV[2] %in% c('Pa', 'hPa', 'kPa', 'mmHg'))) {
+    stop("Pressure unitsENV must be 'Pa', 'hPa', 'kPa' or 'mmHg'.")
+  }
+  if (!(unitsENV[3] %in% c('%', 'frac'))) {
+    stop("Relative humidity must be '%' or 'frac'.")
+  }
 
   #if (unitsENV[1] == 'deg.C') Temp <- Temp + 273.15
   Temp <- convertTemperature(from = unitsENV[1], to = 'K', value = Temp)
@@ -61,7 +76,9 @@ airDensity <- function(Temp = 20, p = 1013.25, h = 50,
   if (model == 'Jones1978') {
     p <- convertPressure(from = unitsENV[2], to = 'mmHg', value = p)
     h <- convertRelHum(from = unitsENV[3], to = '%', value = h)
-    if (h < 0 || h > 100) stop("Relative humidity must be between 0 and 1 (or 0%-100%).")
+    if (h < 0 || h > 100) {
+      stop("Relative humidity must be between 0 and 1 (or 0%-100%).")
+    }
     e_s <- 1.3146e9 * exp(-5315.56/Temp)
     rho_air_exp <- expression(((0.46460 * (p - 0.0037960 * h * e_s))/Temp)*10^-3)
     rho_air <- eval(rho_air_exp)
@@ -70,22 +87,33 @@ airDensity <- function(Temp = 20, p = 1013.25, h = 50,
   if (model == 'CIMP.approx') {
     p <- convertPressure(from = unitsENV[2], to = 'kPa', value = p)
     h <- convertRelHum(from = unitsENV[3], to = 'frac', value = h)
-    if (h < 0.20 || h > 0.80) stop("For CIMP.approx the relative humidity must be between 0.2 and 0.8 (or 20%-80%).")
-    if (Temp < (273.15 + 15) || Temp > (273.15 + 27)) stop("For CIMP.approx the temperatures must be between 15 and 27 deg.C.")
-    if (p < 60 || p > 110) stop("For CIMP.approx the barometric pressure must be between 60 and 110 hPa.")
+    if (h < 0.20 || h > 0.80) {
+      stop("For CIMP.approx the relative humidity must be between 0.2 and 0.8 (or 20%-80%).")
+    }
+    if (Temp < (273.15 + 15) || Temp > (273.15 + 27)) {
+      stop("For CIMP.approx the temperatures must be between 15 and 27 deg.C.")
+    }
+    if (p < 60 || p > 110) {
+      stop("For CIMP.approx the barometric pressure must be between 60 and 110 hPa.")
+    }
     rho_air <- (3.4848 * p - (0.9024 * h * exp(0.0612 * (Temp - 273.15))))/ (Temp) / 1000
   }
 
   if (model == 'CIMP2007') {
     p <- convertPressure(from = unitsENV[2], to = 'Pa', value = p)
     h <- convertRelHum(from = unitsENV[3], to = 'frac', value = h)
-    if (h < 0 || h > 1) stop("Relative humidity must be between 0 and 1 (or 0%-100%).")
+    if (h < 0 || h > 1) {
+      stop("Relative humidity must be between 0 and 1 (or 0%-100%).")
+    }
 
     rho_air_exp <- expression(((p*M_a)/(Z*R*Temp)) * (1 - x_v * (1 - M_v/M_a)))
     x_v_exp <- expression(h * f * p_sv / p)
-    Z_exp <- expression(1 - ((p/Temp)*(a0 + a1*t + a2*t^2 + (b0 + b1*t)*x_v + (c0 + c1*t)*x_v^2)) + ((p^2/Temp^2)*(d + e*x_v^2)))
+    Z_exp <- expression(1 - ((p/Temp)*(a0 + a1*t + a2*t^2 + (b0 + b1*t)*x_v +
+                                         (c0 + c1*t)*x_v^2)) +
+                          ((p^2/Temp^2)*(d + e*x_v^2)))
 
-    M_a <- (28.96546 + 12.011*(x_CO2 - 0.0004))*10^-3 # [kg / mol] molar mass of the air within laboratory
+    # [kg / mol] molar mass of the air within laboratory
+    M_a <- (28.96546 + 12.011*(x_CO2 - 0.0004))*10^-3
     M_v <- 18.01528e-3 # [kg / mol] $/pm$ 0.00017e-3
     # p [Pa], ambient barometric pressure
     # Temp [K], ambient temperature
