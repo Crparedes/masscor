@@ -2,32 +2,44 @@
 % Please edit documentation in R/convMass.R
 \name{convMass}
 \alias{convMass}
-\title{Converts balance reading to conventional mass using balance calibration information}
+\title{Corrects a balance reading using balance calibration data.}
 \usage{
 convMass(calibCert, reading, units = NULL, rho = NULL, rho_air = NULL)
 }
 \arguments{
-\item{calibCert}{Object of class \code{"calibCert"} with the calibration data of the balance.
+\item{calibCert}{object of class \code{"calibCert"} with the calibration
+data of the balance. See \code{\link[=calibCert]{calibCert()}} for details.}
+
+\item{reading}{numeric with balance reading for the mass of the object.}
+
+\item{units}{character with the units of \code{reading}. Must be a SI unit.
+If not provided, the balance standard units are assumed.
 See \code{\link[=calibCert]{calibCert()}} for details.}
 
-\item{reading}{Numeric with balance reading for the mass of the object}
+\item{rho}{density of the object in g cm\eqn{^{-3}}.}
 
-\item{units}{Character with the units of \code{reading}. Must be a SI unit. If not provided, the
-balance standard units are assumed. See \code{\link[=calibCert]{calibCert()}} for details.}
+\item{rho_air}{density of local air in g cm\eqn{^{-3}}.}
 }
 \value{
-Conventional mass value as corrected by using balance calibration data.
+Conventional mass value estimated using balance calibration data.
 }
 \description{
-Given a balance reading indication and the calibration information of the balance, the function
-interpolates error correction for the reading using the errors of the two closest calibration
-points with mass standards. Interpolated error is later used to produce the conventional mass
-of the object.
+Given a balance reading indication and the calibration information of
+the balance, the function
+interpolates error correction for the reading using the errors of indication
+for the two closest calibration
+points. The output is generally the mass measurement
+result under the conditions of calibration. If densities from the object
+and the local air are provided the conventional mass of the object can be
+calculated. See Details.
 }
 \details{
-The conventional mass value of a body is equal to the mass \eqn{m_c} of a mass standard
-that balances this body under conventionally chosen conditions: at a temperature \eqn{t_{ref} = 20^o}C,
-with mass standards of density \eqn{\rho_c=8000} kg m\eqn{^{-3}}, in normal air of density
+The conventional mass value of a body is equal to the mass \eqn{m_c}
+of a mass standard
+that balances this body under conventionally chosen conditions:
+at a temperature \eqn{t_{ref} = 20^o}C,
+with mass standards of density \eqn{\rho_c=8000} kg m\eqn{^{-3}},
+in normal air of density
 \eqn{\rho_0=1.2} kg m\eqn{^{-3}} (OIML, 2004).
 }
 \examples{
@@ -35,12 +47,13 @@ data(minimalCert)
 convMass(reading = 12.4835, calibCert = minimalCert)
 }
 \references{
-OIML, (2004). ORGANISATION INTERNATIONALE DE MÉTROLOGIE LÉGALE. Conventional value of the result of weighing in air.
-
-Picard, A; Davis, R S; Gläser, M; Fujii, K  (2008).  Revised formula for the density of moist air (CIPM-2007).
-Metrologia, 45(2), 149–155. doi:10.1088/0026-1394/45/2/004
+OIML, (2004). ORGANISATION INTERNATIONALE DE MÉTROLOGIE LÉGALE.
+International Document D 28: Conventional value of the result of weighing in air.
 
 Harris, G. (2019). Selected Laboratory and Measurement Practices and Procedures to Support Basic
 Mass Calibrations. SOP 2 - Recommended Standard Operating Procedure for Applying Air Buoyancy
 Corrections. National Institute of Standards and Technology (NIST). doi:10.6028/NIST.IR.6969-2019
+}
+\seealso{
+\code{\link[=uncertConvMass]{uncertConvMass()}}
 }

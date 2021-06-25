@@ -7,66 +7,78 @@
 massStandard(nominal, convMassCor, uncert, units = c("g", "mg", "mg"),
   serial = NULL, manufacturer = NULL, class = NULL, certificate = NULL,
   traceability = NULL, Temp = NULL, p = NULL, h = NULL,
-  unitsENV = c("deg.C", "hPa", "\%"), expanded = TRUE, k = 2,
-  rho = 8000, u_rho = 60, unitsrho = "kg/m^3", institution = NULL,
-  date = NULL, add.info = NULL, partofakit = FALSE)
+  unitsENV = c("deg.C", "hPa", "\%"), expanded = TRUE, k = 2, rho = 8,
+  u_rho = 0.06, unitsrho = "g/cm^3", institution = NULL, date = NULL,
+  add.info = NULL, partofakit = FALSE)
 }
 \arguments{
-\item{nominal}{Nominal mass of the mass standard.}
+\item{nominal}{nominal mass of the mass standard.}
 
-\item{convMassCor}{Conventional mass correction for the mass standard.}
+\item{convMassCor}{conventional mass correction for the mass standard.}
 
-\item{uncert}{Standard uncertainty of the conventional mass correction.}
+\item{uncert}{standard uncertainty of the conventional mass correction.}
 
-\item{units}{Character vector of length 3 with the units of \code{nominal}, \code{convMass} and
-\code{uncert}, respectively.
+\item{units}{character vector of length 3 with the units of
+\code{nominal}, \code{convMass} and \code{uncert}, respectively.
 Default is \code{c('g', 'mg', 'mg')}.}
 
-\item{serial}{Serial number of the mass standard or mass standards kit.}
+\item{serial}{serial number of the mass standard or mass standards kit.}
 
-\item{manufacturer}{Character with the manufacturer of the mass standard or mass standards kit.}
+\item{manufacturer}{character with the manufacturer of the
+mass standard or mass standards kit.}
 
-\item{class}{Character with the claimed class of the mass standard or mass standards kit,
-according to REF REF (XXXX).}
+\item{class}{character with the claimed class of the mass standard or
+mass standards kit, according to OIML (2004).}
 
-\item{certificate}{Character with the calibration certificate number and date of issue.}
+\item{certificate}{character with the calibration certificate
+number and date of issue.}
 
-\item{traceability}{Character with information regarding the traceability of the calibration.}
+\item{traceability}{character with information regarding the
+traceability of the calibration.}
 
-\item{Temp}{Ambient temperature at the moment of the calibration.}
+\item{Temp}{ambient temperature at the moment of the calibration.}
 
-\item{p}{Barometric pressure at the moment of the calibration.}
+\item{p}{barometric pressure at the moment of the calibration.}
 
-\item{h}{Relative humidity at the moment of the calibration.}
+\item{h}{relative humidity at the moment of the calibration.}
 
-\item{unitsENV}{Character vector of length 3 with the units of \code{p}, \code{Temp} and \code{h}.
+\item{unitsENV}{character vector of length three with the units of
+\code{p}, \code{Temp} and \code{h}.
 Default is \code{c('deg.C', 'hPa', '\%')}. See \strong{unitsENV} below for more options.}
 
-\item{expanded}{If \code{TRUE} (the default), \code{uncert} is assumed to be expanded uncertainties instead of standard uncertainties.}
+\item{expanded}{if \code{TRUE} (the default), uncertainties provided in
+\code{indError} are assumed to be expanded uncertainties,
+instead of standard uncertainties.}
 
-\item{k}{Coverage factor for \code{uncert} when \code{expanded = TRUE}.}
+\item{k}{coverage factor for the expanded uncertainties when
+\code{expanded = TRUE}.}
 
-\item{rho}{Density of the mass standard.}
+\item{rho}{density of the mass standard.}
 
 \item{u_rho}{Uncertainty in the density of the mass standard.}
 
-\item{unitsrho}{Units of the density of the mass standard. Default is \code{'kg/m^3'}.}
+\item{unitsrho}{Units of the density of the mass standard.
+Default is \code{'g/cm^3'}.}
 
-\item{institution}{Character with the identification of the calibration laboratory.}
+\item{institution}{character with the identification of the calibration laboratory.}
 
-\item{date}{Character with the date of the measurements.}
+\item{date}{character with the date of the measurements.}
 
-\item{add.info}{Named list or vector with any additional details included in calibration certificate.}
+\item{add.info}{named list or vector with any additional details included in
+the calibration certificate.}
 
 \item{partofakit}{Logical. Is the mass standard part of kit?}
 }
 \value{
-Object of class \code{"massStandard"} with the information of a calibrated mass standard.
+Object of class \code{"massStandard"} with the information of
+a calibrated mass standard.
 }
 \description{
-The object of class \code{"massStandard"} contains the calibration information of a mass standard
+The object of class \code{"massStandard"} contains the calibration
+information of a mass standard
 that is used in routine balance verification (e g. to calculate
-normalized error. See \code{\link[=normalizedError]{normalizedError()}}). A version to store information about several mass
+normalized error. See \code{\link[=normalizedError]{normalizedError()}}). A version to store
+information of several mass
 standards that belong to the same kit is \code{\link[=massStandardKit]{massStandardKit()}}.
 }
 \section{unitsENV}{
@@ -77,13 +89,20 @@ Pressure units (\code{p}) can be any of \code{'mmHg'},
 \code{'Pa'}, \code{'hPa'} or \code{'kPa'}.
 Relative humidity (\code{h}) can be expressed as
 fraction (\code{'frac'}) or as percentage (\code{'\%'}).
-A typical arrangement for the parameter \code{unitsENV} would be \code{c('deg.C', 'hPa', '\%')}.
+A typical arrangement for the parameter \code{unitsENV}
+would be \code{c('deg.C', 'hPa', '\%')}.
 }
 
 \examples{
-singleMS.E2.10g <- massStandard(nominal = 10, convMassCor = 0.001, uncert = 0.1,
+singleMS.E2.10g <- massStandard(nominal = 10, convMassCor = 0.001,
+                                uncert = 0.1,
                                 units = c('g', 'mg', 'mg'))
 print(singleMS.E2.10g)
+}
+\references{
+OIML, (2004). ORGANISATION INTERNATIONALE DE MÉTROLOGIE LÉGALE.
+International Document OIML R 111:
+Weights of classes E1, E2, F1, F2, M1, M1–2, M2, M2–3 and M3.
 }
 \seealso{
 \code{\link[=massStandardKit]{massStandardKit()}}, \code{\link[=normalizedError]{normalizedError()}}

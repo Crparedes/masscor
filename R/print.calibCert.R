@@ -1,18 +1,18 @@
 #' S3 method for printing objects of class \code{"calibCert"}
 #'
-#' The function prints objects of class \code{"calibCert"} in a certificate-like fashion.
+#' The function prints objects of class \code{"calibCert"}.
 #' @inheritParams print.massStandard
-#' @param plot Logical. If \code{TRUE} the calibration info is plotted by internal
-#'   call to [plot.calibCert()].
-#' @param description Logical. If \code{TRUE} (the default) details of balance serial and manufacturer
-#'   are printed. Ignored if \code{minimal = TRUE}.
+#' @param complete logical default to \code{FALSE}. If \code{TRUE}, all the
+#'   information contained in the object of class \code{calibCert} is shown.
+#' @param nudeCertificate logical default to \code{FALSE}. If \code{TRUE},
+#'   the object of class \code{calibCert} is shown as a list.
 #' @param ... Further arguments passed to or from other methods.
 #' @seealso [calibCert()], [plot.calibCert()]
 #' @examples
 #' data(MT.XPE.204)
 #' print(MT.XPE.204)
 #' @export
-print.calibCert <- function(x, complete = FALSE, nudeCertificate = FALSE) {
+print.calibCert <- function(x, complete = FALSE, nudeCertificate = FALSE, ...) {
   # In case complete nude information is asked
   if (nudeCertificate) {
     class(x) <- "list"

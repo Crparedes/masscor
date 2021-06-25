@@ -7,28 +7,28 @@
 \method{plot}{calibCert}(x, error = TRUE, y0line = TRUE, ...)
 }
 \arguments{
-\item{x}{Object of class \code{"calibCert"}.}
+\item{x}{object of class \code{"calibCert"}.}
 
-\item{error}{Logical. If \code{TRUE} (the default), the indication error is plotted.
-If \code{FALSE} the conventional mass correction is plotted instead.}
+\item{error}{logical. If \code{TRUE} (the default), the indication error is
+plotted. If \code{FALSE} the conventional mass correction is
+plotted instead.}
 
-\item{y0line}{Logical. If \code{TRUE} (the default) a horizontal line is drawn at y = 0.}
+\item{y0line}{Logical. If \code{TRUE} (the default) a horizontal
+line is drawn at y = 0.}
 
 \item{...}{Other graphical parameters used in \code{\link[graphics]{plot}}}
-
-\item{ylim}{Numeric vector of length 2 with the limits for y axis. Default to \code{c(-1, 1)}.}
 }
 \value{
 A base plot with calibration data.
 }
 \description{
-The function plots the indication error or the conventional mass correction for a balance whose
+The function plots the indication error or the conventional
+mass correction for a balance whose
 calibration data is in a object of class \code{"calibCert"}.
 }
 \examples{
 data(MT.XPE.204)
 plot(MT.XPE.204)
-
 }
 \seealso{
 \code{\link[=calibCert]{calibCert()}}, \code{\link[=print.calibCert]{print.calibCert()}}

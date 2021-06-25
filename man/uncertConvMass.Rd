@@ -7,21 +7,36 @@
 uncertConvMass(calibCert, reading, units, sd, sd.units, d, d.units)
 }
 \arguments{
-\item{calibCert}{Object of class \code{"calibCert"} with the calibration data of the balance.
+\item{calibCert}{object of class \code{"calibCert"} with the calibration
+data of the balance. See \code{\link[=calibCert]{calibCert()}} for details.}
+
+\item{reading}{numeric with balance reading for the mass of the object.}
+
+\item{units}{character with the units of \code{reading}. Must be a SI unit.
+If not provided, the balance standard units are assumed.
 See \code{\link[=calibCert]{calibCert()}} for details.}
 
-\item{reading}{Numeric with balance reading for the mass of the object}
+\item{sd}{standard deviation when a balance reading is the result
+of averaging several individual measurements of same object. If not provided
+the information is taken from the calibration certificate of the balance}
 
-\item{units}{Character with the units of \code{reading}. Must be a SI unit. If not provided, the
-balance standard units are assumed. See \code{\link[=calibCert]{calibCert()}} for details.}
+\item{sd.units}{character with the units of standard deviation.
+If not provided, the value stated at \code{units} or the balance
+standard units is used.}
 
-\item{d}{Scale division used in balance reading. Useful when operating the balance at a
-division scale different from that specified in the calibration certificate (e.g. when operating a
-semimicro balance with only four digital places). If not provided. the functions uses
+\item{d}{balance division scale. Useful when the balance is operated a a
+division scale different from that stated in the calibration certificate.
+This is the common case when the user is give up some readability
+in order to make faster mass measurements. If not provided.
+the functions uses
 the balance division scale stated in the calibration certificate.}
+
+\item{d.units}{character with the units of parameter \code{d}.
+If not provided, the value stated at \code{units} or the balance
+standard units is used.}
 }
 \value{
-Uncertainty of conventional mass values.
+Uncertainty of a conventional mass value.
 }
 \description{
 The function combines the uncertainty of the conventional mass correction
@@ -31,9 +46,7 @@ to produce the uncertainty of a conventional mass value.
 }
 \examples{
 data(minimalCert)
-uncertMassConv(reading = 12.4835, calibCert = minimalCert,
-               repValues = c(100.0000, 100.0000, 99.9999, 99.9999, 99.9999,
-                             99.9999, 99.9999, 99.9999, 99.9999, 99.9999))
+uncertConvMass(reading = 12.4835, calibCert = minimalCert)
 }
 \seealso{
 \code{\link[=convMass]{convMass()}}, \code{\link[=uncertReading]{uncertReading()}}, \code{\link[=uncertErrorCorr]{uncertErrorCorr()}}

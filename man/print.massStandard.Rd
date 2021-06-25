@@ -4,41 +4,47 @@
 \alias{print.massStandard}
 \title{S3 method for printing objects of class \code{"massStandard"}}
 \usage{
-\method{print}{massStandard}(x, minimal = FALSE, description = TRUE,
+\method{print}{massStandard}(x, minimal = TRUE, description = TRUE,
   institution = TRUE, density = FALSE, envConditions = TRUE,
   addInfo = TRUE, ...)
 }
 \arguments{
 \item{x}{Object of class \code{"massStandard"}.}
 
-\item{minimal}{Logical default to \code{FALSE}. If \code{TRUE}, only minimal information
+\item{minimal}{logical default to \code{TRUE}.
+If \code{TRUE}, only minimal information
 regarding the calibration certificate is provided.}
 
-\item{description}{Logical. If \code{TRUE} (the default) details of class, serial and manufacturer
+\item{description}{logical. If \code{TRUE} (the default)
+details of class, serial and manufacturer
 are printed. Ignored if \code{minimal = TRUE}.}
 
-\item{institution}{Logical. If \code{TRUE} (the default) the calibrating institution information
-(including calibration traceability information) is printed. Ignored if \code{minimal = TRUE}..}
+\item{institution}{logical. If \code{TRUE} (the default)
+the calibrating institution information
+(including calibration traceability information)
+is printed. Ignored if \code{minimal = TRUE}.}
 
-\item{density}{Logical. If \code{TRUE} the density information is
-printed. If not specified a typical value of \eqn{8000\pm60~[}kg m\eqn{^{-3}]} is used.
-Ignored when \code{minimal = TRUE}.}
+\item{density}{logical. If \code{TRUE} the density information is
+printed.}
 
-\item{envConditions}{Logical. If \code{TRUE} (the default) the environmental conditions at the place
-and the moment of calibration are printed. Ignored if \code{minimal = TRUE}.}
+\item{envConditions}{logical. If \code{TRUE} (the default)
+the environmental conditions at the place
+and the moment of calibration are printed.
+Ignored if \code{minimal = TRUE}.}
 
-\item{addInfo}{Logical. If \code{TRUE} (the default) additional information of
+\item{addInfo}{logical. If \code{TRUE} (the default)
+additional information of
 the calibration is printed. Ignored if \code{minimal = TRUE}.}
 
-\item{...}{Further arguments passed to or from other methods.}
+\item{...}{further arguments passed to or from other methods.}
 }
 \description{
-The function prints objects of class \code{"massStandard"} in a certificate-like fashion.
+The function prints objects of class \code{"massStandard"}.
 }
 \examples{
 data(E2.MS.20g)
-print(E2.MS.20g, minimal = TRUE)
 print(E2.MS.20g)
+print(E2.MS.20g, minimal = FALSE)
 }
 \seealso{
 \code{\link[=massStandard]{massStandard()}}, \code{\link[=print.massStandardKit]{print.massStandardKit()}}

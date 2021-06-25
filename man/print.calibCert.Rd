@@ -4,21 +4,21 @@
 \alias{print.calibCert}
 \title{S3 method for printing objects of class \code{"calibCert"}}
 \usage{
-\method{print}{calibCert}(x, complete = FALSE, nudeCertificate = FALSE)
+\method{print}{calibCert}(x, complete = FALSE, nudeCertificate = FALSE, ...)
 }
 \arguments{
 \item{x}{Object of class \code{"massStandard"}.}
 
-\item{plot}{Logical. If \code{TRUE} the calibration info is plotted by internal
-call to \code{\link[=plot.calibCert]{plot.calibCert()}}.}
+\item{complete}{logical default to \code{FALSE}. If \code{TRUE}, all the
+information contained in the object of class \code{calibCert} is shown.}
 
-\item{description}{Logical. If \code{TRUE} (the default) details of balance serial and manufacturer
-are printed. Ignored if \code{minimal = TRUE}.}
+\item{nudeCertificate}{logical default to \code{FALSE}. If \code{TRUE},
+the object of class \code{calibCert} is shown as a list.}
 
 \item{...}{Further arguments passed to or from other methods.}
 }
 \description{
-The function prints objects of class \code{"calibCert"} in a certificate-like fashion.
+The function prints objects of class \code{"calibCert"}.
 }
 \examples{
 data(MT.XPE.204)

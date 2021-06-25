@@ -9,7 +9,8 @@ MT.XPE.204 <- calibCert(balanceID = 'MT XPE 204', serial = 'B403223982', certifi
                         d = d, d.units = 'mg',
                         indError = data.frame(massSTD, indError, uncert),
                         indError.units = c('g', 'mg', 'mg'),
-                        rep = data.frame(load = c(0.1, 100, 220), sd = c(0.00, 0.04, 0.03)), rep.units = c('g', 'mg'),
+                        rep = data.frame(load = c(0.1, 100, 220), sd = c(0.00, 0.04, 0.03)),
+                        rep.units = c('g', 'mg'),
                         eccen = c(100, 0.1), eccen.units = c('g', 'mg'),
                         classSTD = 'E2', traceability = traceability,
                         Temp = c(17.4, 17.9), ## [deg.C]

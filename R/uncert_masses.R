@@ -1,13 +1,10 @@
-#' Uncertainty of conventional mass correction
+#' Uncertainty due to mass correction using calibration certificate
 #'
-#' Given a balance reading indication and the calibration information of the balance, the function
-#' uses the conventional mass correction uncertainties of the two closest calibration
-#' points to the balance reading to estimate the uncertainty due to the conventional mass
-#' correction.
-#'
-#' Calculations involve interpolation...  the quadratic sum of the uncertainties corresponding to
-#' the conventional mass corrections for the two mass standards closest to the
-#' balance reading.
+#' Given a balance reading indication and the calibration information
+#' of the balance, the function
+#' uses the conventional mass correction uncertainties of the two
+#' closest calibration points to the balance reading to interpolate
+#' the uncertainty due to the conventional mass correction.
 #'
 #' @inheritParams convMass
 #'
@@ -17,7 +14,7 @@
 #'   data(minimalCert)
 #'   uncertErrorCorr(reading = 12.4835, calibCert = minimalCert)
 #' @export
-#' @seealso [convMass()], [uncertReading()], [uncertMassConv()]
+#' @seealso [convMass()], [uncertReading()], [uncertConvMass()]
 
 uncertErrorCorr <- function(calibCert,
                             reading,
@@ -52,30 +49,35 @@ uncertErrorCorr <- function(calibCert,
 
 #' Uncertainty of balance readings
 #'
-#' Combination of readability uncertainty due to scale division and lack of repeatability
+#' Uncertainty in a given balance reading considering the effects of
+#' rounding error, lack of repeatability, eccentricity and balance taring.
 #'
 #' @inheritParams convMass
-#' @param repValues Numeric vector with balance readings for the same mass standard under repeatability conditions
-#'   or (single numeric value) with the standard deviation
-#' @param d Scale division used in balance reading. Useful when operating the balance at a
-#'   division scale different from that specified in the calibration certificate (e.g. when operating a
-#'   semimicro balance with only four digital places). If not provided. the functions uses
+#' @inheritParams calibCert
+#' @param d balance division scale. Useful when the balance is operated a a
+#'   division scale different from that stated in the calibration certificate.
+#'   This is the common case when the user is give up some readability
+#'   in order to make faster mass measurements. If not provided.
+#'   the functions uses
 #'   the balance division scale stated in the calibration certificate.
-#' @param tare Logical. If \code{TRUE} (the default) the tare uncertainty is considered and
-#'   conventional mass uncertainty is multiplied by \eqn{\sqrt{2}} to account for the
-#'   mass difference involved in taring the balance.
-#'
-#' @return Uncertainty of balance readings
+#' @param d.units character with the units of parameter \code{d}.
+#'   If not provided, the value stated at \code{units} or the balance
+#'   standard units is used.
+#' @param sd standard deviation when a balance reading is the result
+#'   of averaging several individual measurements of same object. If not provided
+#'   the information is taken from the calibration certificate of the balance
+#' @param sd.units character with the units of standard deviation.
+#'   If not provided, the value stated at \code{units} or the balance
+#'   standard units is used.
+#' @return Uncertainty of a balance reading
 #' @examples
 #' data(minimalCert)
-#' uncertReading(calibCert = minimalCert,
-#'               repValues = c(5.0000, 5.0000, 4.9999, 4.9999, 4.9999,
-#'                             4.9999, 4.9999, 4.9999, 4.9999, 4.9999),
-#'               tare = TRUE)
+#' uncertReading(calibCert = minimalCert, reading = 12.4835)
+#' uncertReading(calibCert = minimalCert, reading = 12.484, d = 1, d.units = 'mg')
 #' @export
 #' @importFrom graphics barplot
 #' @importFrom stats sd
-#' @seealso [uncertErrorCorr()], [uncertMassConv()]
+#' @seealso [uncertErrorCorr()], [uncertConvMass()]
 uncertReading <- function(calibCert, reading, units = NULL,
                           sd = NULL, sd.units = NULL,
                           d = NULL, d.units = NULL) {
@@ -141,15 +143,12 @@ uncertReading <- function(calibCert, reading, units = NULL,
 #' and the uncertainty in the balance reading (as obtained by [uncertReading()]),
 #' to produce the uncertainty of a conventional mass value.
 #'
-#' @inheritParams uncertErrorCorr
 #' @inheritParams uncertReading
-#' @return Uncertainty of conventional mass values.
+#' @return Uncertainty of a conventional mass value.
 #'
 #' @examples
 #' data(minimalCert)
-#' uncertMassConv(reading = 12.4835, calibCert = minimalCert,
-#'                repValues = c(100.0000, 100.0000, 99.9999, 99.9999, 99.9999,
-#'                              99.9999, 99.9999, 99.9999, 99.9999, 99.9999))
+#' uncertConvMass(reading = 12.4835, calibCert = minimalCert)
 #' @export
 #' @seealso [convMass()], [uncertReading()], [uncertErrorCorr()]
 

@@ -7,26 +7,23 @@
 convertMassUnitsSI(value, from, to)
 }
 \arguments{
-\item{value}{Numeric vector with the values to be converted.}
+\item{value}{numeric vector with the values to be converted.}
 
-\item{from}{Character with the source unit.}
+\item{from}{character with the unit of original values.}
 
-\item{to}{Character with the desired unit.}
+\item{to}{character with the desired unit for the conversion.}
 }
 \value{
-Converted values to desired mass unit.
+Mass values converted from a SI unit to another mass unit.
 }
 \description{
 Mass values are converted from a SI unit to another SI unit according to the SI prefixes as
 shown in BIMP (2019). The greek letter \eqn{\mu} is replaced by the vocal \code{u}.
 }
-\details{
-This function is mostly to be used internally by \code{masscor} package functions.
-}
 \examples{
 convertMassUnitsSI(value = c(0.2, 0.4), from = 'mg', to = 'g')
-
 }
 \references{
-BIMP, 2019. Bureau International des Poids et Mesures. Brochure of The International System of Units. 9th Edition.
+BIMP, 2019. Bureau International des Poids et Mesures.
+Brochure of The International System of Units. 9th Edition.
 }

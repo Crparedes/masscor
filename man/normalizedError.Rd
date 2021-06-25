@@ -7,23 +7,30 @@
 normalizedError(reading, standard, calibCert, u_massStandard = NULL)
 }
 \arguments{
-\item{reading}{Balance reading for the standard mass.}
+\item{reading}{balance reading for the standard mass.}
 
-\item{standard}{It can be one of two options. An object of class \code{"massStandard"}
-(see \code{\link[=massStandard]{massStandard()}}) or the numeric value of the conventional mass of the standard used.}
+\item{standard}{one of two options: an object of class \code{"massStandard"}
+(see \code{\link[=massStandard]{massStandard()}}) or the numeric value of
+the conventional mass of the standard used.}
 
-\item{calibCert}{Object of class \code{"calibCert"} with the calibration data of the balance.
-See \code{\link[=calibCert]{calibCert()}} for details.}
+\item{calibCert}{object of class \code{"calibCert"} with the calibration
+data of the balance. See \code{\link[=calibCert]{calibCert()}} for details.}
 
-\item{u_massStandard}{Uncertainty of the conventional mass of the standard used. Neccesary only if
-\code{standard} is not an object of class \code{"massStandard"}
-(see \code{\link[=massStandard]{massStandard()}}).}
+\item{u_massStandard}{uncertainty of the conventional mass of the standard used.
+Necessary only if \code{standard} is not an object of class
+\code{"massStandard"} (see \code{\link[=massStandard]{massStandard()}}).}
 }
 \value{
-Numeric value of normalized error for balance verification using a mass standard.
+Numeric value of normalized error for balance verification using a
+mass standard.
 }
 \description{
 Calculates normalized in balance verification using a mass standard
+}
+\examples{
+data(E2.MS.20g)
+data(MT.XPE.204)
+normalizedError(reading = 20.0000, standard = E2.MS.20g, calibCert = MT.XPE.204)
 }
 \seealso{
 \code{\link[=massStandard]{massStandard()}}.

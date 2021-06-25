@@ -11,7 +11,8 @@ An object of class \code{calibCert()}
 minimalCert
 }
 \description{
-An object of class \code{calibCert()} with the minimal calibration information of a hypothetical balance
+An object of class \code{calibCert()} with the minimal calibration information of a
+hypothetical balance
 calibrated using only two points.
 }
 \keyword{datasets}

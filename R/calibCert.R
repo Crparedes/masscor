@@ -188,10 +188,10 @@ calibCert <- function (balanceID = 'BalanceID', serial = NULL, certificate = NUL
   if (!missing(Temp)) calibCert$Temp <- Temp
   if (!missing(h)) calibCert$h <- h
   if (!missing(unitsENV)) calibCert$unitsENV <- unitsENV
-  if (!missing(p) && !missing(Temp) && !missing(h) && !missing(unitsENV)) {
-    calibCert$airDensity <- airDensity(Temp = Temp, p = p, h = h,
-                                       unitsENV = unitsENV)
-  }
+  #if (!missing(p) && !missing(Temp) && !missing(h) && !missing(unitsENV)) {
+  #  calibCert$airDensity <- airDensity(Temp = Temp, p = p, h = h,
+  #                                     unitsENV = unitsENV)
+  #}
   if (!missing(institution)) calibCert$institution <- institution
   if (!missing(accreditation)) calibCert$accreditation <- accreditation
   if (!missing(date)) calibCert$date <- date

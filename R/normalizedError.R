@@ -1,16 +1,20 @@
 #' Calculates normalized in balance verification using a mass standard
 #'
-#' @param reading Balance reading for the standard mass.
-#' @param standard It can be one of two options. An object of class \code{"massStandard"}
-#'   (see [massStandard()]) or the numeric value of the conventional mass of the standard used.
+#' @param reading balance reading for the standard mass.
+#' @param standard one of two options: an object of class \code{"massStandard"}
+#'   (see [massStandard()]) or the numeric value of
+#'   the conventional mass of the standard used.
 #' @inheritParams convMass
-#' @param u_massStandard Uncertainty of the conventional mass of the standard used. Neccesary only if
-#'   \code{standard} is not an object of class \code{"massStandard"}
-#'   (see [massStandard()]).
-#' @return Numeric value of normalized error for balance verification using a mass standard.
+#' @param u_massStandard uncertainty of the conventional mass of the standard used.
+#'   Necessary only if \code{standard} is not an object of class
+#'   \code{"massStandard"} (see [massStandard()]).
+#' @return Numeric value of normalized error for balance verification using a
+#'   mass standard.
 #'
-# @examples
-#'
+#' @examples
+#' data(E2.MS.20g)
+#' data(MT.XPE.204)
+#' normalizedError(reading = 20.0000, standard = E2.MS.20g, calibCert = MT.XPE.204)
 #' @export
 #' @seealso [massStandard()].
 #'
@@ -39,12 +43,16 @@ normalizedError <- function(reading, standard, calibCert, u_massStandard = NULL)
                 "massstandard" provided for the argument standard: ', standard$u_massStandard,
                 ' instead of the value provided at u_massStandard argument: ',
                 u_massStandard)
-      }}
-    u_massStandard <- standard$uncert
+      }} else {
+        u_massStandard <- standard$uncert
+      }
   }
   if (class(standard) == 'numeric') {
-    u_massMSR <- standard
+    u_massMSR <- u_massStandard
     massSTD <- standard
+  } else {
+    u_massMSR <- standard$uncert
+    massSTD <- standard$convMass
   }
 
   normErr <- abs(reading - massSTD)/sqrt(u_massMSR^2 + u_massStandard^2)

@@ -1,41 +1,52 @@
 #' Creates an object of class \code{"massStandardKit"}.
 #'
-#' The object of class \code{"massStandardKit"} is a wrapper for several objects of class
-#' \code{"massStandard"}. The object of class \code{"massStandard"} contains the calibration information of a mass standard
+#' The object of class \code{"massStandardKit"} is a wrapper for
+#' several objects of class \code{"massStandard"}.
+#' The object of class \code{"massStandard"} contains the
+#' calibration information of a mass standard
 #' that is used in routine balance verification (e g. to calculate
-#' normalized error. See [normalizedError()]). When several mass standards are part of a kit their information
+#' normalized error. See [normalizedError()]).
+#' When several mass standards are part of a kit their information
 #' can be in conveniently be stored together in a \code{"massStandardKit"} class object.
 #'
 #' When two mass standards of equal nominal mass are present in the same kit
-#' (typically those of nominal mass in the form \eqn{2\times10^n}), it is necessary to make a distinction
-#' between them because their real mass are not likely to be exactly the same. Physically this
-#' distinction is achieved by marking one of them, for example, with a dot in the head of the knot
-#' weights, or by bending the final part of the lifted extreme in wire weights. To differentiate those
-#' duplicated mass standards in the \code{"massStandardKit"} class object, its \code{nominal} mass value
-#' must be entered as a character including an astherisk after the value (ie. \code{'200*'}
+#' (typically those of nominal mass in the form \eqn{2\times10^n}),
+#' it is necessary to make a distinction
+#' between them because their real mass are not likely
+#' to be exactly the same. Physically this
+#' distinction is achieved by marking one of them, for example, with
+#' a dot in the head of the knot
+#' weights, or by bending the final part of the lifted
+#' extreme in wire weights. To differentiate those
+#' duplicated mass standards in the \code{"massStandardKit"}
+#' class object, its \code{nominal} mass value
+#' must be entered as a character including an
+#' asterisk after the value (ie. \code{'200*'}
 #' instead of just entering \code{200}).
-#' The function returns error if the kit contains duplicated mass standards and no
-#' differientiaton is indicated.
+#' The function returns error if the kit contains
+#' duplicated mass standards and no
+#' differentiation is indicated.
 #'
 #' @inheritSection calibCert unitsENV
 #'
 #' @seealso [massStandard()], [normalizedError()]
 #' @inheritParams massStandard
 #' @inheritParams calibCert
-#' @param nominal Vector with nominal mass for each standard all in the same units.
-#'   If no weights are duplicated in the kit
-#'   the vector must be numeric. If there are duplicated standards some elements must be character.
+#' @param nominal vector with nominal mass for each standard all in the same units.
+#'   If no weights are duplicated in the kit the vector can be numeric.
+#'   If there are duplicated standards some elements must be character type.
 #'   See Details.
-#' @param convMassCor Numeric vector with conventional mass corrections for each mass standard
-#'   declared in \code{nominal}.
-#' @param uncert Numeric vector with standard uncertainties of the conventional mass corrections
+#' @param convMassCor numeric vector with conventional mass corrections for
+#'   each of the mass standard declared in \code{nominal}.
+#' @param uncert numeric vector with standard uncertainties of the
+#'   conventional mass corrections
 #'   for each mass standard declared in \code{nominal}.
-#' @param rho Numeric vector with densities for each mass standard declared in \code{nominal}.
-#'   If not provided the default value of 8000 \eqn{kg~m^{-3}} is used for all weights.
-#' @param u_rho Numeric vector with uncertainties in the density for each mass standard
+#' @param rho numeric vector with densities for each mass standard declared in \code{nominal}.
+#'   If not provided the default value of 8.000 g cm\eqn{^{-3}} is used for all weights.
+#' @param u_rho numeric vector with uncertainties in the density for each mass standard
 #'   declared in \code{nominal}.
-#'   If not provided the default value of 60 \eqn{kg~m^{-3}} is used for all weights.
-#' @param unitsrho Units of the density of the mass standards. Default is \code{'kg/m^3'}.
+#'   If not provided the default value of 0.060 g cm\eqn{^{-3}} is used for all weights.
+#' @param unitsrho Units of the density of the mass standards. Default is \code{'g/cm^3'}.
 #'
 #' @return Object of class \code{"massStandard"}
 #'
@@ -61,7 +72,7 @@ massStandardKit <- function(nominal, convMassCor, uncert, units = c('g', 'mg', '
                             Temp = NULL, p = NULL, h = NULL,
                             unitsENV = c('deg.C', 'hPa', '%'),
                             expanded = TRUE, k = 2,
-                            rho = NULL, u_rho = NULL, unitsrho = 'kg/m^3',
+                            rho = NULL, u_rho = NULL, unitsrho = 'g/cm^3',
                             institution = NULL, date = NULL, add.info = NULL) {
 
   # nominal <- as.character(nominal)
@@ -97,8 +108,9 @@ massStandardKit <- function(nominal, convMassCor, uncert, units = c('g', 'mg', '
 
   for (i in 1:length(nominal)) {
     if ('*' %in% strsplit(nominal[i], split = '*')[[1]]) {
-      nom <- as.numeric(paste0(strsplit(nominal[i], split = '')[[1]][-length(strsplit(nominal[i], split = '')[[1]])],
-                               collapse = ''))
+      nom <- as.numeric(
+        paste0(strsplit(nominal[i], split = '')[[1]][-length(strsplit(nominal[i], split = '')[[1]])],
+               collapse = ''))
       XX$diff[i] <- '*'
     } else {
       nom <- as.numeric(nominal[i])
@@ -131,7 +143,6 @@ massStandardKit <- function(nominal, convMassCor, uncert, units = c('g', 'mg', '
   if (!missing(institution)) massStandardKit$institution <- institution
   if (!missing(date)) massStandardKit$date <- date
   if (!missing(add.info)) massStandardKit$add.info <- add.info
-  #if (!missing()) massStandardKit$ <-
 
   massStandardKit$merged <- XX
 

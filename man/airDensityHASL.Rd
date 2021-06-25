@@ -2,7 +2,7 @@
 % Please edit documentation in R/airDensityHASL.R
 \name{airDensityHASL}
 \alias{airDensityHASL}
-\title{Air density estimation using height above sea level information}
+\title{Air density estimation using only height above sea level.}
 \usage{
 airDensityHASL(HASL)
 }
@@ -10,13 +10,13 @@ airDensityHASL(HASL)
 \item{HASL}{height altitude above sea level in meters.}
 }
 \value{
-Approximated air density value in \eqn{g~cm^{-3}}.
+Approximated air density value in g cm\eqn{^{-3}}.
 }
 \description{
 Calculates the approximated density of local air using a model that relies
 on height above sea level (HASL) information. More accurate alternatives are found
-in \code{\link[=airDensity]{airDensity()}} but those require data form environmental conditions (temperature, barometric
-pressure and relative humidity).
+in \code{\link[=airDensity]{airDensity()}} but those require data form environmental conditions
+(temperature, barometric pressure and relative humidity).
 }
 \examples{
 airDensityHASL(HASL = 0)    # [g/cm^3]

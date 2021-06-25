@@ -8,13 +8,15 @@
 A list with 25 objects of class \code{massStandard()}
 }
 \source{
-Mass Laboratory - Instituto Nacional de Metrologia de Colombia. CALIBRATION CERTIFICATE No. 4687.
+Mass Laboratory - Instituto Nacional de Metrologia de Colombia.
+CALIBRATION CERTIFICATE No. 4687.
 }
 \usage{
 Box.E2.MS.Kit
 }
 \description{
-An object of class \code{"massStandardKit"}, ... in the interval 1 mg to 1 kg,
+An object of class \code{"massStandardKit"}, with calibration information
+of mass standards with nominal masses in the interval 1 mg to 1 kg,
 performed by the Mass Laboratory at the Instituto Nacional de Metrologia de
 Colombia (2020-08-12).
 }

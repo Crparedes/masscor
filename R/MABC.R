@@ -1,19 +1,24 @@
 #' Magnitude of the Air Buoyancy Correction
 #'
-#' Calculates the Magnitude of the Air Buoyancy Correction (MABC). If no parameters are provided the
+#' Calculates the Magnitude of the Air Buoyancy Correction (MABC).
+#' If no parameters are provided the
 #' function returns MABC for weighing water at standard conditions.
 #'
-#' Comparing masses (weighing) in air produces results that are influenced by the objects densities
-#' due to their buoyancy in air. This air buoyancy effects are usually small but must be considered
-#' in high accuracy mass determinations. The effect can be corrected by using the densities of the object,
-#' the mass standard and the air filling the room where the measurement process takes place (Harris, 2019).
+#' Comparing masses (weighing) in air produces results that are
+#' influenced by the objects densities
+#' due to their buoyancy in air. This air buoyancy effects are
+#' usually small but must be taken in account when high accuracy is required.
+#' The effect can be corrected by using the densities of the object,
+#' the mass standard and the air filling the room where the measurement
+#' process takes place (Harris, 2019).
 #'
 #' The uncertainty associated to MABC can be calculated by the function [uncertMABC()].
 #'
-#' @param rho Density of the sample in \eqn{g~cm^{-3}}
-#' @param rho_w Density of the weigths in \eqn{g~cm^{-3}}
-#' @param rho_air Density of the air in \eqn{g~cm^{-3}}. If not provided the default return value
-#'   of the function [airDensity()] is used. See [airDensity()] for details.
+#' @param rho density of the sample in \eqn{g~cm^{-3}}
+#' @param rho_w density of the weigths in \eqn{g~cm^{-3}}
+#' @param rho_air density of the air in \eqn{g~cm^{-3}}.
+#'   If not provided, the value returned by the function [airDensity()] with no
+#'   parameters is used. See [airDensity()] for details.
 #'
 #' @return Adimensional value of the magnitude of the air buoyancy correction
 #' @references
@@ -25,10 +30,9 @@
 #' # Water
 #' MABC()
 #' # Zinc metal
-#' MABC(rho_s = 7.133)
-#'
+#' MABC(rho = 7.133)
 #' # Copper metal
-#' MABC(rho_s = 8.96)
+#' MABC(rho = 8.96)
 #' @export
 #' @seealso [uncertMABC()], [airDensity()], [uncertMABC()]
 

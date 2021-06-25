@@ -8,14 +8,15 @@
 An object of class \code{calibCert()}
 }
 \source{
-Mass Laboratory - Instituto Nacional de Metrologia de Colombia. CALIBRATION CERTIFICATE No. 5142.
+Mass Laboratory - Instituto Nacional de Metrologia de Colombia.
+CALIBRATION CERTIFICATE No. 5142.
 }
 \usage{
 MT.XP.2002
 }
 \description{
 An object of class \code{calibCert()} with the calibration information of a balance
-Mettler Toledo XP 2002, performed by the Mass Laboratory at the Instituto Nacional de Metrologia de
-Colombia (2021-03-12).
+Mettler Toledo XP 2002, performed by the Mass Laboratory at the
+Instituto Nacional de Metrologia de Colombia (2021-03-12).
 }
 \keyword{datasets}

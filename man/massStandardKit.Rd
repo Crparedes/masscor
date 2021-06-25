@@ -8,85 +8,104 @@ massStandardKit(nominal, convMassCor, uncert, units = c("g", "mg", "mg"),
   serial = NULL, manufacturer = NULL, class = NULL, certificate = NULL,
   traceability = NULL, Temp = NULL, p = NULL, h = NULL,
   unitsENV = c("deg.C", "hPa", "\%"), expanded = TRUE, k = 2,
-  rho = NULL, u_rho = NULL, unitsrho = "kg/m^3", institution = NULL,
+  rho = NULL, u_rho = NULL, unitsrho = "g/cm^3", institution = NULL,
   date = NULL, add.info = NULL)
 }
 \arguments{
-\item{nominal}{Vector with nominal mass for each standard all in the same units.
-If no weights are duplicated in the kit
-the vector must be numeric. If there are duplicated standards some elements must be character.
+\item{nominal}{vector with nominal mass for each standard all in the same units.
+If no weights are duplicated in the kit the vector can be numeric.
+If there are duplicated standards some elements must be character type.
 See Details.}
 
-\item{convMassCor}{Numeric vector with conventional mass corrections for each mass standard
-declared in \code{nominal}.}
+\item{convMassCor}{numeric vector with conventional mass corrections for
+each of the mass standard declared in \code{nominal}.}
 
-\item{uncert}{Numeric vector with standard uncertainties of the conventional mass corrections
+\item{uncert}{numeric vector with standard uncertainties of the
+conventional mass corrections
 for each mass standard declared in \code{nominal}.}
 
-\item{units}{Character vector of length 3 with the units of \code{nominal}, \code{convMass} and
-\code{uncert}, respectively.
+\item{units}{character vector of length 3 with the units of
+\code{nominal}, \code{convMass} and \code{uncert}, respectively.
 Default is \code{c('g', 'mg', 'mg')}.}
 
-\item{serial}{Serial number of the mass standard or mass standards kit.}
+\item{serial}{serial number of the mass standard or mass standards kit.}
 
-\item{manufacturer}{Character with the manufacturer of the mass standard or mass standards kit.}
+\item{manufacturer}{character with the manufacturer of the
+mass standard or mass standards kit.}
 
-\item{class}{Character with the claimed class of the mass standard or mass standards kit,
-according to REF REF (XXXX).}
+\item{class}{character with the claimed class of the mass standard or
+mass standards kit, according to OIML (2004).}
 
-\item{certificate}{Character with the calibration certificate number and date of issue.}
+\item{certificate}{character with the calibration certificate
+number and date of issue.}
 
-\item{traceability}{Character with information regarding the traceability of the calibration.}
+\item{traceability}{character with information regarding the
+traceability of the calibration.}
 
-\item{Temp}{Ambient temperature at the moment of the calibration.}
+\item{Temp}{ambient temperature at the moment of the calibration.}
 
-\item{p}{Barometric pressure at the moment of the calibration.}
+\item{p}{barometric pressure at the moment of the calibration.}
 
-\item{h}{Relative humidity at the moment of the calibration.}
+\item{h}{relative humidity at the moment of the calibration.}
 
-\item{unitsENV}{Character vector of length 3 with the units of \code{p}, \code{Temp} and \code{h}.
+\item{unitsENV}{character vector of length three with the units of
+\code{p}, \code{Temp} and \code{h}.
 Default is \code{c('deg.C', 'hPa', '\%')}. See \strong{unitsENV} below for more options.}
 
-\item{expanded}{If \code{TRUE} (the default), \code{uncert} is assumed to be expanded uncertainties instead of standard uncertainties.}
+\item{expanded}{if \code{TRUE} (the default), uncertainties provided in
+\code{indError} are assumed to be expanded uncertainties,
+instead of standard uncertainties.}
 
-\item{k}{Coverage factor for \code{uncert} when \code{expanded = TRUE}.}
+\item{k}{coverage factor for the expanded uncertainties when
+\code{expanded = TRUE}.}
 
-\item{rho}{Numeric vector with densities for each mass standard declared in \code{nominal}.
-If not provided the default value of 8000 \eqn{kg~m^{-3}} is used for all weights.}
+\item{rho}{numeric vector with densities for each mass standard declared in \code{nominal}.
+If not provided the default value of 8.000 g cm\eqn{^{-3}} is used for all weights.}
 
-\item{u_rho}{Numeric vector with uncertainties in the density for each mass standard
+\item{u_rho}{numeric vector with uncertainties in the density for each mass standard
 declared in \code{nominal}.
-If not provided the default value of 60 \eqn{kg~m^{-3}} is used for all weights.}
+If not provided the default value of 0.060 g cm\eqn{^{-3}} is used for all weights.}
 
-\item{unitsrho}{Units of the density of the mass standards. Default is \code{'kg/m^3'}.}
+\item{unitsrho}{Units of the density of the mass standards. Default is \code{'g/cm^3'}.}
 
-\item{institution}{Character with the identification of the calibration laboratory.}
+\item{institution}{character with the identification of the calibration laboratory.}
 
-\item{date}{Character with the date of the measurements.}
+\item{date}{character with the date of the measurements.}
 
-\item{add.info}{Named list or vector with any additional details included in calibration certificate.}
+\item{add.info}{named list or vector with any additional details included in
+the calibration certificate.}
 }
 \value{
 Object of class \code{"massStandard"}
 }
 \description{
-The object of class \code{"massStandardKit"} is a wrapper for several objects of class
-\code{"massStandard"}. The object of class \code{"massStandard"} contains the calibration information of a mass standard
+The object of class \code{"massStandardKit"} is a wrapper for
+several objects of class \code{"massStandard"}.
+The object of class \code{"massStandard"} contains the
+calibration information of a mass standard
 that is used in routine balance verification (e g. to calculate
-normalized error. See \code{\link[=normalizedError]{normalizedError()}}). When several mass standards are part of a kit their information
+normalized error. See \code{\link[=normalizedError]{normalizedError()}}).
+When several mass standards are part of a kit their information
 can be in conveniently be stored together in a \code{"massStandardKit"} class object.
 }
 \details{
 When two mass standards of equal nominal mass are present in the same kit
-(typically those of nominal mass in the form \eqn{2\times10^n}), it is necessary to make a distinction
-between them because their real mass are not likely to be exactly the same. Physically this
-distinction is achieved by marking one of them, for example, with a dot in the head of the knot
-weights, or by bending the final part of the lifted extreme in wire weights. To differentiate those
-duplicated mass standards in the \code{"massStandardKit"} class object, its \code{nominal} mass value
-must be entered as a character including an astherisk after the value (ie. \code{'200*'}
+(typically those of nominal mass in the form \eqn{2\times10^n}),
+it is necessary to make a distinction
+between them because their real mass are not likely
+to be exactly the same. Physically this
+distinction is achieved by marking one of them, for example, with
+a dot in the head of the knot
+weights, or by bending the final part of the lifted
+extreme in wire weights. To differentiate those
+duplicated mass standards in the \code{"massStandardKit"}
+class object, its \code{nominal} mass value
+must be entered as a character including an
+asterisk after the value (ie. \code{'200*'}
 instead of just entering \code{200}).
-The function returns error if the kit contains duplicated mass standards and no
-differientiaton is indicated.
+The function returns error if the kit contains
+duplicated mass standards and no
+differentiation is indicated.
 }
 \section{unitsENV}{
 
@@ -96,7 +115,8 @@ Pressure units (\code{p}) can be any of \code{'mmHg'},
 \code{'Pa'}, \code{'hPa'} or \code{'kPa'}.
 Relative humidity (\code{h}) can be expressed as
 fraction (\code{'frac'}) or as percentage (\code{'\%'}).
-A typical arrangement for the parameter \code{unitsENV} would be \code{c('deg.C', 'hPa', '\%')}.
+A typical arrangement for the parameter \code{unitsENV}
+would be \code{c('deg.C', 'hPa', '\%')}.
 }
 
 \examples{

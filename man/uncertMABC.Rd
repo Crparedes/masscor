@@ -8,39 +8,46 @@ uncertMABC(rho = 0.998, rho_w = 8, rho_air = NULL, u_rho = 1e-04,
   u_rho_w = 0.006, u_rho_air = NULL, plot = FALSE, printRelSD = TRUE)
 }
 \arguments{
-\item{rho}{Density of the sample in \eqn{g~cm^{-3}}}
+\item{rho}{density of the sample in \eqn{g~cm^{-3}}}
 
-\item{rho_w}{Density of the weigths in \eqn{g~cm^{-3}}}
+\item{rho_w}{density of the weigths in \eqn{g~cm^{-3}}}
 
-\item{rho_air}{Density of the air in \eqn{g~cm^{-3}}. If not provided the default return value
-of the function \code{\link[=airDensity]{airDensity()}} is used. See \code{\link[=airDensity]{airDensity()}} for details.}
+\item{rho_air}{density of the air in \eqn{g~cm^{-3}}.
+If not provided, the value returned by the function \code{\link[=airDensity]{airDensity()}} with no
+parameters is used. See \code{\link[=airDensity]{airDensity()}} for details.}
 
-\item{u_rho_w}{Standard uncertainty of the mass standard density.}
+\item{u_rho}{standard uncertainty of the sample density.}
 
-\item{u_rho_air}{Standard uncertainty of air density. See \code{\link[=uncertAirDensity]{uncertAirDensity()}}.}
+\item{u_rho_w}{standard uncertainty of the mass standard density.}
 
-\item{plot}{Logical. If \code{TRUE} the relative uncertainty contributions are shown in a
-\link[graphics]{barplot}.}
+\item{u_rho_air}{standard uncertainty of air density.
+See \code{\link[=uncertAirDensity]{uncertAirDensity()}}.}
 
-\item{printRelSD}{Logical. If \code{TRUE} (the default), a short statement indicating
-the resulting relative standard uncertainty of the air density estimation.}
+\item{plot}{logical. If \code{TRUE} (the default), the relative
+uncertainty contributions are shown in a \link[graphics]{barplot}.}
 
-\item{u_rho_s}{Standard uncertainty of the sample density.}
+\item{printRelSD}{Logical. If \code{TRUE} (the default), a short
+statement indicating relative standard uncertainty
+of the air density estimation is printed.}
 }
 \description{
-Propagates density uncertainties to calculate the uncertainty of the Air Buoyancy Correction Magnitude
-(See \code{\link[=MABC]{MABC()}}).
+Propagates density uncertainties in the calculation
+of the Magnitude of Air Buoyancy Correction  (See \code{\link[=MABC]{MABC()}}).
 }
 \details{
 Calculations are made according to the
-Guide to the Guide to the expression of uncertainty in measurement (GUM, JCGM, 2008) as implemented
-by the package \link[propagate]{propagate} (Spiess, 2018). If air density and associated uncertainty
-are not provided the default output values of the functions \code{\link[=airDensity]{airDensity()}} and \code{\link[=uncertAirDensity]{uncertAirDensity()}},
-respectively, are used.
+Guide to the Guide to the expression of uncertainty in
+measurement (GUM, JCGM, 2008) as implemented
+by the package \link[propagate]{propagate} (Spiess, 2018).
+If air density and associated uncertainty
+are not provided the default output values of the
+functions \code{\link[=airDensity]{airDensity()}} and \code{\link[=uncertAirDensity]{uncertAirDensity()}}, respectively, are used.
 }
 \references{
-BIMP JCGM (2008) Evaluation of measurement data — Guide to the expression of uncertainty in measurement.
+BIMP JCGM (2008) Evaluation of measurement data — Guide
+to the expression of uncertainty in measurement.
 
-Andrej-Nikolai Spiess (2018). propagate: Propagation of Uncertainty. R package version 1.0-6.
+Andrej-Nikolai Spiess (2018). propagate: Propagation of
+Uncertainty. R package version 1.0-6.
 https://CRAN.R-project.org/package=propagate
 }
