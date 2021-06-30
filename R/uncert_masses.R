@@ -26,12 +26,12 @@ uncertErrorCorr <- function(calibCert,
     fc <- convertMassUnitsSI(from = units, to = calibCert$standardUnits, value = 1)
   }
 
-
+  reading <- reading * fc
   if (reading > max(calibCert$indError[, 1]) || reading < min(calibCert$indError[, 1])) {
     warning('Reading is outside calibration interval: ', min(calibCert$indError[, 1]),
             ' - ', max(calibCert$indError[, 1]), ' [', calibCert$standardUnits, ']')
   }
-  reading <- reading * fc
+
 
 
   p1 <- which.min(abs(calibCert$indError[, 1] - reading))

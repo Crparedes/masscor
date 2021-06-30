@@ -6,7 +6,7 @@
 \usage{
 uncertAirDensity(model = "CIMP2007", Temp = 20, p = 1013.25, h = 50,
   u_Temp = 2.9, u_p = 10.1, u_h = 11.3, unitsENV = c("deg.C", "hPa",
-  "\%"), plot = FALSE, printRelSD = TRUE)
+  "\%"), plot = TRUE, printRelSD = TRUE)
 }
 \arguments{
 \item{model}{model to use for air density calculation.

@@ -206,7 +206,7 @@ The function `uncertAirDensity()` estimates uncertainties for the air densities 
 The uncertainty calculation of the MABC factor is made by the function `uncertMABC()`, according to the GUM [@GUM] as implemented by the `R` package `propagate` [@Spiess2018]. The function can optionally show the relative contribution of each source in a bar plot.
 ```{r MABC2}
 uncertMABC(rho = 2.115, rho_w = 8, rho_air = rho_a.1, 
-           u_rho = sqrt(3)/100, u_rho_w = 0.060, u_rho_air = u_rho_a.1,
+           u_rho = 0.005/sqrt(3), u_rho_w = 0.060, u_rho_air = u_rho_a.1,
            plot = TRUE)
 ``` 
 

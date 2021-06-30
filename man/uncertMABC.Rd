@@ -5,7 +5,7 @@
 \title{Uncertainty of the Magnitude of Air Buoyancy Correction Magnitude}
 \usage{
 uncertMABC(rho = 0.998, rho_w = 8, rho_air = NULL, u_rho = 1e-04,
-  u_rho_w = 0.006, u_rho_air = NULL, plot = FALSE, printRelSD = TRUE)
+  u_rho_w = 0.006, u_rho_air = NULL, plot = TRUE, printRelSD = TRUE)
 }
 \arguments{
 \item{rho}{density of the sample in \eqn{g~cm^{-3}}}

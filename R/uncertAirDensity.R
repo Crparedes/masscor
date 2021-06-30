@@ -161,7 +161,7 @@ uncertAirDensity <- function(model = 'CIMP2007',
   }
 
   if (plot) barplot(diag(uncert$rel.contr)[which(diag(uncert$rel.contr) > 0)])
-  if (printRelSD) cat('Relative uncertainty: ',
+  if (printRelSD) cat('Relative uncertainty in air density estimation: ',
                       round(uncert$prop[3]/uncert$prop[1]*100, 4),
                       '%\n')
   return(as.numeric(uncert$prop[3]))

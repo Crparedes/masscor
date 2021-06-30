@@ -53,7 +53,7 @@ uncertMABC <- function(rho = 0.9980,
   }
 
   if (printRelSD) {
-    cat(paste0('Relative uncertainty: ',
+    cat(paste0('Relative uncertainty in MABC: ',
                round(uncertMABC$prop[3]/uncertMABC$prop[1]*100, 4), ' %\n\n'))
   }
   return(as.numeric(uncertMABC$prop[3]))
