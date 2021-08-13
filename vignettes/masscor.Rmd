@@ -29,7 +29,6 @@ The R package `masscor` provides functions, classes and methods to support mass 
 
 This package contains example data sets with real and hypothetical calibration data for some balances, a single mass standard and a mass standards kit. This vignette is intended as a user manual for the `masscor` package.
 
-**Disclaimer:** The Instituto Nacional de Metrologia de Colombia (INM) has published this package to ease some calculations involved in mass metrology applications. We endeavor to update it on a regular basis, but cannot guarantee the accuracy of all implemented methods. Any reference to commercial measurement instruments does not imply any approval, endorsement or recommendation by the INM.
 
 ## Installation and use
 

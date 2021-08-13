@@ -7,10 +7,10 @@
 #' both conventional mass and mass, and to perform routine balance verification
 #' (by using the normalized error function).
 #' Air buoyancy correction factors are calculated using local air density that
-#' can be calculated using measured environmental conditions and applying one
+#' can be calculated using environmental conditions and applying one
 #' of several models available in the package. The uncertainty of (corrected)
-#' mass measurements can also be evaluated allowing to further asses the suitability
-#' of a given mass measurement.
+#' mass measurements can also be evaluated allowing us to further assess the suitability
+#' of given mass measurement.
 #'
 #' @section \code{masscor} functions:
 #' This package uses list objects of class \code{'calibCert'} to store information
@@ -23,17 +23,9 @@
 #' information can be used to calculate the
 #' Magnitude of Air Buoyancy Correction (MABC).
 #' Uncertainties calculations are made using Gauss Approximation according to the
-#' Guide to the expression of Uncertainty in Measurement (GUM) implemented in
+#' Guide to the Expression of Uncertainty in Measurement (GUM) implemented in
 #' \code{R} by the package
 #' \link[propagate]{propagate} (Spiess, 2018).
-#'
-#' @section Disclaimer:
-#' The Instituto Nacional de Metrologia de Colombia (INM) has published
-#' this package to ease some calculations involved in mass metrology
-#' applications. We endeavor to update it on a regular basis, but cannot
-#' guarantee the accuracy of all implemented methods. Any reference to commercial
-#' measurement instruments does not imply any approval,
-#' endorsement or recommendation by the INM.
 #'
 #' @author Cristhian Paredes, \email{craparedesca@@unal.edu.co}
 #' @references

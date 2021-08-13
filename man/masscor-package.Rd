@@ -34,16 +34,6 @@ Guide to the expression of Uncertainty in Measurement (GUM) implemented in
 \link[propagate]{propagate} (Spiess, 2018).
 }
 
-\section{Disclaimer}{
-
-The Instituto Nacional de Metrologia de Colombia (INM) has published
-this package to ease some calculations involved in mass metrology
-applications. We endeavor to update it on a regular basis, but cannot
-guarantee the accuracy of all implemented methods. Any reference to commercial
-measurement instruments does not imply any approval,
-endorsement or recommendation by the INM.
-}
-
 \references{
 EURAMET, Calibration Guide No. 18. 2015. Guidelines on the Calibration of
 Non-Automatic Weighing Instruments.
