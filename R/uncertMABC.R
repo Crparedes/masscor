@@ -6,7 +6,7 @@
 #' Calculations are made according to the
 #' Guide to the Guide to the expression of uncertainty in
 #' measurement (GUM, JCGM, 2008) as implemented
-#' by the package \link[propagate]{propagate} (Spiess, 2018).
+#' by the package \link[metRology]{metRology} (Ellison, 2018).
 #' If air density and associated uncertainty
 #' are not provided the default output values of the
 #' functions [airDensity()] and [uncertAirDensity()], respectively, are used.
@@ -26,7 +26,9 @@
 #' Uncertainty. R package version 1.0-6.
 #' https://CRAN.R-project.org/package=propagate
 #'
-#' @importFrom propagate propagate
+#' @importFrom metRology uncert contribs
+#' @example
+#' uncertMABC()
 #' @export
 
 uncertMABC <- function(rho = 0.9980,
@@ -42,19 +44,30 @@ uncertMABC <- function(rho = 0.9980,
 
 
   MABC <- expression((1 - rho_air/rho_w) / (1 - rho_air/rho))
-  uncertMABC <- propagate::propagate(
-    expr = MABC,
-    data = cbind(rho_air = c(rho_air, u_rho_air),
-                 rho = c(rho, u_rho),
-                 rho_w = c(rho_w, u_rho_w)),
-    do.sim = FALSE)
+  #uncertMABC <- propagate::propagate(
+  #  expr = MABC,
+  #  data = cbind(rho_air = c(rho_air, u_rho_air),
+  #               rho = c(rho, u_rho),
+  #               rho_w = c(rho_w, u_rho_w)),
+  #  do.sim = FALSE)
+
+  uncertMABC <- metRology::uncert(obj = MABC,
+                                  x = list(rho_air = rho_air,
+                                           rho = rho,
+                                           rho_w = rho_w),
+                                  u = list(rho_air = u_rho_air,
+                                           rho = u_rho,
+                                           rho_w = u_rho_w))
+
   if (plot) {
-    barplot(diag(uncertMABC$rel.contr)[which(diag(uncertMABC$rel.contr) > 0)])
+    #barplot(diag(uncertMABC$rel.contr)[which(diag(uncertMABC$rel.contr) > 0)])
+    barplot(metRology::contribs(uncertMABC))
   }
 
   if (printRelSD) {
     cat(paste0('Relative uncertainty in MABC: ',
-               round(uncertMABC$prop[3]/uncertMABC$prop[1]*100, 4), ' %\n\n'))
+               #round(uncertMABC$prop[3]/uncertMABC$prop[1]*100, 4), ' %\n\n'))
+               round(uncertMABC$u.y /uncertMABC$y * 100, 4), ' %\n\n'))
   }
-  return(as.numeric(uncertMABC$prop[3]))
+  return(as.numeric(uncertMABC$u.y))
 }

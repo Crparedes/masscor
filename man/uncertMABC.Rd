@@ -38,7 +38,7 @@ of the Magnitude of Air Buoyancy Correction  (See \code{\link[=MABC]{MABC()}}).
 Calculations are made according to the
 Guide to the Guide to the expression of uncertainty in
 measurement (GUM, JCGM, 2008) as implemented
-by the package \link[propagate]{propagate} (Spiess, 2018).
+by the package \link[metRology]{metRology} (Ellison, 2018).
 If air density and associated uncertainty
 are not provided the default output values of the
 functions \code{\link[=airDensity]{airDensity()}} and \code{\link[=uncertAirDensity]{uncertAirDensity()}}, respectively, are used.

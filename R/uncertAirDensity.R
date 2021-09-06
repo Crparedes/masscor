@@ -7,7 +7,7 @@
 #' considered. Calculations are made according to the
 #' Guide to the Guide to the expression of uncertainty
 #' in measurement (GUM, JCGM, 2008) as implemented
-#' by the package \link[propagate]{propagate} (Spiess, 2018).
+#' by the package \link[metRology]{metRology} (Ellison, 2018).
 #'
 #' @inheritSection calibCert unitsENV
 #'
@@ -21,7 +21,7 @@
 #'   statement indicating relative standard uncertainty
 #'   of the air density estimation is printed.
 #'
-#' @importFrom propagate propagate
+#' @importFrom metRology uncert contribs
 #' @return Standard uncertainty of calculated air density in \eqn{g~cm^{-3}}.
 #'
 #' @references
@@ -38,9 +38,9 @@
 #' BIMP JCGM (2008) Evaluation of measurement data —
 #' Guide to the expression of uncertainty in measurement.
 #'
-#' Andrej-Nikolai Spiess (2018). propagate: Propagation of
-#' Uncertainty. R package version 1.0-6.
-#' https://CRAN.R-project.org/package=propagate
+#' Stephen L R Ellison. (2018). metRology: Support for
+#' Metrological Applications. R package version 0.9-28-1.
+#' https://CRAN.R-project.org/package=metRology
 #'
 #' @examples
 #'  uncertAirDensity(model = 'CIMP2007',
@@ -73,10 +73,16 @@ uncertAirDensity <- function(model = 'CIMP2007',
                                  (0.9024 * h * exp(0.0612 * (Temp - 273.15))))/
                                 (Temp) / 1000 * f_Ec)
 
-    uncert <- propagate::propagate(expr = rho_air_exp,
-                                   data = cbind(Temp = Temp, p = p, h = h,
-                                                f_Ec = c(1, u_form)),
-                                   do.sim = FALSE)
+    #uncert <- propagate::propagate(expr = rho_air_exp,
+    #                               data = cbind(Temp = Temp, p = p, h = h,
+    #                                            f_Ec = c(1, u_form)),
+    #                               do.sim = FALSE)
+    uncert <- metRology::uncert(obj = rho_air_exp,
+                                x = list(Temp = Temp[1], p = p[1], h = h[1],
+                                         f_Ec = c(1, u_form)[1]),
+                                u = list(Temp = Temp[2], p = p[2], h = h[2],
+                                         f_Ec = c(1, u_form)[2]),
+                                method = 'GUM')
   }
 
   if (model == 'CIMP2007') {
@@ -110,59 +116,66 @@ uncertAirDensity <- function(model = 'CIMP2007',
                                    (1 - 18.01528e-3/28.96546e-3))) *
         10^-3 * f_Ec)
 
-    uncert <- propagate::propagate(expr = rho_air_exp,
-                                   data = cbind(Temp = Temp, p = p, h = h,
-                                                f_Ec = c(1, u_form)),
-                                   do.sim = FALSE)
+    #uncert <- propagate::propagate(expr = rho_air_exp,
+    #                               data = cbind(Temp = Temp, p = p, h = h,
+    #                                            f_Ec = c(1, u_form)),
+    #                               do.sim = FALSE)
+
+    uncert <- metRology::uncert(obj = rho_air_exp,
+                                x = list(Temp = Temp[1], p = p[1], h = h[1],
+                                         f_Ec = c(1, u_form)[1]),
+                                u = list(Temp = Temp[2], p = p[2], h = h[2],
+                                         f_Ec = c(1, u_form)[2]),
+                                method = 'GUM')
 
 
-    if(F){
-      # This chunck of code is another (non equivalent?) way to look for CIMP uncertainty
-    rho_air_exp <- expression(
-      ((p * M_a) /
-         ((1 - ((p/Temp) *
-                  (a0 + a1*(Temp - 273.15) + a2*(Temp - 273.15)^2 +
-                     (b0 + b1*(Temp - 273.15)) *
-                     (h * (1.00062 + 3.14e-8*p + 5.6e-7*(Temp - 273.15)^2) *
-                        (A*Temp^2 + B*Temp + C + D/Temp) / p) +
-                     (c0 + c1*(Temp - 273.15)) *
-                     (h * (1.00062 + 3.14e-8*p + 5.6e-7*(Temp - 273.15)^2) *
-                        (A*Temp^2 + B*Temp + C + D/Temp) / p)^2)) +
-             ((p^2/Temp^2) *
-                (d + e*(h * (1.00062 + 3.14e-8*p + 5.6e-7*(Temp - 273.15)^2) *
-                          (A*Temp^2 + B*Temp + C + D/Temp) / p)^2))) *
-            R * Temp)) *
-        (1 - (h * (1.00062 + 3.14e-8*p + 5.6e-7*(Temp - 273.15)^2) *
-                (A*Temp^2 + B*Temp + C + D/Temp) / p) *
-           (1 - M_v/ M_a)) * 10^-3 * f_Ec)
+    #if(F){
+    #  # This chunck of code is another (non equivalent?) way to look for CIMP uncertainty
+    #rho_air_exp <- expression(
+    #  ((p * M_a) /
+    #     ((1 - ((p/Temp) *
+    #              (a0 + a1*(Temp - 273.15) + a2*(Temp - 273.15)^2 +
+    #                 (b0 + b1*(Temp - 273.15)) *
+    #                 (h * (1.00062 + 3.14e-8*p + 5.6e-7*(Temp - 273.15)^2) *
+     #                   (A*Temp^2 + B*Temp + C + D/Temp) / p) +
+    #                 (c0 + c1*(Temp - 273.15)) *
+    #                 (h * (1.00062 + 3.14e-8*p + 5.6e-7*(Temp - 273.15)^2) *
+    #                    (A*Temp^2 + B*Temp + C + D/Temp) / p)^2)) +
+    #         ((p^2/Temp^2) *
+    #            (d + e*(h * (1.00062 + 3.14e-8*p + 5.6e-7*(Temp - 273.15)^2) *
+     #                     (A*Temp^2 + B*Temp + C + D/Temp) / p)^2))) *
+    #        R * Temp)) *
+    #    (1 - (h * (1.00062 + 3.14e-8*p + 5.6e-7*(Temp - 273.15)^2) *
+    #            (A*Temp^2 + B*Temp + C + D/Temp) / p) *
+    #       (1 - M_v/ M_a)) * 10^-3 * f_Ec)
 
-    uncert <- propagate::propagate(
-      expr = rho_air_exp,
-      data = cbind(Temp = Temp, p = p, h = h,
-                   f_Ec = c(1, u_form),
-                   M_a = c(28.96546e-3, 0), # [kg / mol] molar mass of the air within laboratory
-                   M_v = c(18.01528e-3, 0), # [kg / mol] $/pm$ 0.00017e-3
-                   R = c(8.314472, 0), # [J / (mol K)]  $/pm$ 0.000015 universal gas constant
-                   A = c(1.2378847e-5, 0), # [K^-2]
-                   B = c(-1.9121316e-2, 0), # [K^-1]
-                   C = c(33.93711047, 0), # []
-                   D = c(-6.3431645e3, 0), # [K]
-                   a0 = c(1.58123e-6, 0), # [K Pa^-1]
-                   a1 = c(-2.9331e-8, 0), # [Pa^-1]
-                   a2 = c(1.1043e-10, 0), # [K^-1 Pa^-1]
-                   b0 = c(5.707e-6, 0), # [K Pa^-1]
-                   b1 = c(-2.051e-8, 0), # [Pa^-1]
-                   c0 = c(1.9898e-4, 0), # [K Pa^-1]
-                   c1 = c(-2.376e-6, 0), # [Pa^-1]
-                   d = c(1.83e-11, 0), # [K^2 Pa^-2]
-                   e = c(-0.765e-8, 0) # [K^2 Pa^-2]
-                   ),
-      do.sim = FALSE)}
+    #uncert <- propagate::propagate(
+    #  expr = rho_air_exp,
+    #  data = cbind(Temp = Temp, p = p, h = h,
+    #               f_Ec = c(1, u_form),
+    #               M_a = c(28.96546e-3, 0), # [kg / mol] molar mass of the air within laboratory
+    #               M_v = c(18.01528e-3, 0), # [kg / mol] $/pm$ 0.00017e-3
+    #               R = c(8.314472, 0), # [J / (mol K)]  $/pm$ 0.000015 universal gas constant
+    #               A = c(1.2378847e-5, 0), # [K^-2]
+    #               B = c(-1.9121316e-2, 0), # [K^-1]
+    #               C = c(33.93711047, 0), # []
+    #               D = c(-6.3431645e3, 0), # [K]
+    #               a0 = c(1.58123e-6, 0), # [K Pa^-1]
+    #               a1 = c(-2.9331e-8, 0), # [Pa^-1]
+    #               a2 = c(1.1043e-10, 0), # [K^-1 Pa^-1]
+    #               b0 = c(5.707e-6, 0), # [K Pa^-1]
+    #               b1 = c(-2.051e-8, 0), # [Pa^-1]
+    #               c0 = c(1.9898e-4, 0), # [K Pa^-1]
+    #               c1 = c(-2.376e-6, 0), # [Pa^-1]
+    #               d = c(1.83e-11, 0), # [K^2 Pa^-2]
+    #               e = c(-0.765e-8, 0) # [K^2 Pa^-2]
+    #               ),
+    #  do.sim = FALSE)}
   }
 
-  if (plot) barplot(diag(uncert$rel.contr)[which(diag(uncert$rel.contr) > 0)])
+  if (plot) barplot(metRology::contribs(uncert, as.sd = TRUE))
   if (printRelSD) cat('Relative uncertainty in air density estimation: ',
-                      round(uncert$prop[3]/uncert$prop[1]*100, 4),
+                      round(uncert$u.y / uncert$y * 100, 4),
                       '%\n')
-  return(as.numeric(uncert$prop[3]))
+  return(as.numeric(uncert$u.y))
 }

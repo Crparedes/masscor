@@ -32,8 +32,6 @@ uncertErrorCorr <- function(calibCert,
             ' - ', max(calibCert$indError[, 1]), ' [', calibCert$standardUnits, ']')
   }
 
-
-
   p1 <- which.min(abs(calibCert$indError[, 1] - reading))
   p2prim <- min(abs(calibCert$indError[, 1][-p1] - reading))
   p2 <- which(abs(calibCert$indError[, 1] - reading) == p2prim)

@@ -47,7 +47,7 @@ function. Uncertainty arising from to the chosen model itself is
 considered. Calculations are made according to the
 Guide to the Guide to the expression of uncertainty
 in measurement (GUM, JCGM, 2008) as implemented
-by the package \link[propagate]{propagate} (Spiess, 2018).
+by the package \link[metRology]{metRology} (Ellison, 2018).
 }
 \section{unitsENV}{
 
@@ -81,9 +81,9 @@ Corrections. National Institute of Standards and Technology
 BIMP JCGM (2008) Evaluation of measurement data —
 Guide to the expression of uncertainty in measurement.
 
-Andrej-Nikolai Spiess (2018). propagate: Propagation of
-Uncertainty. R package version 1.0-6.
-https://CRAN.R-project.org/package=propagate
+Stephen L R Ellison. (2018). metRology: Support for
+Metrological Applications. R package version 0.9-28-1.
+https://CRAN.R-project.org/package=metRology
 }
 \seealso{
 \code{\link[=airDensity]{airDensity()}}
