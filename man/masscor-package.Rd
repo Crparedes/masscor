@@ -12,10 +12,10 @@ balances and mass standards. Those objects can be used to convert balance readin
 both conventional mass and mass, and to perform routine balance verification
 (by using the normalized error function).
 Air buoyancy correction factors are calculated using local air density that
-can be calculated using measured environmental conditions and applying one
+can be calculated using environmental conditions and applying one
 of several models available in the package. The uncertainty of (corrected)
-mass measurements can also be evaluated allowing to further asses the suitability
-of a given mass measurement.
+mass measurements can also be evaluated allowing us to further assess the suitability
+of given mass measurement.
 }
 \section{\code{masscor} functions}{
 
@@ -29,7 +29,7 @@ Several models for calculating air density are included and this
 information can be used to calculate the
 Magnitude of Air Buoyancy Correction (MABC).
 Uncertainties calculations are made using Gauss Approximation according to the
-Guide to the expression of Uncertainty in Measurement (GUM) implemented in
+Guide to the Expression of Uncertainty in Measurement (GUM) implemented in
 \code{R} by the package
 \link[propagate]{propagate} (Spiess, 2018).
 }

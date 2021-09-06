@@ -1,22 +1,19 @@
 Package: masscor
 Title: Mass Measurement Corrections
 Version: 0.0.6
-Date: 2021-08-10
+Date: 2021-08-29
 Authors@R: 
     person(given = "Cristhian",
            family = "Paredes",
            role = c("aut", "cre"),
            email = "craparedesca@unal.edu.co",
            comment = c(ORCID = "https://orcid.org/0000-0001-7049-9597"))
-Description: Mass measurement corrections and related uncertainties using
+Description: Mass measurement corrections and uncertainties using
     calibration data, as recommended by EURAMET's guideline No. 18 (2015)
     <isbn:978-3-942992-40-4>. The package provides classes and methods to store
     information of balance calibration certificates and to ease the
     calculations of conventional mass, local air density using environmental
-    conditions and applying one of several methods such as the CIMP-2007
-    formula revised by Picard, Davis, Gläser, and Fujii (2008)
-    <doi:10.1088/0026-1394/45/2/004>, and the magnitude of air
-    buoyancy correction.
+    conditions, and the magnitude of air buoyancy correction.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
