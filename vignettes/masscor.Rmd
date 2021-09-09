@@ -90,7 +90,7 @@ plot(Bal.1.Lab.317)
 
 The objects of class `calibCert` shall be created when the balance firstly undergoes calibration, and must be updated each time the balance undergoes recalibration. The best way to share the `calibCert` objects among the people that uses the balance is by saving the `calibCert` object as a `.RData` file using the R function `save()`. When required, the `calibCert` object can be loaded into the R Environment by using the function `load()`. 
 
-```{r calibCert3}
+```{r calibCert3,  eval = FALSE}
 save(Bal.1.Lab.317, file = 'certificateBalance.1_Lab.317.RData')
 load(file = 'certificateBalance.1_Lab.317.RData')
 ```

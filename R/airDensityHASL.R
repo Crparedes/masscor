@@ -7,7 +7,7 @@
 #'
 #' @param HASL height altitude above sea level in meters.
 #' @seealso [airDensity()] for better models to predict air density.
-#' @return Approximated air density value in g cm\eqn{^{-3}}.
+#' @return Numeric value of an approximated air density in g cm\eqn{^{-3}}.
 #' @examples
 #' airDensityHASL(HASL = 0)    # [g/cm^3]
 #' airDensityHASL(HASL = 1600) # [g/cm^3]

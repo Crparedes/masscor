@@ -20,7 +20,7 @@
 #'   If not provided, the value returned by the function [airDensity()] with no
 #'   parameters is used. See [airDensity()] for details.
 #'
-#' @return Adimensional value of the magnitude of the air buoyancy correction
+#' @return Numeric value of the Magnitude of the Air Buoyancy Correction factor.
 #' @references
 #' Harris, G. (2019). Selected Laboratory and Measurement Practices and Procedures to Support Basic
 #' Mass Calibrations. SOP 2 - Recommended Standard Operating Procedure for Applying Air Buoyancy

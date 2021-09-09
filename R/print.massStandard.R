@@ -23,6 +23,7 @@
 #'   the calibration is printed. Ignored if \code{minimal = TRUE}.
 #' @param ... further arguments passed to or from other methods.
 #' @seealso [massStandard()], [print.massStandardKit()]
+#' @return No return value, called for side effects.
 #' @examples
 #' data(E2.MS.20g)
 #' print(E2.MS.20g)

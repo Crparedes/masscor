@@ -3,10 +3,11 @@
 \docType{package}
 \name{masscor-package}
 \alias{masscor-package}
-\title{\code{masscor}: Mass Measurement Corrections and Uncertainties Using Balance Calibration Data.}
+\title{\code{masscor}: Mass Measurement Corrections and Uncertainties.}
 \description{
 The \code{R} package \code{masscor} provides functions, classes and methods
-to support mass measurements using non automatic balances as described in (Euramet, 2015).
+to support mass measurements using non automatic balances as described in
+EURAMET's Calibration Guide No. 18 (2015).
 The new classes are objects that can store the calibration information for
 balances and mass standards. Those objects can be used to convert balance readings to
 both conventional mass and mass, and to perform routine balance verification
@@ -27,11 +28,11 @@ uncertainties.
 
 Several models for calculating air density are included and this
 information can be used to calculate the
-Magnitude of Air Buoyancy Correction (MABC).
+Magnitude of the Air Buoyancy Correction factor (MABC).
 Uncertainties calculations are made using Gauss Approximation according to the
 Guide to the Expression of Uncertainty in Measurement (GUM) implemented in
 \code{R} by the package
-\link[propagate]{propagate} (Spiess, 2018).
+\link[metRology]{metRology} (Ellison, 2018).
 }
 
 \references{
@@ -50,9 +51,8 @@ Corrections. National Institute of Standards and Technology (NIST). doi:10.6028/
 BIMP JCGM (2008) Evaluation of measurement data — Guide to the
 expression of uncertainty in measurement.
 
-Andrej-Nikolai Spiess (2018). propagate: Propagation of Uncertainty.
-R package version 1.0-6.
-https://CRAN.R-project.org/package=propagate
+Stephen L R Ellison. (2018). metRology: Support for Metrological Applications.
+R package version 0.9-28-1. https://CRAN.R-project.org/package=metRology
 }
 \author{
 Cristhian Paredes, \email{craparedesca@unal.edu.co}

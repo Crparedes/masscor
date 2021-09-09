@@ -37,7 +37,7 @@ statement indicating relative standard uncertainty
 of the air density estimation is printed.}
 }
 \value{
-Standard uncertainty of calculated air density in \eqn{g~cm^{-3}}.
+A numeric value of standard uncertainty of calculated air density in \eqn{g~cm^{-3}}.
 }
 \description{
 Propagates the uncertainty of environmental conditions measurements

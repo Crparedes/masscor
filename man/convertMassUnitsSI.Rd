@@ -14,7 +14,7 @@ convertMassUnitsSI(value, from, to)
 \item{to}{character with the desired unit for the conversion.}
 }
 \value{
-Mass values converted from a SI unit to another mass unit.
+Numeric vector of mass values converted from a SI unit to another mass unit.
 }
 \description{
 Mass values are converted from a SI unit to another SI unit according to the SI prefixes as

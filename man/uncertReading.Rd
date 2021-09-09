@@ -37,7 +37,7 @@ If not provided, the value stated at \code{units} or the balance
 standard units is used.}
 }
 \value{
-Uncertainty of a balance reading
+A numeric value of uncertainty for a balance reading.
 }
 \description{
 Uncertainty in a given balance reading considering the effects of

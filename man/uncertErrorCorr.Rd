@@ -17,7 +17,7 @@ If not provided, the balance standard units are assumed.
 See \code{\link[=calibCert]{calibCert()}} for details.}
 }
 \value{
-Uncertainty of conventional mass correction
+A numeric value of uncertainty for a conventional mass correction.
 }
 \description{
 Given a balance reading indication and the calibration information

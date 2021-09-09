@@ -8,7 +8,7 @@
 #'
 #' @inheritParams convMass
 #'
-#' @return Uncertainty of conventional mass correction
+#' @return A numeric value of uncertainty for a conventional mass correction.
 #'
 #' @examples
 #'   data(minimalCert)
@@ -67,7 +67,7 @@ uncertErrorCorr <- function(calibCert,
 #' @param sd.units character with the units of standard deviation.
 #'   If not provided, the value stated at \code{units} or the balance
 #'   standard units is used.
-#' @return Uncertainty of a balance reading
+#' @return A numeric value of uncertainty for a balance reading.
 #' @examples
 #' data(minimalCert)
 #' uncertReading(calibCert = minimalCert, reading = 12.4835)
@@ -142,7 +142,7 @@ uncertReading <- function(calibCert, reading, units = NULL,
 #' to produce the uncertainty of a conventional mass value.
 #'
 #' @inheritParams uncertReading
-#' @return Uncertainty of a conventional mass value.
+#' @return A numeric value of uncertainty for a conventional mass value.
 #'
 #' @examples
 #' data(minimalCert)

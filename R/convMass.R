@@ -33,7 +33,7 @@
 #'   data of the balance. See [calibCert()] for details.
 #' @param rho density of the object in g cm\eqn{^{-3}}.
 #' @param rho_air density of local air in g cm\eqn{^{-3}}.
-#' @return Conventional mass value estimated using balance calibration data.
+#' @return Numeric value of conventional mass.
 #' @seealso [uncertConvMass()]
 #' @examples
 #' data(minimalCert)

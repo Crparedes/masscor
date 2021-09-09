@@ -4,6 +4,7 @@
 #' @inheritParams print.massStandard
 #' @param x object of class \code{"massStandardKit"}.
 #' @seealso [massStandardKit()], [print.massStandard()]
+#' @return No return value, called for side effects.
 #' @examples
 #' data(Box.E2.MS.Kit)
 #' print(Box.E2.MS.Kit, minimal = TRUE)

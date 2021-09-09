@@ -22,7 +22,7 @@
 #'   of the air density estimation is printed.
 #'
 #' @importFrom metRology uncert contribs
-#' @return Standard uncertainty of calculated air density in \eqn{g~cm^{-3}}.
+#' @return A numeric value of standard uncertainty of calculated air density in \eqn{g~cm^{-3}}.
 #'
 #' @references
 #' Picard, A; Davis, R S; Gläser, M; Fujii, K  (2008).

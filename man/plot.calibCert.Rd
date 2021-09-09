@@ -19,7 +19,7 @@ line is drawn at y = 0.}
 \item{...}{Other graphical parameters used in \code{\link[graphics]{plot}}}
 }
 \value{
-A base plot with calibration data.
+A base plot with calibration data of indication error or correction.
 }
 \description{
 The function plots the indication error or the conventional

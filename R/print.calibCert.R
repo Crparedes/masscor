@@ -7,6 +7,7 @@
 #' @param nudeCertificate logical default to \code{FALSE}. If \code{TRUE},
 #'   the object of class \code{calibCert} is shown as a list.
 #' @param ... Further arguments passed to or from other methods.
+#' @return No return value, called for side effects.
 #' @seealso [calibCert()], [plot.calibCert()]
 #' @examples
 #' data(MT.XPE.204)

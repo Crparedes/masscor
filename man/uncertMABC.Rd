@@ -2,7 +2,7 @@
 % Please edit documentation in R/uncertMABC.R
 \name{uncertMABC}
 \alias{uncertMABC}
-\title{Uncertainty of the Magnitude of Air Buoyancy Correction Magnitude}
+\title{Uncertainty of the Magnitude of the Air Buoyancy Correction factor}
 \usage{
 uncertMABC(rho = 0.998, rho_w = 8, rho_air = NULL, u_rho = 1e-04,
   u_rho_w = 0.006, u_rho_air = NULL, plot = TRUE, printRelSD = TRUE)
@@ -29,6 +29,9 @@ uncertainty contributions are shown in a \link[graphics]{barplot}.}
 \item{printRelSD}{Logical. If \code{TRUE} (the default), a short
 statement indicating relative standard uncertainty
 of the air density estimation is printed.}
+}
+\value{
+Numeric value of uncertainty for the Magnitude of the Air Buoyancy Correction factor.
 }
 \description{
 Propagates density uncertainties in the calculation

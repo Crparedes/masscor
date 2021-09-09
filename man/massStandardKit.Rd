@@ -76,7 +76,8 @@ If not provided the default value of 0.060 g cm\eqn{^{-3}} is used for all weigh
 the calibration certificate.}
 }
 \value{
-Object of class \code{"massStandard"}
+Object of class \code{"massStandard"} with calibration information of a
+mass standards kit.
 }
 \description{
 The object of class \code{"massStandardKit"} is a wrapper for

@@ -1,4 +1,4 @@
-#' Uncertainty of the Magnitude of Air Buoyancy Correction Magnitude
+#' Uncertainty of the Magnitude of the Air Buoyancy Correction factor
 #'
 #' Propagates density uncertainties in the calculation
 #' of the Magnitude of Air Buoyancy Correction  (See [MABC()]).
@@ -17,7 +17,7 @@
 #' @param u_rho_w standard uncertainty of the mass standard density.
 #' @param u_rho_air standard uncertainty of air density.
 #'   See [uncertAirDensity()].
-#'
+#' @return Numeric value of uncertainty for the Magnitude of the Air Buoyancy Correction factor.
 #' @references
 #' BIMP JCGM (2008) Evaluation of measurement data — Guide
 #' to the expression of uncertainty in measurement.

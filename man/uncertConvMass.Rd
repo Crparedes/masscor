@@ -36,7 +36,7 @@ If not provided, the value stated at \code{units} or the balance
 standard units is used.}
 }
 \value{
-Uncertainty of a conventional mass value.
+A numeric value of uncertainty for a conventional mass value.
 }
 \description{
 The function combines the uncertainty of the conventional mass correction

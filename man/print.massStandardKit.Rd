@@ -38,6 +38,9 @@ the calibration is printed. Ignored if \code{minimal = TRUE}.}
 
 \item{...}{further arguments passed to or from other methods.}
 }
+\value{
+No return value, called for side effects.
+}
 \description{
 The function prints objects of class \code{"massStandardKit"}.
 }

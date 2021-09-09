@@ -11,7 +11,7 @@
 #' BIMP, 2019. Bureau International des Poids et Mesures.
 #' Brochure of The International System of Units. 9th Edition.
 #'
-#' @return Mass values converted from a SI unit to another mass unit.
+#' @return Numeric vector of mass values converted from a SI unit to another mass unit.
 #' @examples
 #' convertMassUnitsSI(value = c(0.2, 0.4), from = 'mg', to = 'g')
 #' @export

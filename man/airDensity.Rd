@@ -25,7 +25,7 @@ Must be one of \code{'CIMP2007'} (default),
 \code{'CIMP.approx'} or \code{'Jones1978'}. See See Details for references.}
 }
 \value{
-Calculated air density value in \eqn{g~cm^{-3}} according to chosen model.
+Numeric value of air density in \eqn{g~cm^{-3}}, according to chosen model.
 }
 \description{
 The function uses environmental conditions information

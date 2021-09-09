@@ -17,6 +17,9 @@ the object of class \code{calibCert} is shown as a list.}
 
 \item{...}{Further arguments passed to or from other methods.}
 }
+\value{
+No return value, called for side effects.
+}
 \description{
 The function prints objects of class \code{"calibCert"}.
 }

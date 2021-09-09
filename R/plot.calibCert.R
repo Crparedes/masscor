@@ -11,7 +11,7 @@
 #'   line is drawn at y = 0.
 #' @param  ... Other graphical parameters used in \code{\link[graphics]{plot}}
 #'
-#' @return A base plot with calibration data.
+#' @return A base plot with calibration data of indication error or correction.
 #' @examples
 #' data(MT.XPE.204)
 #' plot(MT.XPE.204)

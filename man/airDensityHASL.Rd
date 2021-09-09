@@ -10,7 +10,7 @@ airDensityHASL(HASL)
 \item{HASL}{height altitude above sea level in meters.}
 }
 \value{
-Approximated air density value in g cm\eqn{^{-3}}.
+Numeric value of an approximated air density in g cm\eqn{^{-3}}.
 }
 \description{
 Calculates the approximated density of local air using a model that relies

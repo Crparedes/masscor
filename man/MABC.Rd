@@ -16,7 +16,7 @@ If not provided, the value returned by the function \code{\link[=airDensity]{air
 parameters is used. See \code{\link[=airDensity]{airDensity()}} for details.}
 }
 \value{
-Adimensional value of the magnitude of the air buoyancy correction
+Numeric value of the Magnitude of the Air Buoyancy Correction factor.
 }
 \description{
 Calculates the Magnitude of the Air Buoyancy Correction (MABC).

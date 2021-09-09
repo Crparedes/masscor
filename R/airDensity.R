@@ -40,7 +40,7 @@
 #'   \code{'CIMP.approx'} or \code{'Jones1978'}. See See Details for references.
 #' @inheritParams calibCert
 #'
-#' @return Calculated air density value in \eqn{g~cm^{-3}} according to chosen model.
+#' @return Numeric value of air density in \eqn{g~cm^{-3}}, according to chosen model.
 #' @seealso [MABC()] to calculate the Magnitude of Air Buoyancy Correction and
 #'   [uncertAirDensity()] to estimate the uncertainty of the calculated air density.
 #' @export

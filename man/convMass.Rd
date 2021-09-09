@@ -21,7 +21,7 @@ See \code{\link[=calibCert]{calibCert()}} for details.}
 \item{rho_air}{density of local air in g cm\eqn{^{-3}}.}
 }
 \value{
-Conventional mass value estimated using balance calibration data.
+Numeric value of conventional mass.
 }
 \description{
 Given a balance reading indication and the calibration information of
